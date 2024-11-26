@@ -1075,6 +1075,83 @@
             {{-- End of Table --}}
 
 
+
+
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <!-- Event Card -->
+                <a href="">
+                    <div class="p-6 bg-white rounded-lg shadow-lg">
+                        <img class="object-cover w-full h-40 mb-4 rounded" src="/images/africa.jpg" alt="Product Name">
+                        <h3 class="mb-2 text-xl font-semibold">Hododo event center</h3>
+                        <h3 class="mb-2 text-xl font-semibold">NGN. 60,000</h3>
+                        <div class="font-bold">
+                            <p class="text-gray-800">Title: <span class="text-gray-500"> December Retreats</span></p>
+                            <p class="text-gray-800">Description:
+                                <span class="text-gray-500">
+                                    orem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </span>
+                            </p>
+                            <p class="text-gray-800">Start: <span class="text-gray-500">22/12/2023</span></p>
+                            <p class="text-gray-800">End: <span class="text-gray-500">12/11/2024</span></p>
+                        </div>
+                        <div class="py-2">
+                            <button class="bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-lg">
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Event Card -->
+                <a href="">
+                    <div class="p-6 bg-white rounded-lg shadow-lg">
+                        <img class="object-cover w-full h-40 mb-4 rounded" src="/images/center_image1.jpeg" alt="Product Name">
+                        <h3 class="mb-2 text-xl font-semibold">Hododo event center</h3>
+                        <h3 class="mb-2 text-xl font-semibold">NGN. 80,000</h3>
+                        <div class="font-bold">
+                            <p class="text-gray-800">Title: <span class="text-gray-500"> December Retreats</span></p>
+                            <p class="text-gray-800">Description:
+                                <span class="text-gray-500">
+                                    orem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </span>
+                            </p>
+                            <p class="text-gray-800">Start: <span class="text-gray-500">22/12/2023</span></p>
+                            <p class="text-gray-800">End: <span class="text-gray-500">12/11/2024</span></p>
+                        </div>
+                        <div class="py-2">
+                            <button class="bg-yellow-700 hover:bg-yellow-800 text-white font-medium py-2 px-4 rounded-lg">
+                                Processing
+                            </button>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Event Card -->
+                <a href="">
+                    <div class="p-6 bg-white rounded-lg shadow-lg">
+                        <img class="object-cover w-full h-40 mb-4 rounded" src="/images/center_image1.jpeg" alt="Product Name">
+                        <h3 class="mb-2 text-xl font-semibold">Hododo event center</h3>
+                        <h3 class="mb-2 text-xl font-semibold">NGN. 80,000</h3>
+                        <div class="font-bold">
+                            <p class="text-gray-800">Title: <span class="text-gray-500"> December Retreats</span></p>
+                            <p class="text-gray-800">Description:
+                                <span class="text-gray-500">
+                                    orem ipsum dolor sit amet, consectetur adipiscing elit.
+                                </span>
+                            </p>
+                            <p class="text-gray-800">Start: <span class="text-gray-500">22/12/2023</span></p>
+                            <p class="text-gray-800">End: <span class="text-gray-500">12/11/2024</span></p>
+                        </div>
+                        <div class="py-2">
+                            <button class="bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded-lg">
+                                Booked
+                            </button>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
         </div>
 
     </div>
