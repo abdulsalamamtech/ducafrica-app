@@ -49,9 +49,20 @@ Route::get('/centers/info', function () {
 Route::get('/events', function () {
     return view('dashboard.pages.events.index');
 })->name('events');
-Route::get('/events/list', function () {
-    return view('dashboard.pages.events.list');
-})->name('events.list');
+
+
+Route::get('/available-events', function () {
+    return view('dashboard.pages.events.available');
+})->name('available-events');
+Route::get('/events/info', function () {
+    return view('dashboard.pages.events.info');
+})->name('events.info');
+Route::get('/my-events', function () {
+    return view('dashboard.pages.events.my-booked-events');
+})->name('my-events');
+
+
+
 
 
 Route::get('/booked-events', function () {
