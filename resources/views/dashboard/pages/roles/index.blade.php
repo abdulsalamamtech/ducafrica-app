@@ -8,6 +8,36 @@
 
 
 
+            <div>
+                <form action="" method="post">
+                    {{-- <div class="col-span-6 sm:col-span-3 p-2">
+                        <label for="first-name"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Amount paid
+                        </label>
+                        <input type="number" name="first-name" id="first-name"
+                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="23000" value="35000" required="" disabled>
+                    </div> --}}
+                    <div class="col-span-6 sm:col-span-3 p-2">
+                        <label for="last-name"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Amount to pay
+                        </label>
+                        <input type="number" name="last-name" id="last-name"
+                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="35000" value="35000" required="">
+                    </div>
+                    <div
+                        class="flex items-center py-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <button type="submit"
+                            class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            Make Payment
+                        </button>
+                    </div>
+                </form>
+            </div>
+
             {{-- Tables --}}
             <div class="my-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
 

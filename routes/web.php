@@ -29,6 +29,10 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 
+Route::get('/my-dashboard', function () {
+    return view('dashboard.my-dashboard');
+})->name('my-dashboard');
+
 
 // Roles
 Route::get('/roles', function () {

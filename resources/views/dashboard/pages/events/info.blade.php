@@ -123,6 +123,12 @@
                         </div>
                         <div class="mt-2">
                             <a href="#"
+                                class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700">
+                                Incomplete Payment
+                            </a>
+                        </div>
+                        <div class="mt-2">
+                            <a href="#"
                                 class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
                                 Paid
                             </a>
@@ -149,8 +155,57 @@
 
                 </div>
 
+                {{-- Installment Payment --}}
+                <div class="my-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+                    <h2 class="px-4 py-5 text-center text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300">Installment</h2>
+                    <div class="flex flex-col md:flex-row justify-around items-start m-auto p-4 gap-8">
+                        <div class="w-full md:w-1/2">
+                            <div class="flex justify-between items-start border-b px-2">
+                                <div class="w-1/3 text-gray-700 dark:text-gray-300">Total:</div>
+                                <div class="w-7/12 text-gray-500 dark:text-gray-400">80,000</div>
+                            </div>
+
+                            <div class="flex justify-between items-start border-b px-2">
+                                <div class="w-1/3 text-gray-700 dark:text-gray-300">Amount Paid:</div>
+                                <div class="w-7/12 text-gray-500 dark:text-gray-400">45,000</div>
+                            </div>
+
+                            <div class="flex justify-between items-start border-b px-2">
+                                <div class="w-1/3 text-gray-700 dark:text-gray-300">Balance:</div>
+                                <div class="w-7/12 text-gray-500 dark:text-gray-400">35,000</div>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <form action="" method="post">
+                                <div class="col-span-6 sm:col-span-3 p-2">
+                                    <label for="last-name"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        Amount to pay
+                                    </label>
+                                    <input type="number" name="last-name" id="last-name"
+                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="35000" value="35000" required="">
+                                </div>
+                                <div
+                                    class="flex items-center py-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
+                                    <button type="submit"
+                                        class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                                        Make Payment
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
                 {{-- Payment table --}}
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-6 my-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+
+                    {{-- Transactions --}}
+                    <div class="p-2">
+                        <h2 class="px-4 py-5 text-center text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300">Transactions</h2>
+                    </div>
                     <div
                         class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900 p-3">
                         <div>

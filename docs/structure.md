@@ -91,7 +91,8 @@
 
     - user_id
     - event_id
-    - type [full_payment, installments]
+    - payment_type [full_payment, installments | to be updated after successful installment request]
+    - status
 
 ## cancel_events
 
@@ -101,7 +102,7 @@
     - message
     - status
 
-## installment_users
+## users_installments
 
     - user_id
     - event_id
@@ -116,12 +117,19 @@
 ## transactions
 
     - id
-    - amount
+    - amount [₦]
     - reference
     - payment_url
     - currency [NGN]
-    - mode
+    - mode [transfer or card]
     - status
+
+
+## user_installment_payments
+    - user_id
+    - event_id
+    - transaction_id
+    - user_installment_id
 
 # users
 

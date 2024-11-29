@@ -45,6 +45,17 @@
                 {{-- @if(Auth::user()->role == 'admin')
                 @endif --}}
 
+                <li class="">
+                    <a href="{{ route('my-dashboard') }}"
+                        class="{{ request()->routeIs('my-dashboard')? 'text-white bg-['.$brand['bg-color'].']' :''; }}
+                        flex items-center p-2 text-gray-900 hover:text-gray-100 rounded-lg dark:text-white hover:bg-blue-700 dark:hover:bg-gray-700 group">
+                        <div
+                            class="flex-shrink-0 w-8 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                            <i class='fa fa-th'></i>
+                        </div>
+                        <span class="flex-1 ms-3 whitespace-nowrap">My Dashboard</span>
+                    </a>
+                </li>
 
 
                 <li class="">
