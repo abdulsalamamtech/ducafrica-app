@@ -1,15 +1,49 @@
 <?php
 
+use App\Http\Controllers\BookedEventController;
+use App\Http\Controllers\CancelEventController;
+use App\Http\Controllers\CenterController;
+use App\Http\Controllers\CenterTypeController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventRoleController;
+use App\Http\Controllers\EventTypeController;
+use App\Http\Controllers\GroupController;
+use App\Http\Controllers\GroupMemberController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PdfController;
+use App\Http\Controllers\Pdfs\GeneratePdfController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserInstallmentController;
+use App\Http\Controllers\UserInstallmentPaymentController;
+use App\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Route::get('/dashboard', function () {
-    // return view('dashboard');
+// return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 
 
@@ -19,83 +53,177 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 
 
 
+// Home page
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Login page
+Route::get('/login', [App\Http\Controllers\HomeController::class, 'login'])->name('login');
+// Register page
+Route::get('/register', [App\Http\Controllers\HomeController::class, 'register'])->name('register');
+
+
+Route::get('/privacy-policy', [App\Http\Controllers\HomeController::class, 'privacyPolicy'])->name('privacy-policy');
+Route::get('/terms-and-conditions', [App\Http\Controllers\HomeController::class, 'termsConditions'])->name('terms-and-conditions');
+Route::get('/register-success', [App\Http\Controllers\HomeController::class, 'registrationNotice'])->name('register-notice');
+Route::get('/activate-account/{id}', [App\Http\Controllers\HomeController::class, 'activateAccount'])->name('activate-account');
+
+
+
+
+
+
+
+// Route::resource('users', UserController::class);
+// Route::delete('/{user}/delete', 'UsersController@destroy')->name('users.destroy');
+// Route::post('/{user}/restore', 'UsersController@restore')->name('users.restore');
+// Route::delete('/{user}/force-delete', 'UsersController@forceDelete')->name('users.force-delete');
+// Route::post('/restore-all', 'UsersController@restoreAll')->name('users.restore-all');
+
+
+
+Route::middleware(['auth', 'verified'])->group(function(){
+    
+    Route::resource('roles', RoleController::class)
+        ->only(['index','store', 'update'])
+        ->middleware(['role:super-admin|admin']);
+        
+    Route::resource('user-roles', UserRoleController::class);
+
+    // Groups
+    Route::resource('groups', GroupController::class)
+        ->only(['index','store', 'update']);
+    Route::get('/my-groups', [GroupController::class, 'myGroups'])
+        ->name('my-groups')
+        ->middleware(['role:super-admin|admin|group-head']); 
+
+    Route::resource('group-members', GroupMemberController::class)
+        ->only(['index','store', 'update']);
+
+
+    // Centers
+    Route::resource('center-types', CenterTypeController::class)
+        ->only(['index','store', 'update', 'show'])
+        ->middleware(['role:super-admin|admin']);
+
+    Route::resource('centers', CenterController::class)
+        ->only(['index','store', 'update', 'show'])
+        ->middleware(['role:super-admin|admin']);
+
+    
+    // Events
+    Route::resource('event-types', EventTypeController::class)
+        ->only(['index','store', 'update', 'show'])
+        ->middleware(['role:super-admin|admin']);
+    Route::resource('events', EventController::class)
+        ->only(['index', 'show']);
+
+    Route::resource('events', EventController::class)
+        ->only(['store', 'update'])
+        ->middleware(['role:super-admin|admin']);
+
+    Route::get('/available-events', [EventController::class, 'available'])
+        ->name('available-events');
+    Route::get('/events/{event}/book', [EventController::class, 'book'])
+        ->name('events.book');
+    Route::get('/events/{event}/full-payment', [EventController::class, 'makeFullPayment'])
+        ->name('events.full-payment');
+
+
+    // Installments
+    Route::resource('/user-installments', UserInstallmentController::class);
+    Route::get('/user-installments/{userInstallment}/approve', [UserInstallmentController::class, 'approve'])
+        ->name('user-installments.approve')
+        ->middleware(['role:super-admin|admin']);
+
+    Route::get('/pending-installment-requests', [UserInstallmentController::class, 'request'])
+        ->name('pending-installments.request');    
+
+
+    // Route::get('pdfs/events/{event}/', [PdfController::class, 'event'])
+    //     ->name('pdfs.events.print');
+    Route::get('pdfs/events/{event}/', [GeneratePdfController::class, 'event'])
+        ->name('pdfs.events.print');
+
+    Route::post('/events/{event}/installment-payment', [EventController::class, 'makeInstallmentPayment'])
+        ->name('events.installment-payment');
+
+    Route::resource('booked-events', BookedEventController::class);
+    Route::get('my-booked-events/', [BookedEventController::class, 'myEvents'])
+    ->name('my-events');
+
+    // Transactions
+    Route::resource('transactions', TransactionController::class)
+        ->middleware(['role:super-admin|admin']);
+    Route::get('my-transactions/', [TransactionController::class, 'myTransactions'])
+        ->name('my-transactions');
+
+
+    Route::resource('users', UserController::class)
+        ->only(['index','store', 'update'])
+        ->middleware(['role:super-admin|admin']);
+    Route::get('new-users/', [UserController::class, 'newUser'])
+        ->name('new-users')
+        ->middleware(['role:super-admin|admin']);        
+
+    
+});
+
+Route::get('/paystack/verify/', [EventController::class, 'verify'])
+    ->name('payment.verify');
+
+
+Route::resource('event-roles', EventRoleController::class);
+Route::resource('cancel-events', CancelEventController::class);
+Route::resource('user-installment-payments', UserInstallmentPaymentController::class);
+
+
+
+
+
+
+
+
+
+// Admin Dashboard
 Route::get('/dashboard', function () {
-    return view('dashboard.dashboard');
-})->name('dashboard');
+    if(request()->user()->role == \App\Enum\UserRoleEnum::ADMIN || 
+        in_array(request()->user()?->activeRole(), [
+            \App\Enum\UserRoleEnum::SUPERADMIN, 
+            \App\Enum\UserRoleEnum::ADMIN])
+    ) {   
+       return view('dashboard.dashboard');
+    }
+    return view('dashboard.my-dashboard');
+
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 
+// My Dashboard
 Route::get('/my-dashboard', function () {
     return view('dashboard.my-dashboard');
 })->name('my-dashboard');
 
 
-// Roles
-Route::get('/roles', function () {
-    return view('dashboard.pages.roles.index');
-})->name('roles');
 
 
 
-Route::get('/centers', function () {
-    return view('dashboard.pages.centers.index');
-})->name('centers');
-Route::get('/centers/info', function () {
-    return view('dashboard.pages.centers.info');
-})->name('centers.info');
 
-
-
-Route::get('/events', function () {
-    return view('dashboard.pages.events.index');
-})->name('events');
-
-
-Route::get('/available-events', function () {
-    return view('dashboard.pages.events.available');
-})->name('available-events');
 Route::get('/events/info', function () {
     return view('dashboard.pages.events.info');
 })->name('events.info');
-Route::get('/my-events', function () {
-    return view('dashboard.pages.events.my-booked-events');
-})->name('my-events');
 
 
-
-
-
-Route::get('/booked-events', function () {
-    return view('dashboard.pages.events.booked');
-})->name('booked-events');
-
-
-
-
-
-Route::get('/users', function () {
-    return view('dashboard.pages.users.index');
-})->name('users');
-
-Route::get('/new-users', function () {
-    return view('dashboard.pages.users.new');
-})->name('new-users');
-
-
-
-
-// /home/amtech/Desktop/projects/ducafrica-app/resources/views/dashboard/users/show.blade.php
 Route::get('/users/info', function () {
     return view('dashboard.users.show');
 })->name('users.show');
 
-Route::get('/users/index', function () {
-    return view('dashboard.pages.datas.index');
-})->name('users.index');
+// Route::get('/users/index', function () {
+//     return view('dashboard.pages.datas.index');
+// })->name('users.index');
 
 Route::get('/users/create', function () {
     return view('dashboard.pages.datas.create');
@@ -105,7 +233,6 @@ Route::get('/users/about', function () {
     return view('dashboard.pages.datas.about');
 })->name('users.about');
 
-
 Route::get('/fallback', function () {
-    return view('dashboard.dashboard');
+    return redirect()->back()->with('warnings', 'Features coming soon!');
 })->name('fallback');

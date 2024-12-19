@@ -43,11 +43,12 @@
                             </p>
                             <h4
                                 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                ₦503k</h4>
+                                ₦ {{ Number::abbreviate(auth()->user()->statistics()['user']['transactions']['amount'] ?? 0, 2) }}
+                            </h4>
                         </div>
                         <div class="dark:border-gray-500 border-t border-blue-gray-50 p-4">
                             <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                                <strong class="text-green-500">+55%</strong>&nbsp;than last week
+                                <strong class="text-green-500">+0.1%</strong>&nbsp;than last week
                             </p>
                         </div>
                     </div>
@@ -68,11 +69,11 @@
                             </p>
                             <h4
                                 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                4</h4>
+                                0</h4>
                         </div>
                         <div class="border-t border-blue-gray-50 p-4">
                             <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                                <strong class="text-green-500">+3%</strong>&nbsp;than last month
+                                <strong class="text-green-500">+0%</strong>&nbsp;than last month
                             </p>
                         </div>
                     </div>
@@ -89,11 +90,12 @@
                             </p>
                             <h4
                                 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                3,462</h4>
+                                {{ Number::abbreviate(auth()->user()->statistics()['user']['booked_events'] ?? 0) }}
+                            </h4>
                         </div>
                         <div class="border-t border-blue-gray-50 p-4">
                             <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                                <strong class="text-red-500">-2%</strong>&nbsp;than yesterday
+                                <strong class="text-green-500">0%</strong>&nbsp;than yesterday
                             </p>
                         </div>
                     </div>
@@ -106,127 +108,22 @@
                         </div>
                         <div class="p-4 text-right">
                             <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                                Cancel Events</p>
+                                Cancelled Events</p>
                             <h4
                                 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                10</h4>
+                                {{ Number::abbreviate(auth()->user()->statistics()['user']['cancel_events'] ?? 0) }}
+                            </h4>
                         </div>
                         <div class="border-t border-blue-gray-50 p-4">
                             <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                                <strong class="text-green-500">+5%</strong>&nbsp;than yesterday
+                                <strong class="text-green-500">0%</strong>&nbsp;than yesterday
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- Available Events --}}
-            <div class="my-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                <h2 class="px-4 py-5 text-center text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300">Available Events</h2>
-            </div>
 
-            <div class="my-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 p-4">
-                    <!-- Event Card -->
-                    <a href="{{ route('events.info') }}">
-                        <div class="p-6 bg-white rounded-lg shadow-lg dark:bg-gray-700 dark:text-gray-200">
-                            <img class="object-cover w-full h-40 mb-4 rounded" src="/images/africa.jpg" alt="Product Name">
-                            <h3 class="mb-2 text-xl font-semibold">Hododo event center</h3>
-                            <h3 class="mb-2 text-xl font-semibold">NGN. 60,000</h3>
-                            <div class="font-bold">
-                                <p class="text-gray-900 dark:text-gray-100">Title: <span class="text-gray-500 dark:text-gray-400"> December Retreats</span></p>
-                                <p class="text-gray-800 dark:text-gray-100">Description:
-                                    <span class="text-gray-500 dark:text-gray-400">
-                                        orem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    </span>
-                                </p>
-                                <p class="text-gray-800 dark:text-gray-100">Start: <span class="text-gray-500 dark:text-gray-400">22/12/2023</span></p>
-                                <p class="text-gray-800 dark:text-gray-100">End: <span class="text-gray-500 dark:text-gray-400">12/11/2024</span></p>
-                            </div>
-                            <div class="py-2">
-                                <button class="bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-lg">
-                                    Book Now
-                                </button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Event Card -->
-                    <a href="{{ route('events.info') }}">
-                        <div class="p-6 bg-white rounded-lg shadow-lg dark:bg-gray-700 dark:text-gray-200">
-                            <img class="object-cover w-full h-40 mb-4 rounded" src="/images/africa.jpg" alt="Product Name">
-                            <h3 class="mb-2 text-xl font-semibold">Hododo event center</h3>
-                            <h3 class="mb-2 text-xl font-semibold">NGN. 60,000</h3>
-                            <div class="font-bold">
-                                <p class="text-gray-900 dark:text-gray-100">Title: <span class="text-gray-500 dark:text-gray-400"> December Retreats</span></p>
-                                <p class="text-gray-800 dark:text-gray-100">Description:
-                                    <span class="text-gray-500 dark:text-gray-400">
-                                        orem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    </span>
-                                </p>
-                                <p class="text-gray-800 dark:text-gray-100">Start: <span class="text-gray-500 dark:text-gray-400">22/12/2023</span></p>
-                                <p class="text-gray-800 dark:text-gray-100">End: <span class="text-gray-500 dark:text-gray-400">12/11/2024</span></p>
-                            </div>
-                            <div class="py-2">
-                                <button class="bg-yellow-700 hover:bg-yellow-800 text-white font-medium py-2 px-4 rounded-lg">
-                                    View
-                                </button>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Event Card -->
-                    <a href="{{ route('events.info') }}">
-                        <div class="p-6 bg-white rounded-lg shadow-lg dark:bg-gray-700 dark:text-gray-200">
-                            <img class="object-cover w-full h-40 mb-4 rounded" src="/images/africa.jpg" alt="Product Name">
-                            <h3 class="mb-2 text-xl font-semibold">Hododo event center</h3>
-                            <h3 class="mb-2 text-xl font-semibold">NGN. 60,000</h3>
-                            <div class="font-bold">
-                                <p class="text-gray-900 dark:text-gray-100">Title: <span class="text-gray-500 dark:text-gray-400"> December Retreats</span></p>
-                                <p class="text-gray-800 dark:text-gray-100">Description:
-                                    <span class="text-gray-500 dark:text-gray-400">
-                                        orem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    </span>
-                                </p>
-                                <p class="text-gray-800 dark:text-gray-100">Start: <span class="text-gray-500 dark:text-gray-400">22/12/2023</span></p>
-                                <p class="text-gray-800 dark:text-gray-100">End: <span class="text-gray-500 dark:text-gray-400">12/11/2024</span></p>
-                            </div>
-                            <div class="py-2">
-                                <button class="bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded-lg">
-                                    Booked
-                                </button>
-                            </div>
-                        </div>
-                    </a>
-
-
-                    <!-- Event Card -->
-                    <a href="{{ route('events.info') }}">
-                        <div class="p-6 bg-white rounded-lg shadow-lg dark:bg-gray-700 dark:text-gray-200">
-                            <img class="object-cover w-full h-40 mb-4 rounded" src="/images/africa.jpg" alt="Product Name">
-                            <h3 class="mb-2 text-xl font-semibold">Hododo event center</h3>
-                            <h3 class="mb-2 text-xl font-semibold">NGN. 60,000</h3>
-                            <div class="font-bold">
-                                <p class="text-gray-900 dark:text-gray-100">Title: <span class="text-gray-500 dark:text-gray-400"> December Retreats</span></p>
-                                <p class="text-gray-800 dark:text-gray-100">Description:
-                                    <span class="text-gray-500 dark:text-gray-400">
-                                        orem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    </span>
-                                </p>
-                                <p class="text-gray-800 dark:text-gray-100">Start: <span class="text-gray-500 dark:text-gray-400">22/12/2023</span></p>
-                                <p class="text-gray-800 dark:text-gray-100">End: <span class="text-gray-500 dark:text-gray-400">12/11/2024</span></p>
-                            </div>
-                            <div class="py-2">
-                                <button class="bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded-lg">
-                                    Booked
-                                </button>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-            </div>
-            {{-- End of Events --}}
 
 
         </div>

@@ -29,18 +29,18 @@
                       {{-- Name --}}
                       <div class="flex justify-between items-start">
                           <div class="w-1/3 text-gray-700 dark:text-gray-300">Name:</div>
-                          <div class="w-7/12 text-gray-500 dark:text-gray-400">Lorem ipsum event center</div>
+                          <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $center->name }}</div>
                         </div>
 
                       {{-- Payment ID --}}
                       <div class="flex justify-between items-start">
                         <div class="w-1/3 text-gray-700 dark:text-gray-300">Payment ID:</div>
-                        <div class="w-7/12 text-gray-500 dark:text-gray-400">PAY_3434653457</div>
+                        <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $center->payment_id }}</div>
                       </div>
 
                       <div class="flex justify-between items-start">
                         <div class="w-1/3 text-gray-700 dark:text-gray-300">Type:</div>
-                        <div class="w-7/12 text-gray-500 dark:text-gray-400">Event & Center</div>
+                        <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $center->type }}</div>
                       </div>
 
 
@@ -51,17 +51,17 @@
 
                       <div class="flex justify-between items-start">
                         <div class="w-1/3 text-gray-700 dark:text-gray-300">Address:</div>
-                        <div class="w-7/12 text-gray-500 dark:text-gray-400">No.345 Lagos (Victoria Island Annex)</div>
+                        <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $center->address }}</div>
                       </div>
 
                       <div class="flex justify-between items-start">
                         <div class="w-1/3 text-gray-700 dark:text-gray-300">State:</div>
-                        <div class="w-7/12 text-gray-500 dark:text-gray-400">Lagos state</div>
+                        <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $center->state }}</div>
                       </div>
 
                       <div class="flex justify-between items-start">
                         <div class="w-1/3 text-gray-700 dark:text-gray-300">Contact:</div>
-                        <div class="w-7/12 text-gray-500 dark:text-gray-400">+234365467547</div>
+                        <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $center->phone_number }}</div>
                       </div>
 
                       <div class="flex justify-between items-start">
@@ -71,12 +71,12 @@
 
                       <div class="flex justify-between items-start">
                         <div class="w-1/3 text-gray-700 dark:text-gray-300">Events:</div>
-                        <div class="w-7/12 text-gray-500 dark:text-gray-400">34</div>
+                        <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $center->id + 12 }}</div>
                       </div>
 
                       <div class="flex justify-between items-start">
                         <div class="w-1/3 text-gray-700 dark:text-gray-300">Booked Events:</div>
-                        <div class="w-7/12 text-gray-500 dark:text-gray-400">12</div>
+                        <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $center->id + 21 }}</div>
                       </div>
 
                       <div class="flex justify-between items-start">

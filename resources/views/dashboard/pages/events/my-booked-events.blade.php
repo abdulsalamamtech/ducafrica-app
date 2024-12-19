@@ -121,16 +121,16 @@
                                         </div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Name
+                                        Event
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Payment ID
+                                        Details
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Map Address
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        State
+                                        Cost
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Status
@@ -142,152 +142,329 @@
                             </thead>
                             <tbody>
 
-                                <!-- User table record 1 -->
-                                <tr
-                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td class="w-4 p-4">
-                                        <div class="flex items-center">
-                                            <input id="checkbox-table-search-1" type="checkbox"
-                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                @forelse ($booked_events as $booked_event)
+                                    <!-- User table record 1 -->
+                                    <tr
+                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <td class="w-4 p-4">
+                                            <div class="flex items-center">
+                                                <input id="checkbox-table-search-1" type="checkbox"
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                            </div>
+                                        </td>
+                                        <th scope="row"
+                                            class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                            <img class="w-10 h-10 rounded-full" src="/images/africa.jpg"
+                                                alt="Jese image">
+                                            <div class="ps-3">
+                                                <div class="text-base font-semibold">{{ $booked_event->event->name }}</div>
+                                                <div class="font-normal text-gray-500">{{ $booked_event->event->type }}</div>
+                                                <div class="font-normal text-gray-600">{{ $booked_event->event->contact_name }}</div>
+                                                <div class="font-normal text-gray-600">{{ $booked_event->event->contact_phone_number }}</div>
+                                                <div class="font-normal text-gray-600">{{ $booked_event->event->center->state }}</div>
+                                            </div>
+                                        </th>
+                                        <th class="px-6 py-4">
+                                            <div class="ps-3">
+                                                <div class="text-base font-semibold">{{ Str::limit($booked_event->event->description, '40') }}</div>
+                                                <div class="font-normal text-gray-500">
+                                                    {{-- <span class="font-bold text-gray-600">START:</span> --}}
+                                                    {{ $booked_event->event->start_date->format('l jS, F Y') }} ({{ $booked_event->event->start_date->diffForHumans() }})
+                                                </div>
+                                                <div class="font-normal text-gray-500">
+                                                    {{-- <span class="font-bold text-gray-600">ENDS:</span> --}}
+                                                    {{ $booked_event->event->end_date->format('l jS, F Y') }} ({{ $booked_event->event->end_date->diffForHumans() }})
+                                                </div>
+                                            </div>
+                                        </th>
+
+
+                                        
+                                        <td class="px-6 py-4">
+                                            {{-- Link to Map --}}
+                                            <a href="{{ $booked_event->event->center->map_url }}">
+                                                {{ $booked_event->event->center->address . ', '. $booked_event->event->center->state }}
+                                            </a>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            NGN. {{ $booked_event->payment_amount }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center">
+                                                @if ($booked_event->paid)
+                                                    <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Successful
+                                                @else
+                                                    <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Pending
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+
+                                            <button id="dropdownMenuIconButton{{ $booked_event->event->id }}" data-dropdown-toggle="dropdownDots{{ $booked_event->event->id }}"
+                                                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                                type="button">
+                                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                    fill="currentColor" viewBox="0 0 4 15">
+                                                    <path
+                                                        d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                                                </svg>
+                                            </button>
+
+                                            <!-- Dropdown menu -->
+                                            <div id="dropdownDots{{ $booked_event->event->id }}"
+                                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                                    aria-labelledby="dropdownMenuIconButton{{ $booked_event->event->id }}">
+                                                    <li>
+                                                        <a href="#"
+                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
+                                                    </li>
+                                                    <li
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                        <!-- Modal toggle -->
+                                                        <div href="#" type="button" data-modal-target="editUserModal{{ $booked_event->event->id }}"
+                                                            data-modal-show="editUserModal{{ $booked_event->event->id }}"
+                                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                                            Event Detail
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        {{-- <a href="#"
+                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Deactivate
+                                                        </a> --}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Edit user modal 1 -->
+                                    <div id="editUserModal{{ $booked_event->event->id }}" tabindex="-1" aria-hidden="true"
+                                        class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                        <div class="relative w-full max-w-2xl max-h-full bg-white dark:bg-gray-700">
+
+                                            <!-- Modal content -->
+                                            <form action="javascript::void()" method="POST"
+                                                class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+                                                @method('PUT')
+                                                @csrf
+
+                                                <!-- Modal header -->
+                                                <div
+                                                    class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600 dark:bg-gray-900">
+                                                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white ">
+                                                        Event Details {{ $booked_event->event->id }}
+                                                    </h3>
+                                                    <button type="button"
+                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                        data-modal-hide="editUserModal{{ $booked_event->event->id }}">
+                                                        <svg class="w-3 h-3" aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 14 14">
+                                                            <path stroke="currentColor" stroke-linecap="round"
+                                                                stroke-linejoin="round" stroke-width="2"
+                                                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                        </svg>
+                                                        <span class="sr-only">Close modal</span>
+                                                    </button>
+                                                </div>
+                                                <!-- Modal body -->
+                                                <div class="p-6 space-y-6 bg-white dark:text-white dark:bg-gray-700">
+
+                                                    {{-- Basic Information --}}
+                                                    <div class="w-100 text-center">Basic Information</div>
+                                                    <div class="grid grid-cols-6 gap-6">
+
+
+                                                        <div class="col-span-6 sm:col-span-3">
+                                                            <label for="title_name"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Event
+                                                                Title</label>
+                                                            <input type="text" name="name" id="title_name"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                placeholder="July Starter Event" required="" value="{{ $booked_event->event->name }}" disabled>
+                                                        </div>
+
+
+                                                        <div class="col-span-6 sm:col-span-3">
+                                                            <label for="add_type"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                                                            <select type="text" name="type" id="add_type"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                placeholder="workshop" required="" value="" disabled>
+                                                                <option value="workshop">workshop</option>
+                                                                <option value="retreat">retreat</option>
+                                                                <option value="seminars">seminars</option>
+                                                                <option value="recollection">recollection</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-span-6 sm:col-span-3">
+                                                            <label for="amount-cost"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                                Amount Cost</label>
+                                                            <input type="number" name="cost" id="amount-cost"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                placeholder="150000" required="" value="{{ $booked_event->event->cost }}" disabled>
+                                                        </div>
+
+                                                        <div class="col-span-6 sm:col-span-3">
+                                                            <label for="slots"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                                Available Slots
+                                                            </label>
+                                                            <input type="number" name="slots" id="slots"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                placeholder="25" required="" value="{{ $booked_event->event->slots }}" disabled>
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                    <div class="grid grid-cols-6 gap-6">
+                                                        <div class="col-span-12">
+                                                            <label for="center_id"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                                Select center
+                                                            </label>
+                                                            <select type="text" name="center_id" id="center_id"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                placeholder="Bonnie event center" required="" disabled>
+                                                                @forelse ($centers as $center)
+                                                                    <option value="{{ $center->id }}">{{ $center->name }} -
+                                                                        {{ $center->address }} - {{ $center->state }}</option>
+                                                                @empty
+                                                                    <option value="">unavailable</option>
+                                                                @endforelse
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    {{-- Accessible Roles --}}
+                                                    <div class="w-100 text-center">Accessible Roles</div>
+                                                    <div class="flex justify-evenly gap-3 text-center flex-auto flex-wrap">
+
+                                                        {{-- {{ $booked_event->event->eventRoles }} --}}
+
+                                                        {{-- @foreach ( $booked_event->event->eventRoles as $event_role)
+                                                            {{ $event_role->id }}
+                                                        @endforeach --}}
+
+                                                        @forelse ($roles as $role)
+                                                            <label for="role{{ $role->id }}"
+                                                                class="flex gap-2 justify-center items-center">
+                                                                <input type="checkbox" name="event_roles[]"
+                                                                    id="role{{ $role->id }}" value="{{ $role->id }}"
+
+                                                                    @foreach ( $booked_event->event->eventRoles as $event_role)
+                                                                        @if ($event_role->id == $role->id)
+                                                                            {{ "checked"}}
+                                                                        @endif
+                                                                    @endforeach
+                                                                    disabled>
+
+                                                                <span>{{ $role->name }}</span>
+                                                            </label>
+                                                        @empty
+                                                            <label for="standard" class="flex gap-2 justify-center items-center">
+                                                                <span>no available role</span>
+                                                            </label>
+                                                        @endforelse
+
+                                                    </div>
+
+                                                    {{-- Booking Information --}}
+                                                    <div class="w-100 text-center">Booking Information</div>
+
+                                                    <div class="flex gap-6">
+                                                        <div class="col-span-6 sm:col-span-3 w-100 md:w-6/12">
+                                                            <label for="start_date"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                                Start Date</label>
+                                                            <input type="date" name="start_date" id="start_date"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                placeholder="12/12/2024" required="" value="{{ $booked_event->event->start_date->format('Y-m-d') }}" disabled>
+                                                        </div>
+
+                                                        <div class="col-span-6 sm:col-span-3 w-100 md:w-6/12">
+                                                            <label for="end_date"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                                End Date
+                                                            </label>
+                                                            <input type="date" name="end_date" id="end_date"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                placeholder="25/12/2024" required="" value="{{ $booked_event->event->end_date->format('Y-m-d') }}" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-6 gap-6">
+                                                        <div class="col-span-12">
+                                                            <label for="description"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                                Description
+                                                            </label>
+                                                            <input type="text" name="description" id="description"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                placeholder="this event is..." required="" value="{{ $booked_event->event->description }}" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="flex gap-6">
+                                                        <div class="col-span-6 sm:col-span-3 w-100 md:w-6/12">
+                                                            <label for="contact_name"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                                Organizer's Name</label>
+                                                            <input type="text" name="contact_name" id="contact_name"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                placeholder="Mr. Issac James" required="" value="{{ $booked_event->event->contact_name }}" disabled>
+                                                        </div>
+
+                                                        <div class="col-span-6 sm:col-span-3 w-100 md:w-6/12">
+                                                            <label for="contact_phone_number"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                                Organizer's Number
+                                                            </label>
+                                                            <input type="tel" name="contact_phone_number"
+                                                                id="contact_phone_number"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                placeholder="+23542623568" required="" value="{{ $booked_event->event->contact_phone_number }}" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <!-- Modal footer -->
+                                                <div
+                                                    class="flex items-center p-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600 bg-white dark:bg-gray-800">
+                                                    <button type="submit" data-modal-hide="editUserModal{{ $booked_event->event->id }}"
+                                                        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                        Close
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
-                                    </td>
-                                    <th scope="row"
-                                        class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <img class="w-10 h-10 rounded-full" src="/images/default-profile.png"
-                                            alt="Jese image">
-                                        <div class="ps-3">
-                                            <div class="text-base font-semibold">Neil Sims Center</div>
-                                            <div class="font-normal text-gray-500">Center & Event</div>
-                                            <div class="font-normal text-gray-500">+2349091920011</div>
-                                        </div>
-                                    </th>
-                                    {{-- Last transaction --}}
-                                    <td class="px-6 py-4">
-                                        PAY_783960545948
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{-- Link to Map --}}
-                                        <a href="#">
-                                            No. 233 Ikorod layout
-                                        </a>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        Lagos State
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Active
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
 
-                                        <button id="dropdownMenuIconButton1" data-dropdown-toggle="dropdownDots1"
-                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                            type="button">
-                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                fill="currentColor" viewBox="0 0 4 15">
-                                                <path
-                                                    d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                                            </svg>
-                                        </button>
-
-                                        <!-- Dropdown menu -->
-                                        <div id="dropdownDots1"
-                                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                aria-labelledby="dropdownMenuIconButton1">
-                                                <li>
-                                                    <a href="{{ route('events.info') }}"
-                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#"
-                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Print</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- User table record 2 -->
-                                <tr
-                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td class="w-4 p-4">
-                                        <div class="flex items-center">
-                                            <input id="checkbox-table-search-1" type="checkbox"
-                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                        </div>
-                                    </td>
-                                    <th scope="row"
-                                        class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <img class="w-10 h-10 rounded-full" src="/images/default-profile.png"
-                                            alt="Jese image">
-                                        <div class="ps-3">
-                                            <div class="text-base font-semibold">Sims event and more</div>
-                                            <div class="font-normal text-gray-500">Accommodation</div>
-                                            <div class="font-normal text-gray-500">+2349070920011</div>
-
-                                        </div>
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        PAY_35345456377
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{-- Link to Map --}}
-                                        <a href="#">
-                                            No. 67 MM way, Beliko
-                                        </a>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        Osun State
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Inactive
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-
-                                        <button id="dropdownMenuIconButton2" data-dropdown-toggle="dropdownDots2"
-                                            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                            type="button">
-                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                fill="currentColor" viewBox="0 0 4 15">
-                                                <path
-                                                    d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                                            </svg>
-                                        </button>
-
-                                        <!-- Dropdown menu -->
-                                        <div id="dropdownDots2"
-                                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                aria-labelledby="dropdownMenuIconButton2">
-                                                <li>
-                                                    <a href="{{ route('events.info') }}"
-                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"
-                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Print</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-
-
+                                    </div>
+                                @empty
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <td colspan="10" class="text-center p-8">Event unavailable</td>
+                                    </tr>
+                                @endforelse
 
                             </tbody>
                         </table>
                     </div>
 
                     {{-- Paginate --}}
-                    <div class="text-center pt-4">
-                        <div>Page: <span>5 of</span> 10</div>
+                    <div class="text-center pt-4 dark:text-gray-100">
+                        <div class="px-8">
+                            @isset($booked_events)
+                                {{ $booked_events->links() }}
+                            @endisset
+                        </div>
                     </div>
                 </div>
 

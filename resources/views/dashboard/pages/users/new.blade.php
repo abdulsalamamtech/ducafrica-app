@@ -6,6 +6,95 @@
 
         <div class="rounded-lg dark:border-gray-700 mt-20">
 
+            {{-- Statistica widge --}}
+            <div class="p-6 my-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+
+                <div class="grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
+                    <!-- Card -->
+                    <div
+                        class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-700 relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 border border-blue-gray-100 shadow-sm">
+                        <div
+                            class="bg-clip-border mt-4 mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-gray-900 to-gray-800 text-white shadow-gray-900/20 absolute grid h-12 w-12 place-items-center">
+                            <i class="fa fa-users text-white text-xl"></i>
+                        </div>
+                        <div class="p-4 text-right">
+                            <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
+                                Total Users</p>
+                            <h4
+                                class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
+                                7,603k</h4>
+                        </div>
+                        <div class="dark:border-gray-500 border-t border-blue-gray-50 p-4">
+                            <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
+                                <strong class="text-green-500">+55%</strong>&nbsp;than last week
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Card -->
+                    <div
+                        class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-700 relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 border border-blue-gray-100 shadow-sm">
+                        <div
+                            class="bg-clip-border mt-4 mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-gray-900 to-gray-800 text-white shadow-gray-900/20 absolute grid h-12 w-12 place-items-center">
+                            <i class="fa fa-user text-white text-xl"></i>
+                        </div>
+                        <div class="p-4 text-right">
+                            <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
+                                Active Users</p>
+                            <h4
+                                class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
+                                5,103k</h4>
+                        </div>
+                        <div class="dark:border-gray-500 border-t border-blue-gray-50 p-4">
+                            <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
+                                <strong class="text-green-500">+55%</strong>&nbsp;than last week
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Card -->
+                    <div
+                        class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-700 relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 border border-blue-gray-100 shadow-sm">
+                        <div
+                            class="bg-clip-border mt-4 mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-gray-900 to-gray-800 text-white shadow-gray-900/20 absolute grid h-12 w-12 place-items-center">
+                            <i class="fa fa-user-circle text-white text-xl"></i>
+                        </div>
+                        <div class="p-4 text-right">
+                            <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
+                                Inactive Users</p>
+                            <h4
+                                class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
+                                253k</h4>
+                        </div>
+                        <div class="dark:border-gray-500 border-t border-blue-gray-50 p-4">
+                            <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
+                                <strong class="text-green-500">+55%</strong>&nbsp;than last week
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Card -->
+                    <div
+                        class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-700 relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 border border-blue-gray-100 shadow-sm">
+                        <div
+                            class="bg-clip-border mt-4 mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-gray-900 to-gray-800 text-white shadow-gray-900/20 absolute grid h-12 w-12 place-items-center">
+                            <i class="fa fa-user-plus text-white text-xl"></i>
+                        </div>
+                        <div class="p-4 text-right">
+                            <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
+                                Pending Users</p>
+                            <h4
+                                class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
+                                10,300k</h4>
+                        </div>
+                        <div class="dark:border-gray-500 border-t border-blue-gray-50 p-4">
+                            <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
+                                <strong class="text-green-500">+55%</strong>&nbsp;than last week
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            {{-- End of Statistics --}}
+
 
 
             {{-- Tables --}}
@@ -15,118 +104,21 @@
                 <div class="relative p-8 overflow-x-auto shadow-md sm:rounded-lg">
                     <!-- Header Section -->
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300">New Users</h2>
-                        <button class="px-3 md:px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700"
-                        data-modal-target="addUserModal" data-modal-show="addUserModal">
-                            Add User
-                        </button>
-
-
-                        {{-- Add user --}}
-                        <!-- Add user modal -->
-                        <div id="addUserModal" tabindex="-1" aria-hidden="true"
-                            class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                            <div class="relative w-full max-w-2xl max-h-full bg-white">
-                                <!-- Modal content -->
-                                <form class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                    <!-- Modal header -->
-                                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                            Add user
-                                        </h3>
-                                        <button type="button"
-                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                            data-modal-hide="addUserModal">
-                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                fill="none" viewBox="0 0 14 14">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                            </svg>
-                                            <span class="sr-only">Close modal</span>
-                                        </button>
-                                    </div>
-                                    <!-- Modal body -->
-                                    <div class="p-6 space-y-6">
-                                        <div class="grid grid-cols-6 gap-6">
-                                            <div class="col-span-6 sm:col-span-3">
-                                                <label for="first-name"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
-                                                    Name</label>
-                                                <input type="text" name="first-name" id="first-name"
-                                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="Bonnie" required="">
-                                            </div>
-                                            <div class="col-span-6 sm:col-span-3">
-                                                <label for="last-name"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
-                                                    Name</label>
-                                                <input type="text" name="last-name" id="last-name"
-                                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="Green" required="">
-                                            </div>
-                                            <div class="col-span-6 sm:col-span-3">
-                                                <label for="email"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                                <input type="email" name="email" id="email"
-                                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="example@company.com" required="" value="amtech@dev.com" disabled>
-                                            </div>
-                                            <div class="col-span-6 sm:col-span-3">
-                                                <label for="phone-number"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
-                                                    Number</label>
-                                                <input type="number" name="phone-number" id="phone-number"
-                                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="e.g. +(12)3456 789" required="">
-                                            </div>
-                                            <div class="col-span-6 sm:col-span-3">
-                                                <label for="department"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                                                <input type="text" name="department" id="department"
-                                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="Development" required="">
-                                            </div>
-                                            <div class="col-span-6 sm:col-span-3">
-                                                <label for="company"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-                                                <input type="number" name="company" id="company"
-                                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="123456" required="">
-                                            </div>
-                                            <div class="col-span-6 sm:col-span-3">
-                                                <label for="current-password"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current
-                                                    Password</label>
-                                                <input type="password" name="current-password" id="current-password"
-                                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="••••••••" required="">
-                                            </div>
-                                            <div class="col-span-6 sm:col-span-3">
-                                                <label for="new-password"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New
-                                                    Password</label>
-                                                <input type="password" name="new-password" id="new-password"
-                                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="••••••••" required="">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Modal footer -->
-                                    <div
-                                        class="flex items-center p-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
-                                        <button type="submit"
-                                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save
-                                            all</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                        <h2 class="text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300">All Users</h2>
+                        
+                        <a href="">
+                            <button class="px-3 md:px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700"
+                                data-modal-target="addUserModal" data-modal-show="addUserModal">
+                                    <i class="fa fa-user-plus"></i>
+                                    <span class="pl-2">View New Users</span>
+                            </button>
+                        </a>
 
                     </div>
 
 
-                    <div
-                        class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900 px-4">
+                    {{-- Search and filter --}}
+                    <div class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900 px-4">
 
                         <div>
                             <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction"
@@ -142,7 +134,7 @@
                             </button>
                             <!-- Dropdown menu -->
                             <div id="dropdownAction"
-                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 pl-3">
                                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="dropdownActionButton">
                                     <li>
@@ -151,31 +143,31 @@
                                     </li>
                                     <li>
                                         <a href="#"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Active</a>
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">verified</a>
                                     </li>
                                     <li>
                                         <a href="#"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Inactive</a>
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">pending</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
 
-                        <label for="table-search" class="sr-only">Search</label>
-                        <div class="relative">
-                            <div
-                                class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                </svg>
+                        <form class="w-full max-w-md mx-auto">
+                            <label for="default-search" class="mb-1 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                    </svg>
+                                </div>
+                                <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." required />
+                                <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                             </div>
-                            <input type="text" id="table-search-users"
-                                class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Search for users">
-                        </div>
+                        </form>
+
                     </div>
+
 
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -188,16 +180,19 @@
                                     </div>
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Name
+                                    User
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     DOB
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    Address
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     Role
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Verification
+                                    Verified Email
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Status
@@ -208,339 +203,221 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse ($users as $user)
+                                <!-- User table record 1 -->
+                                <tr
+                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <td class="w-4 p-4">
+                                        <div class="flex items-center">
+                                            <input id="checkbox-table-search-1" type="checkbox"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                        </div>
+                                    </td>
+                                    <th scope="row"
+                                        class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                        <img class="w-10 h-10 rounded-full" src="/images/default-profile.png"
+                                            alt="Jese image">
+                                        <div class="ps-3">
+                                            <div class="text-base font-semibold">{{ $user->first_name . ' ' . $user->last_name . ' ' . $user->other }}</div>
+                                            <div class="font-normal text-gray-500">({{ $user->role }}): {{ $user->activeRole() }}</div>
+                                            <div class="font-normal text-gray-500">{{ $user->email }}</div>
+                                            <div class="font-normal text-gray-500">{{ $user->phone . " (". $user->phone_type .")"}}</div>
+                                        </div>
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{ $user->dob->format('D, d M Y') }}
+                                        ({{ now()->format('Y') - $user->dob->format('Y') }} Years Old)
+                                    </td>
+                                    <td class="ps-3">
+                                        <div class="font-normal text-gray-500">{{ $user->address }}</div>
+                                        <div class="font-normal text-gray-500">{{ $user->city }}</div>
+                                        <div class="font-normal text-gray-500">{{ $user->state }}</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $user->activeRole() }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            @if ($user->email_verified_at)
+                                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Yes
+                                            @else
+                                                <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> No
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            @if ($user->status == 'active')
+                                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Verified
+                                            @else
+                                                <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Pending
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
 
-                            <!-- User table record 1 -->
-                            <tr
-                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td class="w-4 p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-table-search-1" type="checkbox"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                    </div>
-                                </td>
-                                <th scope="row"
-                                    class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                    <img class="w-10 h-10 rounded-full" src="/images/default-profile.png"
-                                        alt="Jese image">
-                                    <div class="ps-3">
-                                        <div class="text-base font-semibold">Neil Sims</div>
-                                        <div class="font-normal text-gray-500">neil.sims@flowbite.com</div>
-                                        <div class="font-normal text-gray-500">+2349091920011</div>
-                                    </div>
-                                </th>
-                                <td class="px-6 py-4">
-                                    20-01-2001
-                                </td>
-                                <td class="px-6 py-4">
-                                    User
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center">
-                                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Verified
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center">
-                                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Active
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
+                                        <button id="dropdownMenuIconButton{{ $user->id }}" data-dropdown-toggle="dropdownDots{{ $user->id }}" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+                                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
+                                            <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                            </svg>
+                                            </button>
 
-                                    <button id="dropdownMenuIconButton1" data-dropdown-toggle="dropdownDots1" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-                                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                                        <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
-                                        </svg>
-                                        </button>
-
-                                        <!-- Dropdown menu -->
-                                        <div id="dropdownDots1" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton1">
-                                                <li>
-                                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
-                                                </li>
-                                                <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                                    <!-- Modal toggle -->
-                                                    <div href="#" type="button"
-                                                        data-modal-target="editUserModal1"
-                                                        data-modal-show="editUserModal1"
-                                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit
+                                            <!-- Dropdown menu -->
+                                            <div id="dropdownDots{{ $user->id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton{{ $user->id }}">
+                                                    <li>
+                                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
+                                                    </li>
+                                                    <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                        <!-- Modal toggle -->
+                                                        <div href="#" type="button"
+                                                            data-modal-target="editUserModal{{ $user->id }}"
+                                                            data-modal-show="editUserModal{{ $user->id }}"
+                                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Deactivate</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                    </td>
+                                </tr>
+                                <!-- Edit user modal 1 -->
+                                <div id="editUserModal{{ $user->id }}" tabindex="-1" aria-hidden="true"
+                                    class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                    <div class="relative w-full max-w-2xl max-h-full bg-white">
+                                        <!-- Modal content -->
+                                        <form class="relative bg-white rounded-lg shadow dark:bg-gray-700" 
+                                            action="{{ route('users.update', $user->id) }}" method="POST">
+                                            @method('PUT')
+                                            @csrf
+                                            <!-- Modal header -->
+                                            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                                    Edit User {{ $user->id }}
+                                                </h3>
+                                                <button type="button"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                    data-modal-hide="editUserModal{{ $user->id }}">
+                                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none" viewBox="0 0 14 14">
+                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                    </svg>
+                                                    <span class="sr-only">Close modal</span>
+                                                </button>
+                                            </div>
+                                            <!-- Modal body -->
+                                            <div class="p-6 space-y-6">
+                                                <div class="grid grid-cols-6 gap-6">
+                                                    <div class="col-span-6 sm:col-span-3">
+                                                        <label for="first-name"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                            First Name
+                                                        </label>
+                                                        <input type="text" name="first_name" id="first-name"
+                                                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            placeholder="Bonnie" required="" value="{{ $user->first_name }}">
                                                     </div>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Deactivate</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                </td>
-                            </tr>
-                            <!-- Edit user modal 1 -->
-                            <div id="editUserModal1" tabindex="-1" aria-hidden="true"
-                                class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                                <div class="relative w-full max-w-2xl max-h-full bg-white">
-                                    <!-- Modal content -->
-                                    <form class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                        <!-- Modal header -->
-                                        <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                                Edit user 1
-                                            </h3>
-                                            <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                data-modal-hide="editUserModal1">
-                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none" viewBox="0 0 14 14">
-                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                                </svg>
-                                                <span class="sr-only">Close modal</span>
-                                            </button>
-                                        </div>
-                                        <!-- Modal body -->
-                                        <div class="p-6 space-y-6">
-                                            <div class="grid grid-cols-6 gap-6">
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="first-name"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
-                                                        Name</label>
-                                                    <input type="text" name="first-name" id="first-name"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="Bonnie" required="">
+                                                    <div class="col-span-6 sm:col-span-3">
+                                                        <label for="last-name"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                            Last Name.
+                                                        </label>
+                                                        <input type="text" name="last_name" id="last-name"
+                                                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            placeholder="Green" required="" value="{{ $user->last_name }}">
+                                                    </div>
+                                                    <div class="col-span-6 sm:col-span-3">
+                                                        <label for="other_name"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                            Other Name
+                                                        </label>
+                                                        <input type="text" name="other_name" id="other_name"
+                                                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            placeholder="example@company.com" required="" value="{{ $user->other_name }}">
+                                                    </div>
+                                                    <div class="col-span-6 sm:col-span-3">
+                                                        <label for="phone-number"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                            DOB
+                                                        </label>
+                                                        <input type="date" name="dob" id="phone-number"
+                                                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            placeholder="e.g. 23 Nov 2000" required="" value="2000-11-11">
+                                                    </div>
+                                                    <div class="col-span-6 sm:col-span-3">
+                                                        <label for="email"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                                        <input type="email" name="email" id="email"
+                                                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            placeholder="example@company.com" required="" value="{{ $user->email }}" disabled>
+                                                    </div>
+                                                    <div class="col-span-6 sm:col-span-3">
+                                                        <label for="phone"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
+                                                            Number</label>
+                                                        <input type="tel" name="phone" id="phone"
+                                                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            placeholder="e.g. +(12)3456 789" required="" value="{{$user->phone}}" disabled>
+                                                    </div>                                                
+                                                    <div class="col-span-6 sm:col-span-3">
+                                                        <label for="verified"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Verified</label>
+                                                        <select type="text" name="status" id="verified"
+                                                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            placeholder="Development" required="">
+                                                            @if ($user->status == 'active')
+                                                                <option value="active" selected>yes</option>
+                                                                <option value="pending">no</option>
+                                                            @else
+                                                                <option value="active">yes</option>
+                                                                <option value="pending">no</option>
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-span-6 sm:col-span-3">
+                                                        <label for="userRole"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
+                                                        <select type="text" name="role" id="userRole"
+                                                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            placeholder="e.g. user" required="">
+                                                            <option value="">-- select role--</option>
+                                                            @forelse ($available_roles as $available_role)
+                                                                @if (Auth::user()->role !== \App\Enum\UserRoleEnum::SUPERADMIN && $available_role == \App\Enum\UserRoleEnum::SUPERADMIN )
+                                                                    @continue
+                                                                @else
+                                                                    <option value="{{ $available_role }}" @if ($available_role == $user->role) {{ "selected" }}@endif> 
+                                                                        {{Str::title($available_role->label())}}
+                                                                    </option>          
+                                                                @endif
+                                                            @empty
+                                                                <option value="">roles unavailable</option>
+                                                            @endforelse                                                            
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="last-name"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
-                                                        Name</label>
-                                                    <input type="text" name="last-name" id="last-name"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="Green" required="">
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="email"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                                    <input type="email" name="email" id="email"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="example@company.com" required="" value="amtech@dev.com" disabled>
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="phone-number"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
-                                                        Number</label>
-                                                    <input type="number" name="phone-number" id="phone-number"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="e.g. +(12)3456 789" required="">
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="department"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                                                    <input type="text" name="department" id="department"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="Development" required="">
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="company"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-                                                    <input type="number" name="company" id="company"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="123456" required="">
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="current-password"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current
-                                                        Password</label>
-                                                    <input type="password" name="current-password" id="current-password"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="••••••••" required="">
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="new-password"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New
-                                                        Password</label>
-                                                    <input type="password" name="new-password" id="new-password"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="••••••••" required="">
-                                                </div>
+                                                
                                             </div>
-                                        </div>
-                                        <!-- Modal footer -->
-                                        <div
-                                            class="flex items-center p-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
-                                            <button type="submit"
-                                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save
-                                                all</button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                            </div>
-
-                            <!-- User table record 2 -->
-                            <tr
-                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td class="w-4 p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-table-search-1" type="checkbox"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                    </div>
-                                </td>
-                                <th scope="row"
-                                    class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                    <img class="w-10 h-10 rounded-full" src="/images/default-profile.png"
-                                        alt="Jese image">
-                                    <div class="ps-3">
-                                        <div class="text-base font-semibold">Neil Sims</div>
-                                        <div class="font-normal text-gray-500">neil.sims@flowbite.com</div>
-                                        <div class="font-normal text-gray-500">+2349091920011</div>
-
-                                    </div>
-                                </th>
-                                <td class="px-6 py-4">
-                                    20-11-2001
-                                </td>
-                                <td class="px-6 py-4">
-                                    User
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center">
-                                        <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Not verified
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center">
-                                        <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Inactive
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-
-                                    <button id="dropdownMenuIconButton2" data-dropdown-toggle="dropdownDots2" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-                                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
-                                        <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
-                                        </svg>
-                                        </button>
-
-                                        <!-- Dropdown menu -->
-                                        <div id="dropdownDots2" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton2">
-                                            <li>
-                                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
-                                            </li>
-                                            <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                                <!-- Modal toggle -->
-                                                <a href="#" type="button"
-                                                    data-modal-target="editUserModal2"
-                                                    data-modal-show="editUserModal2"
-                                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activate</a>
-                                            </li>
-                                            </ul>
-                                        </div>
-                                </td>
-                            </tr>
-                            <!-- Edit user modal 2 -->
-                            <div id="editUserModal2" tabindex="-1" aria-hidden="true"
-                                class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                                <div class="relative w-full max-w-2xl max-h-full bg-white">
-                                    <!-- Modal content -->
-                                    <form class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                        <!-- Modal header -->
-                                        <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                                Edit user 2
-                                            </h3>
-                                            <button type="button"
-                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                data-modal-hide="editUserModal2">
-                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none" viewBox="0 0 14 14">
-                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                                </svg>
-                                                <span class="sr-only">Close modal</span>
-                                            </button>
-                                        </div>
-                                        <!-- Modal body -->
-                                        <div class="p-6 space-y-6">
-                                            <div class="grid grid-cols-6 gap-6">
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="first-name"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
-                                                        Name</label>
-                                                    <input type="text" name="first-name" id="first-name"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="Bonnie" required="">
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="last-name"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
-                                                        Name</label>
-                                                    <input type="text" name="last-name" id="last-name"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="Green" required="">
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="email"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                                    <input type="email" name="email" id="email"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="example@company.com" required="" value="amtech@dev.com" disabled>
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="phone-number"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
-                                                        Number</label>
-                                                    <input type="number" name="phone-number" id="phone-number"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="e.g. +(12)3456 789" required="">
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="department"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                                                    <input type="text" name="department" id="department"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="Development" required="">
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="company"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-                                                    <input type="number" name="company" id="company"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="123456" required="">
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="current-password"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current
-                                                        Password</label>
-                                                    <input type="password" name="current-password" id="current-password"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="••••••••" required="">
-                                                </div>
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="new-password"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New
-                                                        Password</label>
-                                                    <input type="password" name="new-password" id="new-password"
-                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="••••••••" required="">
-                                                </div>
+                                            <!-- Modal footer -->
+                                            <div
+                                                class="flex items-center p-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
+                                                <button type="submit"
+                                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                    Save
+                                                </button>
                                             </div>
-                                        </div>
-                                        <!-- Modal footer -->
-                                        <div
-                                            class="flex items-center p-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
-                                            <button type="submit"
-                                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save
-                                                all</button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
+
                                 </div>
-                            </div>
-
-
-
+                            @empty
+                                <tr class="text-center">
+                                    <td colspan="7" class="p-4">Users unavailable</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
 
