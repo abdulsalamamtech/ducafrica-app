@@ -87,6 +87,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(BookedEvent::class);
     }
 
+    public function activeRole(){
+        $active_role = $this->roles->first()->name ?? 'user';
+        return $active_role;
+    }
+
     public function statistics(){
         // $user = auth()->user();
         $user = $this;
@@ -141,9 +146,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $statistics;
     }
 
-    public function activeRole(){
-        $active_role = $this->roles->first()->name ?? 'user';
-        return $active_role;
-    }
+
     
 }

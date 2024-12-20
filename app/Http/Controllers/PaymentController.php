@@ -19,16 +19,16 @@ class PaymentController extends Controller
             'email' => $payment_data['email'],
             // Convert to kobo
             'amount' => $payment_data['amount'] * 100,
-            // 'subaccount'=> $payment_data['payment_id'],
+            'subaccount'=> $payment_data['payment_id'],
 
             // Test payment account information
             // Live Acc = ACCT_gfbo9r4csa29bnx
-            "subaccount" => "ACCT_7ib9ztjvcev66wo",
+            // "subaccount" => "ACCT_7ib9ztjvcev66wo",
             // 'subaccount'=> 'ACCT_gfbo9r4csa29bnx',
 
             'metadata' => [
                 // Your unique reference for the order
-                'order_id' => '1234567890' . now(),
+                'order_id' =>  $payment_data['payment_id'] . '-' . now()->format('Y-m-d H:i:sA'),
             ],
             // Your callback URL to handle payment status
             // 'callback_url' => route('payment.verify'),

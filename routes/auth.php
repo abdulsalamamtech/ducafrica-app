@@ -68,3 +68,5 @@ Route::middleware('auth')->group(function () {
 // $newAdmin->email='admin@mail.com';
 // $newAdmin->password=Hash::make('4dm1n01');
 // chopsxenon@gmail.com
+// Amtech Pay ID
+// "subaccount" => "ACCT_7ib9ztjvcev66wo",

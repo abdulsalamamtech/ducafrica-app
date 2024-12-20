@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('password_clue')->nullable()->default('');
             // $table->enum('role',['user','admin'])->nullable()->default('user');
             $table->string('role')->default('user');
-            $table->enum('verification_status',[false, true])->nullable()->default(false);
+            $table->enum('verification_status',[0, 1])->nullable()->default(1);
             $table->enum('status',['pending','active','suspended','blocked'])->nullable()->default('active');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

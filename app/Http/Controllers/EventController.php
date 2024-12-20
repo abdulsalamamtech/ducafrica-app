@@ -61,6 +61,8 @@ class EventController extends Controller
         $data['added_by'] = $request->user()->id;
         // return [$request->all(),  auth()->user()];
 
+        // return $data;
+
         $event = Event::create($data);
         foreach ($data['event_roles'] as $roleId)
         {
@@ -136,6 +138,8 @@ class EventController extends Controller
     {
 
         $data = $request->validated();
+
+        // return $data;
         $event->update($data);
         $event->eventRoles()->sync(array_values($data['event_roles']));
 
@@ -155,16 +159,28 @@ class EventController extends Controller
     // Get the list of available events
     public function available()
     {
-        $events = Event::
-            // where('slots', '>', 0)
-            // ->whereNotNull('status')
-            // ->
-            where('end_date', '>=', now())
-            ->with(['center'])->latest()->paginate(6);
 
-        // $event->load(['eventRoles' => function ($query) use ($role) {
-        //     $query->where('role_id', $role->id);
-        // }]);
+        // Get the logged in user
+        $user = Auth::user();
+
+        // $events = Event::where('slots', '>', 0)
+        //     ->whereNotNull('status')
+        //     ->where('end_date', '>=', now())
+        //     ->with(['center'])
+        //     ->latest()
+        //     ->paginate(6);
+        // return $events;
+        
+        // Get the available event available for the user role
+        $events = Event::where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where('slots', '>', 0)
+            ->whereNotNull('status')
+            ->whereHas('eventRoles', function($role) {
+                $user = Auth::user();
+                $userRole = Role::where('name', $user?->activeRole())->first();
+                $role->Where('role_id', $userRole?->id);
+            })->with(['center'])->latest()->paginate(9);
 
         // return($events);
 

@@ -19,12 +19,11 @@ class RoleMiddleware
         // $roles = "user|admin|group-head";
         $rolesArray = explode('|', $role);
         // dd($role, $rolesArray);
-
+        $userRoles = [request()->user()?->role->label(), request()->user()?->activeRole()];
+        // dd($userRoles);
+        
         foreach($rolesArray as $checkRole){
-
-            if(in_array($checkRole, [
-                request()->user()?->activeRole(), 
-                request()->user()?->role])
+            if(in_array($checkRole, $userRoles)
             ){
                 return $next($request);
             }

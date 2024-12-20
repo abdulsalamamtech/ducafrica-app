@@ -19,7 +19,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserInstallmentController;
 use App\Http\Controllers\UserInstallmentPaymentController;
 use App\Http\Controllers\UserRoleController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
+
+
 
 
 
@@ -236,3 +241,51 @@ Route::get('/users/about', function () {
 Route::get('/fallback', function () {
     return redirect()->back()->with('warnings', 'Features coming soon!');
 })->name('fallback');
+
+
+
+
+
+
+
+
+
+// DEPLOYMENT ROUTES
+// Artisan routes for local development and testing
+Route::get('/artisan', function (Request $request) {
+
+    // For testing purposes
+    $pass = $request->pass;
+    $deploy = $request->deploy ?? false;
+
+    // Verifying access
+    if (empty($pass) || $pass != 'amtechdigitalnetworks') {
+        return ['error' => 'Invalid pass'];
+    }
+
+    // For new deployment
+    if ($pass && $deploy == 'new') {
+
+        // Run artisan commands here...
+        Artisan::call('migrate:fresh');
+        Artisan::call('cache:clear');
+        Artisan::call('optimize:clear');
+        Artisan::call('config:clear');
+        // Artisan::call('view:cache');
+        // Artisan::call('route:cache');
+    }
+
+    // For normal deployment
+    Artisan::call('cache:clear');
+    Artisan::call('optimize:clear');
+    Artisan::call('migrate');
+    Artisan::call('storage:link');
+
+
+    return ['artisan' => 'successfully deployed ' . $deploy];
+
+});
+
+
+
+

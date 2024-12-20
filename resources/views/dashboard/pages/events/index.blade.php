@@ -460,7 +460,7 @@
                                                 <div class="font-normal text-gray-600">{{ $event->contact_phone_number }}</div>
                                             </div>
                                         </th>
-                                        <th >
+                                        <th class="px-4 py-2">
                                             <div class="ps-3">
                                                 <div class="font-normal text-gray-500">{{ $event->description }}</div>
                                                 <div class="font-normal text-gray-500"><span class="font-bold text-gray-600">START:</span>
@@ -473,6 +473,9 @@
                                         </th>
                                         <td class="px-6 py-4">
                                             {{ $event->center->payment_id }}
+                                            <div class="font-normal text-gray-500"><span class="font-bold text-gray-600">Cost:</span>
+                                                ₦ {{ $event->cost }}
+                                            </div>
                                         </td>
                                         <td class="px-6 py-4">
                                             {{-- Link to Map --}}
