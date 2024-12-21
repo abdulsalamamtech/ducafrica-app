@@ -101,9 +101,9 @@ class User extends Authenticatable implements MustVerifyEmail
                 'users' => [
                     'total' => User::count(),
                     'new_users' => User::where('status', 'pending')->orWhereNull('email_verified_at')->count(),
-                    'verified' => User::where('email_verified_at')->count(),
+                    'verified' => User::whereNotNull('email_verified_at')->count(),
                     'unverified' => User::whereNot('email_verified_at')->count(),
-                    'pending' => User::where('status', 'pending')->whereNull('email_verified_at')->count(),
+                    'pending' => User::orWhere('status', 'pending')->orWhereNull('email_verified_at')->count(),
                     'active' => User::where('status', 'active')->count(),
                 ],
                 'roles' => [
