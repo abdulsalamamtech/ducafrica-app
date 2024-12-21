@@ -15,13 +15,13 @@ class UserController extends Controller
     public function index()
     {
 
-
         // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
         $users = User::latest()->paginate(10);
         return view('dashboard.pages.users.index', [
             'users' => $users,
             'available_roles' => UserRoleEnum::cases()
         ]);
+
     }
 
     /**

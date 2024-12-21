@@ -106,7 +106,7 @@
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300">All Users</h2>
                         
-                        <a href="">
+                        <a href="{{ route('new-users') }}">
                             <button class="px-3 md:px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700"
                                 data-modal-target="addUserModal" data-modal-show="addUserModal">
                                     <i class="fa fa-user-plus"></i>
@@ -427,7 +427,7 @@
                             @endif
                         </div>
                     </div>
-                    
+
                 </div>
 
 
