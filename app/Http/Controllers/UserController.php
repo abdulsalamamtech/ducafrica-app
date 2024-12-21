@@ -165,18 +165,18 @@ class UserController extends Controller
 
         if(!$users){
 
+            session()->flash('success', 'user not found!');
             return view('dashboard.pages.users.index', [
                 'users' => $users,
                 'available_roles' => UserRoleEnum::cases()
-            ])->with('error', 'user not found!');
+            ]);
         }
 
-
+        session()->flash('success', 'successful');
         return view('dashboard.pages.users.index', [
             'users' => $users,
             'available_roles' => UserRoleEnum::cases()
-            ])
-        ->with('success', 'successful');
+            ]);
 
     }
 }
