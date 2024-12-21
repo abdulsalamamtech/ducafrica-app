@@ -162,6 +162,8 @@ class UserController extends Controller
             'phone',
         ], 'like', '%$search%')->latest()->paginate();
 
+        dd($users);
+        
         if(!$users){
 
             return view('dashboard.pages.users.index', [
