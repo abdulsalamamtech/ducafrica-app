@@ -160,9 +160,8 @@ class UserController extends Controller
             'name',
             'email',
             'phone',
-        ], 'like', '%' .$search['search'] .'%')->get();
+        ], 'like', '%' .$search['search'] .'%')->latest()->paginate();
 
-        dd($users, $search);
 
         if(!$users){
 
