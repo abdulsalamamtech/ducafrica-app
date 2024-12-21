@@ -162,18 +162,6 @@ class UserController extends Controller
             'phone',
         ], 'like', '%' .$search['search'] .'%')->latest()->paginate();
 
-
-        // if(!$users){
-
-        //     session()->flash('success', 'user not found!');
-        //     return view('dashboard.pages.users.index', [
-        //         'users' => $users,
-        //         'available_roles' => UserRoleEnum::cases()
-        //     ]);
-        // }
-
-        // {{ $users->toArray() }}
-
         session()->flash('success', 'successful');
         return view('dashboard.pages.users.index', [
             'users' => $users,
@@ -181,4 +169,30 @@ class UserController extends Controller
             ]);
 
     }
+
+    public function searchNewUser(Request $request)
+    {
+
+        $search = $request->validate([
+            'search' => ['required','string']
+        ]);
+        
+        // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
+        $users = User::whereAny([
+            'name',
+            'email',
+            'phone',
+        ], 'like', '%' .$search['search'] .'%')
+        ->where('status', 'pending')
+        ->orWhereNull('email_verified_at')
+        ->latest()->paginate();
+
+        session()->flash('success', 'successful');
+        return view('dashboard.pages.users.new', [
+            'users' => $users,
+            'available_roles' => UserRoleEnum::cases()
+            ]);
+
+    }
+
 }

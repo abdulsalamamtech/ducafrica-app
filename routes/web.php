@@ -178,6 +178,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
     // Search users
     Route::post('/users/search', [UserController::class,'searchUser'])
         ->name('users.search');
+    // Search new users
+    Route::post('/new-users/search', [UserController::class,'searchNewUser'])
+    ->name('new-users.search');
+    
 });
 
 Route::get('/paystack/verify/', [EventController::class, 'verify'])
