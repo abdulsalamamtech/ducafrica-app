@@ -160,7 +160,7 @@ class UserController extends Controller
             'name',
             'email',
             'phone',
-        ], 'like', '%' . $search.'%')->latest()->paginate();
+        ], 'like', '%$search%')->latest()->paginate();
 
         if(!$users){
 
