@@ -175,6 +175,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
         ->middleware(['role:super-admin|admin']);        
 
     
+    // Search users
+    Route::get('/users/search', [UserController::class,'searchUsers'])
+        ->name('users.search');
 });
 
 Route::get('/paystack/verify/', [EventController::class, 'verify'])

@@ -146,4 +146,33 @@ class UserController extends Controller
             'available_roles' => UserRoleEnum::cases()
         ]);
     }
+
+
+    public function searchUser(Request $request)
+    {
+
+        $search = $request->validate([
+            'search' => ['required','string']
+        ]);
+
+
+        $users = User::whereAny($search, function ($query) use ($search) {
+            $query->orWhere('name', 'like', '%'.$search.'%')
+                ->orWhere('email', 'like', '%'.$search.'%')
+                ->orWhere('phone', 'like', '%'.$search.'%')
+                ->orWhereHas('roles', function ($q) use ($search) {
+                    $q->where('name', 'like', '%'.$search.'%');
+                });
+        })->latest()->paginate();
+
+        dd($users);
+
+        // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
+        $users = User::latest()->paginate(10);
+        return view('dashboard.pages.users.index', [
+            'users' => $users,
+            'available_roles' => UserRoleEnum::cases()
+        ]);
+
+    }
 }
