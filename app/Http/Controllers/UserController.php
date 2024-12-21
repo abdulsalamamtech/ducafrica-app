@@ -155,23 +155,12 @@ class UserController extends Controller
             'search' => ['required','string']
         ]);
         
-
-        return($search);
-
         // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
-        // $users = User::whereAny([
-        //     'name',
-        //     'email',
-        //     'phone',
-        // ], 'like', "%$search%")->latest()->paginate();
-
-
-
         $users = User::whereAny([
             'name',
             'email',
             'phone',
-        ], 'like', '%$search%')->get();
+        ], 'like', '%' .$search['search'] .'%')->get();
 
         dd($users, $search);
 
