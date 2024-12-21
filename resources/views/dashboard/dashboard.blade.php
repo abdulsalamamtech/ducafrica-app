@@ -53,6 +53,7 @@
                             </p>
                         </div>
                     </div>
+                    
                     <div
                         class="dark:bg-gray-700 dark:text-gray-300 dark:border-gray-700 relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 border border-blue-gray-100 shadow-sm">
                         <div
