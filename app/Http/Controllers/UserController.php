@@ -172,6 +172,8 @@ class UserController extends Controller
         //     ]);
         // }
 
+        // {{ $users->toArray() }}
+        
         session()->flash('success', $users->toArray());
         return view('dashboard.pages.users.index', [
             'users' => $users,
