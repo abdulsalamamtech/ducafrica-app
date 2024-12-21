@@ -418,21 +418,19 @@
                         </tbody>
                     </table>
 
+
                     {{-- Paginate --}}
-                    <div class="text-center pt-4">
-                        <div>Page: <span>5 of</span> 10</div>
+                    <div class="text-center pt-4 bg-white dark:text-gray-100 dark:bg-gray-800">
+                        <div class="px-8">
+                            @if (isset($users) && !empty($users) && $users->links())
+                                {{ $users->links() }}
+                            @endif
+                        </div>
                     </div>
+                    
                 </div>
 
 
-                {{-- Paginate --}}
-                <div class="text-center pt-4 bg-white dark:text-gray-100 dark:bg-gray-800">
-                    <div class="px-8">
-                        @if (isset($users) && !empty($users) && $users->links())
-                            {{ $users->links() }}
-                        @endif
-                    </div>
-                </div>
 
             </div>
             {{-- End of Table --}}
