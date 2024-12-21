@@ -290,11 +290,12 @@ Route::get('/artisan', function (Request $request) {
 
 
 
+
 // {{-- Paginate --}}
 // <div class="text-center pt-4 bg-white dark:text-gray-100 dark:bg-gray-800">
 //     <div class="px-8">
-//         @if (isset($centers) && !empty($centers) && $centers->links())
-//             {{ $centers->links() }}
+//         @if (isset($events) && !empty($events) && $events->links())
+//             {{ $events->links() }}
 //         @endif
 //     </div>
 // </div>

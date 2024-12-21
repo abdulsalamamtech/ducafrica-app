@@ -296,11 +296,11 @@
                     </table>
 
                     {{-- Paginate --}}
-                    <div class="text-center pt-4 dark:text-gray-100">
+                    <div class="text-center pt-4 bg-white dark:text-gray-100 dark:bg-gray-800">
                         <div class="px-8">
-                            @isset($groups)
-                                {{-- {{ $groups?->links() }} --}}
-                            @endisset
+                            @if (isset($groups) && !empty($groups) && $groups->links())
+                                {{ $groups->links() }}
+                            @endif
                         </div>
                     </div>
 
