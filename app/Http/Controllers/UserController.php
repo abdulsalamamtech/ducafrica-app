@@ -171,10 +171,12 @@ class UserController extends Controller
             ])->with('error', 'user not found!');
         }
 
+
         return view('dashboard.pages.users.index', [
             'users' => $users,
             'available_roles' => UserRoleEnum::cases()
-        ])->with('success', 'successful');
+            ])
+        ->with('success', 'successful');
 
     }
 }
