@@ -163,16 +163,16 @@ class UserController extends Controller
         ], 'like', '%' .$search['search'] .'%')->latest()->paginate();
 
 
-        if(!$users){
+        // if(!$users){
 
-            session()->flash('success', 'user not found!');
-            return view('dashboard.pages.users.index', [
-                'users' => $users,
-                'available_roles' => UserRoleEnum::cases()
-            ]);
-        }
+        //     session()->flash('success', 'user not found!');
+        //     return view('dashboard.pages.users.index', [
+        //         'users' => $users,
+        //         'available_roles' => UserRoleEnum::cases()
+        //     ]);
+        // }
 
-        // session()->flash('success', 'successful');
+        session()->flash('success', $users->toArray());
         return view('dashboard.pages.users.index', [
             'users' => $users,
             'available_roles' => UserRoleEnum::cases()
