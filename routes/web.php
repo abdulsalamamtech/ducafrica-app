@@ -176,7 +176,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     
     // Search users
-    Route::get('/users/search', [UserController::class,'searchUser'])
+    Route::post('/users/search', [UserController::class,'searchUser'])
         ->name('users.search');
 });
 
