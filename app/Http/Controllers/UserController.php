@@ -160,10 +160,10 @@ class UserController extends Controller
             'name',
             'email',
             'phone',
-        ], 'like', '%$search%')->latest()->paginate();
+        ], 'like', "%$search%")->latest()->paginate();
 
-        dd($users);
-        
+        dd($users, $search);
+
         if(!$users){
 
             return view('dashboard.pages.users.index', [
