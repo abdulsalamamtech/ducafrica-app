@@ -664,9 +664,9 @@
                     {{-- Paginate --}}
                     <div class="text-center pt-4 dark:text-gray-100">
                         <div class="px-8">
-                            @isset($centers)
+                            @if (isset($centers) && !empty($centers))
                                 {{ $centers->links() }}
-                            @endisset
+                            @endif
                         </div>
                     </div>
 

@@ -267,19 +267,20 @@ Route::get('/artisan', function (Request $request) {
     if ($pass && $deploy == 'new') {
 
         // Run artisan commands here...
-        Artisan::call('migrate:fresh');
-        Artisan::call('cache:clear');
+        // Artisan::call('migrate:fresh');
+        Artisan::call('migrate');
         Artisan::call('optimize:clear');
+        Artisan::call('cache:clear');
         Artisan::call('config:clear');
         // Artisan::call('view:cache');
         // Artisan::call('route:cache');
     }
 
     // For normal deployment
-    Artisan::call('cache:clear');
-    Artisan::call('optimize:clear');
     Artisan::call('migrate');
+    Artisan::call('optimize:clear');
     Artisan::call('storage:link');
+    Artisan::call('cache:clear');
 
 
     return ['artisan' => 'successfully deployed ' . $deploy];

@@ -217,13 +217,13 @@
 
             <div class="my-6 py-4 px-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
                 {{-- Paginate --}}
-                @isset($events)
-                <div class="text-center dark:text-gray-100">
-                    <div class="px-8">
-                            {{ $events->links() }}
+                @isset($events && !empty($centers))
+                    <div class="text-center dark:text-gray-100">
+                        <div class="px-8">
+                                {{ $events->links() }}
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endisset
             </div>
 
