@@ -140,7 +140,9 @@ class UserController extends Controller
 
     public function newUsers()
     {
-        $users = User::where('status', 'pending')->orWhereNull('email_verified_at')->latest()->paginate(10);
+        $users = User::where('status', 'pending')
+            ->orWhereNull('email_verified_at')
+            ->latest()->paginate(10);
         return view('dashboard.pages.users.new', [
             'users' => $users,
             'available_roles' => UserRoleEnum::cases()
@@ -160,6 +162,9 @@ class UserController extends Controller
             'name',
             'email',
             'phone',
+            'state',
+            'first_name',
+            'last_name',
         ], 'like', '%' .$search['search'] .'%')->latest()->paginate();
 
         session()->flash('success', 'successful');
@@ -182,6 +187,9 @@ class UserController extends Controller
             'name',
             'email',
             'phone',
+            'state',
+            'first_name',
+            'last_name',
         ], 'like', '%' .$search['search'] .'%')
         ->where('status', 'pending')
         ->orWhereNull('email_verified_at')
