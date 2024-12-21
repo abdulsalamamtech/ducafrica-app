@@ -154,25 +154,26 @@ class UserController extends Controller
         $search = $request->validate([
             'search' => ['required','string']
         ]);
-
-
-        $users = User::whereAny($search, function ($query) use ($search) {
-            $query->orWhere('name', 'like', '%'.$search.'%')
-                ->orWhere('email', 'like', '%'.$search.'%')
-                ->orWhere('phone', 'like', '%'.$search.'%')
-                ->orWhereHas('roles', function ($q) use ($search) {
-                    $q->where('name', 'like', '%'.$search.'%');
-                });
-        })->latest()->paginate();
-
-        dd($users);
-
+        
         // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
-        $users = User::latest()->paginate(10);
+        $users = User::whereAny([
+            'name',
+            'email',
+            'phone',
+        ], 'like', '%' . $search.'%')->latest()->paginate();
+
+        if(!$users){
+
+            return view('dashboard.pages.users.index', [
+                'users' => $users,
+                'available_roles' => UserRoleEnum::cases()
+            ])->with('error', 'user not found!');
+        }
+
         return view('dashboard.pages.users.index', [
             'users' => $users,
             'available_roles' => UserRoleEnum::cases()
-        ]);
+        ])->with('success', 'successful');
 
     }
 }
