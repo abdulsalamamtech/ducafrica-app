@@ -174,11 +174,11 @@ class UserController extends Controller
 
         // {{ $users->toArray() }}
 
-        // session()->flash('success', 'successful');
+        session()->flash('success', 'successful');
         return view('dashboard.pages.users.index', [
             'users' => $users,
             'available_roles' => UserRoleEnum::cases()
-            ])->with('success', 'successful');
+            ]);
 
     }
 }
