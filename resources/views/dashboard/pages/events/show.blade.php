@@ -492,13 +492,23 @@
                                     </td>
                                 </tr>
                             @empty
-
+                                <tr class="text-center">
+                                    <td class="text-center" colspan="10">Transactions unavailable</td>
+                                </tr>
                             @endforelse
 
 
                         </tbody>
                     </table>
 
+                    {{-- Paginate --}}
+                    <div class="text-center pt-4 bg-white dark:text-gray-100 dark:bg-gray-800">
+                        <div class="px-8">
+                            @if (isset($event->getTransactions()) && !empty($event->getTransactions()) && $event->getTransactions())
+                                {{ $event->getTransactions()->links() }}
+                            @endif
+                        </div>
+                    </div>
                 </div>
 
             </div>

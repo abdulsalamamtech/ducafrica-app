@@ -763,14 +763,16 @@
                         </table>
                     </div>
 
+                    
                     {{-- Paginate --}}
-                    <div class="text-center pt-4 dark:text-gray-100">
+                    <div class="text-center pt-4 bg-white dark:text-gray-100 dark:bg-gray-800">
                         <div class="px-8">
-                            @isset($booked_events)
+                            @if (isset($booked_events) && !empty($booked_events) && $booked_events->links())
                                 {{ $booked_events->links() }}
-                            @endisset
+                            @endif
                         </div>
                     </div>
+                    
 
                 </div>
 

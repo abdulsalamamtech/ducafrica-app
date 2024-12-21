@@ -129,7 +129,7 @@ class Event extends Model
         $booked_event = $this->getBookedEvent();
         $transactions = Transaction::where('user_id', $user->id)
             ->where('booked_event_id', $booked_event?->id)
-            ->get();
+            ->latest()->paginate();
         return $transactions;
     }
 
