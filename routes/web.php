@@ -170,13 +170,13 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::resource('users', UserController::class)
         ->only(['index','store', 'update'])
         ->middleware(['role:super-admin|admin']);
-    Route::get('new-users/', [UserController::class, 'newUser'])
+    Route::get('new-users/', [UserController::class, 'newUsers'])
         ->name('new-users')
         ->middleware(['role:super-admin|admin']);        
 
     
     // Search users
-    Route::get('/users/search', [UserController::class,'searchUsers'])
+    Route::get('/users/search', [UserController::class,'searchUser'])
         ->name('users.search');
 });
 

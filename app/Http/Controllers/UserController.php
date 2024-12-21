@@ -138,7 +138,7 @@ class UserController extends Controller
     }
 
 
-    public function newUser()
+    public function newUsers()
     {
         $users = User::where('status', 'pending')->orWhereNull('email_verified_at')->latest()->paginate(10);
         return view('dashboard.pages.users.new', [
