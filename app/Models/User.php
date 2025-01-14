@@ -44,7 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'nok_phone',
         'food_allergies',
         'diets',
-        'center',
+        'center_id',
         'other_disability',
         'role',
         'password_clue',
@@ -73,7 +73,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'dob' => 'datetime',
-            'role' => UserRoleEnum::class,
+            'role' => UserRoleEnum::class
         ];
     }
 

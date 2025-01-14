@@ -419,9 +419,6 @@
                                         Event
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Details
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
                                         Map Address
                                     </th>
                                     <th scope="col" class="px-6 py-3">
@@ -460,9 +457,10 @@
                                                 </div>
                                             </div>
                                         </th>
+                                        
                                         <th scope="row"
                                             class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                            <img class="w-10 h-10 rounded-full" src="/images/africa.jpg"
+                                            <img class="w-10 h-10 rounded-full" src="{{ $booked_event?->event?->center?->centerAsset->url ?? '/images/africa.jpg' }}"
                                                 alt="Jese image">
                                             <div class="ps-3">
                                                 <div class="text-base font-semibold">{{ $booked_event->event->name }}</div>
@@ -470,10 +468,7 @@
                                                 <div class="font-normal text-gray-600">{{ $booked_event->event->contact_name }}</div>
                                                 <div class="font-normal text-gray-600">{{ $booked_event->event->contact_phone_number }}</div>
                                                 <div class="font-normal text-gray-600">{{ $booked_event->event->center->state }}</div>
-                                            </div>
-                                        </th>
-                                        <th class="px-6 py-4">
-                                            <div class="ps-3">
+
                                                 <div class="font-normal text-gray-500">
                                                     {{-- <span class="font-bold text-gray-600">START:</span> --}}
                                                     {{ $booked_event->event->start_date->format('l jS, F Y') }} ({{ $booked_event->event->start_date->diffForHumans() }})
@@ -484,12 +479,10 @@
                                                 </div>
                                             </div>
                                         </th>
-
-
                                         
                                         <td class="px-6 py-4">
                                             {{-- Link to Map --}}
-                                            <a href="{{ $booked_event->event->center->map_url }}">
+                                            <a href="{{ $booked_event->event->center->map_url }}" class="text-blue-400">
                                                 {{ $booked_event->event->center->address . ', '. $booked_event->event->center->state }}
                                             </a>
                                         </td>

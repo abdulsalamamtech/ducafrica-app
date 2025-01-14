@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Center;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -59,7 +60,8 @@ class HomeController extends Controller
 
     public function register()
     {
-        return view('homepages.new-register');
+        $centers = Center::all();
+        return view('homepages.new-register', ['centers' => $centers]);
     }
 
     public function login()

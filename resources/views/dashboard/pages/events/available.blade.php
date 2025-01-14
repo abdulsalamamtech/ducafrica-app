@@ -72,7 +72,7 @@
                                 @endif
                             ">
                             <div class="p-6 bg-white rounded-lg shadow-lg dark:bg-gray-700 dark:text-gray-200">
-                                <img class="object-cover w-full h-40 mb-4 rounded" src="/images/africa.jpg" alt="Product Name">
+                                <img class="object-cover w-full h-40 mb-4 rounded" src="{{ $event?->center?->centerAsset?->url ?? '/images/africa.jpg' }}" alt="Product Name">
                                 <h3 class="mb-2 text-xl font-semibold">{{ $event->center->name }}</h3>
                                 <h3 class="mb-2 text-xl font-semibold">NGN. {{ $event->cost }}</h3>
                                 <div class="font-bold">

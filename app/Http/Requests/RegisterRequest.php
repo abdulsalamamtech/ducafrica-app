@@ -43,7 +43,7 @@ class RegisterRequest extends FormRequest
             'diets' => ['nullable','string', 'max:255'], // string
             'other_diets' => [], // array
             'other_disability' => [],
-            'center' => ['nullable', 'string', 'max:255'],
+            'center_id' => ['nullable', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'password_clue' => [ 'string', 'max:255'],
         ];

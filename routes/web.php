@@ -274,7 +274,6 @@ Route::get('/artisan', function (Request $request) {
     if ($pass && $deploy == 'new') {
 
         // Run artisan commands here...
-        // Artisan::call('migrate:fresh');
         Artisan::call('migrate');
         Artisan::call('optimize:clear');
         Artisan::call('cache:clear');

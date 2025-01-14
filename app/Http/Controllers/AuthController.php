@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Mail\NewRegistrationMail;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -12,6 +13,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 
 class AuthController extends Controller
@@ -46,6 +48,10 @@ class AuthController extends Controller
         $user = User::create($data);
 
         // $user->sendEmailVerificationNotification();
+
+        // Send Mail to Admin
+        Mail::to('abdulsalamamtech@gmail.com')
+        ->send(new NewRegistrationMail($user));
 
 
         Log::error(['register-new-user' => $data['email'] . " " . $data['state']]);

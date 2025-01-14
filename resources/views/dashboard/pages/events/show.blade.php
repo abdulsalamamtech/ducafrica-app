@@ -504,7 +504,7 @@
                     {{-- Paginate --}}
                     <div class="text-center pt-4 bg-white dark:text-gray-100 dark:bg-gray-800">
                         <div class="px-8">
-                            @if (isset($event->getTransactions()) && !empty($event->getTransactions()) && $event->getTransactions())
+                            @if (($event->getTransactions()) && !empty($event->getTransactions()) && $event->getTransactions())
                                 {{ $event->getTransactions()->links() }}
                             @endif
                         </div>

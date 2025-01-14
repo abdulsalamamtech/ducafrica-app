@@ -172,16 +172,17 @@ class EventController extends Controller
         // return $events;
         
         // Get the available event available for the user role
-        $events = Event::where('start_date', '<=', now())
-            ->where('end_date', '>=', now())
+        $events = Event::where('end_date', '>=', now())
+            // ->where('start_date', '<=', now())
             ->where('slots', '>', 0)
             ->whereNotNull('status')
             ->whereHas('eventRoles', function($role) {
                 $user = Auth::user();
                 $userRole = Role::where('name', $user?->activeRole())->first();
                 $role->Where('role_id', $userRole?->id);
-            })->with(['center'])->latest()->paginate(9);
+            })->with(['center', 'center.centerAsset'])->latest()->paginate(9);
 
+            // $events = Event::all();
         // return($events);
 
 

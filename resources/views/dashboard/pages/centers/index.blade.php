@@ -174,7 +174,7 @@
                             <div class="relative w-full max-w-2xl max-h-full bg-white">
                                 <!-- Modal content -->
                                 <form action="{{ route('centers.store') }}" method="POST"
-                                    class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    class="relative bg-white rounded-lg shadow dark:bg-gray-700" enctype="multipart/form-data">
 
                                     @method('POST')
                                     @csrf
@@ -229,7 +229,7 @@
                                             </div>
 
                                             <div class="col-span-6 sm:col-span-3">
-                                                <label for="email"
+                                                <label for="type"
                                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
                                                 <select type="text" name="center_type_id" id="type"
                                                     class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -241,10 +241,18 @@
                                                     @endforelse
                                                 </select>
                                             </div>
-
-
                                             
                                         </div>
+
+                                        {{-- Uplaod Image --}}
+                                        <div class="col-span-12">
+                                            <label for="local_councils"
+                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                Upload Center Profile Image                                            </label>
+                                            <input type="file" name="image" id="center_image"
+                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                placeholder="Profile Image" required="">
+                                        </div> 
 
                                         <div class="col-span-12">
                                             <label for="local_councils"
@@ -253,7 +261,7 @@
                                             </label>
                                             <select type="state" name="belongs_to_user" id="local_councils"
                                                 class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                placeholder="FCT - Abuja" required="">
+                                                placeholder="Local Council">
                                                     {{-- {{ $local_councils }} --}}
                                                     @forelse ($local_councils as $local_council)
                                                         <option value="{{ $local_council->id }}">
@@ -426,9 +434,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @isset($centers)
-                                    @forelse ( $centers as $center)
+                                @forelse ( $centers as $center)
+
                                         <!-- User table record 1 -->
                                         <tr
                                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -441,7 +449,7 @@
                                             </td>
                                             <th scope="row"
                                                 class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                                <img class="w-10 h-10 rounded-full" src="/images/africa.jpg"
+                                                <img class="w-10 h-10 rounded-full" src="{{ $center->centerAsset->url ?? '/images/africa.jpg' }}"
                                                     alt="Jese image">
                                                 <div class="ps-3">
                                                     <div class="text-base font-semibold">{{$center->name}}</div>
@@ -451,9 +459,9 @@
                                             </th>
                                             <th scope="row">
                                                 <div class="ps-3">
-                                                    <div class="text-base font-semibold">{{$center->belongsToUser->name}}</div>
-                                                    <div class="font-normal text-gray-500">{{$center->belongsToUser->email}}</div>
-                                                    <div class="font-normal text-gray-500">{{$center->belongsToUser->phone}}</div>
+                                                    <div class="text-base font-semibold">{{$center?->belongsToUser?->name}}</div>
+                                                    <div class="font-normal text-gray-500">{{$center?->belongsToUser?->email}}</div>
+                                                    <div class="font-normal text-gray-500">{{$center?->belongsToUser?->phone}}</div>
                                                 </div>
                                             </th>
                                             <td class="px-6 py-4">
@@ -507,7 +515,7 @@
                                             class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                             <div class="relative w-full max-w-2xl max-h-full bg-white">
                                                 <!-- Modal content -->
-                                                <form action="{{ route('centers.update', $center->id) }}" method="POST"
+                                                <form action="{{ route('centers.update', $center->id) }}" method="POST" enctype="multipart/form-data"
                                                     class="relative rounded-lg shadow bg-white dark:bg-gray-700">
 
                                                     @method('PUT')
@@ -581,6 +589,20 @@
                                                                 </div>
 
                                                             </div>
+
+                                                            {{-- Uplaod Image --}}
+                                                            <div class="col-span-12">
+                                                                <div class="p-4">
+                                                                    <img class="w-10 h-10" src="{{ $center->centerAsset->url ?? '/images/africa.jpg' }}"
+                                                                            alt="Jese image" type="image">
+                                                                </div>
+                                                                <label for="local_councils"
+                                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                                    Upload Center Profile Image</label>
+                                                                <input type="file" name="image" id="center_image"
+                                                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                    placeholder="Profile Image" required="">
+                                                            </div>                                                             
 
                                                             <div class="col-span-12">
                                                                 <label for="update_local_councils"

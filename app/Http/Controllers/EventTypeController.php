@@ -43,7 +43,7 @@ class EventTypeController extends Controller
     {
         $EventType->update($request->validated());
         return redirect()
-            ->route('event-type.index')
+            ->route('event-types.index')
             ->with('success', 'event type updated successfully');
     }
 
@@ -53,6 +53,6 @@ class EventTypeController extends Controller
     public function destroy(EventType $EventType)
     {
         $EventType->delete();
-        return redirect()->route('event-type.index');
+        return redirect()->route('event-types.index');
     }
 }

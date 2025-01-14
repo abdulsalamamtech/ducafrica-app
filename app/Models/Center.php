@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\CenterAsset;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -45,6 +46,9 @@ class Center extends Model
         return $this->hasMany(Event::class, 'center_id');
     }
 
-
+    public function centerAsset()
+    {
+        return $this->hasOne(CenterAsset::class, 'center_id');
+    }
 
 }

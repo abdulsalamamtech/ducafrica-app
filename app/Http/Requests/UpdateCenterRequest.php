@@ -24,12 +24,13 @@ class UpdateCenterRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'payment_id' => ['required', 'string'],
-            'belongs_to_user' => ['required', 'exists:users,id'],
+            'belongs_to_user' => ['nullable', 'exists:users,id'],
             'phone_number' => ['required', 'string'],
             'center_type_id' => ['required', 'string'],
             'address' => ['required', 'string'],
             'map_url' => ['required', 'string'],
-            'state' => ['required', 'string']
+            'state' => ['required', 'string'],
+            'image' => ['nullable', 'image', 'max:5070']
         ];
     }
 }

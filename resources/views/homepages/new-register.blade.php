@@ -44,11 +44,11 @@
             "Zamfara"
         ];
 
-        $centers = [];
-        $centers[] = 'Iwollo Conference Centre';
-        $centers[] = 'Lagoon School';
-        $centers[] = 'Imoran Centre';
-        $centers = [];
+        // $centers = [];
+        // $centers[] = 'Iwollo Conference Centre';
+        // $centers[] = 'Lagoon School';
+        // $centers[] = 'Imoran Centre';
+        // $centers = [];
         // dd($centers);
 
 @endphp
@@ -354,10 +354,10 @@
               <div class="col-md-4 mt-3">
                 <label for="center" class="col-md-4_ col-form-label text-md-start">{{ __('Center ') }}</label> <i class="bi bi-question-circle" title='This is the centre you go to or
                 closest to you.'></i>
-                <select id="center" class="form-select @error('center') is-invalid @enderror" name="center" value="{{ old('center') }}" >
+                <select id="center" class="form-select @error('center') is-invalid @enderror" name="center" value="{{ old('center_id') }}" >
 
                   @foreach ($centers as $center)
-                    <option value="{{$center->id}}">{{$center->title}}</option>
+                    <option value="{{$center->id}}">{{$center?->name . ', '. $center?->address . ', '. $center->state}}</option>
                   @endforeach
 
                 </select>
