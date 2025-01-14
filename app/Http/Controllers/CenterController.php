@@ -144,11 +144,13 @@ class CenterController extends Controller
             
 
             // Check if file exists
-            $file_id = $center->centerAsset->file_id;
-            $exists = Storage::disk('cloudinary')->fileExists($file_id);
-            if ($exists && $file_id) {
-                // Delete old file from cloudinary
-                Cloudinary::destroy($file_id);
+            $file_id = $center?->centerAsset?->file_id;
+            if($file_id){
+                $exists = Storage::disk('cloudinary')->fileExists($file_id);
+                if ($exists && $file_id) {
+                    // Delete old file from cloudinary
+                    Cloudinary::destroy($file_id);
+                }
             }
 
             // Add assets
