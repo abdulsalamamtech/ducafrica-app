@@ -10,7 +10,9 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
 
 
 Route::middleware('guest')->group(function () {
@@ -64,6 +66,10 @@ Route::middleware('auth')->group(function () {
 });
 
 
+Route::get('/migrate-force', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return 'Migration completed successfully!';
+});
 
 // $newAdmin->email='admin@mail.com';
 // $newAdmin->password=Hash::make('4dm1n01');
