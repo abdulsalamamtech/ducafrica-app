@@ -23,7 +23,18 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::with(['eventRoles'])->latest()->paginate(5);
+
+        // Search for events
+        if(request()->filled('search')){
+            $search = request()->validate([
+                'search' => ['required','string']
+            ]);
+            $events = $this?->search($search);
+        }
+        else
+        {
+            $events = Event::with(['eventRoles'])->latest()->paginate(5);
+        }
 
         $event_types = EventType::all();
         $centers = Center::all();
@@ -42,6 +53,35 @@ class EventController extends Controller
             'roles' => $roles,
         ]);
     }
+
+
+    /**
+     * Search for events
+     */
+    private function search($search){
+        
+        $events = Event::whereAny([
+            'added_by',
+            'center_id',
+            'event_type_id',
+            'name',
+            'description',
+            'start_date',
+            'end_date',
+            'type',
+            'cost',
+            'slots',
+            'status',
+            'contact_name',
+            'contact_phone_number',
+        ], 'like', '%' .$search['search'] .'%')
+        ->with(['eventRoles'])
+        ->latest()
+        ->paginate()->withQueryString();
+
+        return $events ?? null;
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -170,9 +210,58 @@ class EventController extends Controller
         //     ->latest()
         //     ->paginate(6);
         // return $events;
+
+
+        // Search for events
+        if(request()->filled('search')){
+            $search = request()->validate([
+                'search' => ['required','string']
+            ]);
+            $events = $this?->searchAvailableEvents($search);
+        }
+        else
+        {
+            // Get the available event available for the user role
+            $events = Event::where('end_date', '>=', now())
+                // ->where('start_date', '<=', now())
+                ->where('slots', '>', 0)
+                ->whereNotNull('status')
+                ->whereHas('eventRoles', function($role) {
+                    $user = Auth::user();
+                    $userRole = Role::where('name', $user?->activeRole())->first();
+                    $role->Where('role_id', $userRole?->id);
+                })->with(['center', 'center.centerAsset'])
+                ->latest()->paginate(9);
+        }
         
-        // Get the available event available for the user role
-        $events = Event::where('end_date', '>=', now())
+
+            // $events = Event::all();
+            // return($events);
+
+
+        return view('dashboard.pages.events.available', [
+            'events' => $events,
+        ]);
+    }
+
+    // Search for available events
+    private function searchAvailableEvents($search){
+        $events = Event::whereAny([
+            'added_by',
+            'center_id',
+            'event_type_id',
+            'name',
+            'description',
+            'start_date',
+            'end_date',
+            'type',
+            'cost',
+            'slots',
+            'status',
+            'contact_name',
+            'contact_phone_number',
+        ], 'like', '%' .$search['search'] .'%')
+        ->where('end_date', '>=', now())
             // ->where('start_date', '<=', now())
             ->where('slots', '>', 0)
             ->whereNotNull('status')
@@ -180,16 +269,14 @@ class EventController extends Controller
                 $user = Auth::user();
                 $userRole = Role::where('name', $user?->activeRole())->first();
                 $role->Where('role_id', $userRole?->id);
-            })->with(['center', 'center.centerAsset'])->latest()->paginate(9);
+            })->with(['center', 'center.centerAsset'])
+            ->latest()->paginate(9);
 
-            // $events = Event::all();
-        // return($events);
-
-
-        return view('dashboard.pages.events.available', [
-            'events' => $events,
-        ]);
+        return $events ?? null;
+    
     }
+
+
 
     // Book an event
     public function book(Event $event)
@@ -357,16 +444,43 @@ class EventController extends Controller
 
     // Get the list of booked events
     public function bookedEvents(){
+        
         $user = Auth::user();
-        $booked_events = BookedEvent::where('user_id', $user->id)
-            ->with(['event', 'event.center'])
-            ->latest()->paginate(5);
 
+        // Search for events
+        if(request()->filled('search')){
+            $search = request()->validate([
+                'search' => ['required','string']
+            ]);
+            $booked_events = $this?->searchBookedEvents($search);
+        }
+        else
+        {
+            $booked_events = BookedEvent::where('user_id', $user->id)
+                ->with(['event', 'event.center'])
+                ->latest()->paginate(5);
+        }
         return view('dashboard.pages.events.booked', [
             'booked_events' => $booked_events,
         ]);
     }
 
+
+    // Search booked events
+    private function searchBookedEvents($search){
+
+        $user = Auth::user();
+        $booked_events = BookedEvent::whereAny([
+            'user_id', 'event_id',
+            'payment_type', 'approved_by',
+            'payment_amount', 'status', 'paid',
+        ], 'like', '%' .$search['search'] .'%')
+        ->where('user_id', $user->id)
+            ->with(['event', 'event.center'])
+            ->latest()->paginate(5);
+
+        return $booked_events ?? null;
+    }
 
 
     // Make full payment for a booked event

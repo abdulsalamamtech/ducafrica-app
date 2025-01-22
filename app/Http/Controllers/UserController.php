@@ -45,7 +45,11 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $users = User::latest()->paginate(10);
+        return view('dashboard.pages.users.index', [
+            'users' => $users,
+            'available_roles' => UserRoleEnum::cases()
+        ]);
     }
 
     /**
@@ -98,7 +102,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function restore($id)
+    public function restore(User $user)
     {
         User::where('id', $id)->withTrashed()->restore();
 
@@ -114,9 +118,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function forceDelete($id)
+    public function forceDelete(User $user)
     {
-        User::where('id', $id)->withTrashed()->forceDelete();
+        User::where('id', $user->id)->withTrashed()->forceDelete();
 
         return redirect()->route('users.index', ['status' => 'archived'])
             ->withSuccess(__('User force deleted successfully.'));
@@ -165,7 +169,7 @@ class UserController extends Controller
             'state',
             'first_name',
             'last_name',
-        ], 'like', '%' .$search['search'] .'%')->latest()->paginate();
+        ], 'like', '%' .$search['search'] .'%')->latest()->paginate()->withQueryString();
 
         session()->flash('success', 'successful');
         return view('dashboard.pages.users.index', [

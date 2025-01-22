@@ -17,7 +17,19 @@ class BookedEventController extends Controller
      */
     public function index()
     {
-        $bookedEvents = bookedEvent::with(['event', 'user'])->latest()->paginate(4);
+
+        // Search for events
+        if(request()->filled('search')){
+            $search = request()->validate([
+                'search' => ['required','string']
+            ]);
+            $bookedEvents = $this?->searchBookedEvents($search);
+        }
+        else
+        {
+            $bookedEvents = bookedEvent::with(['event', 'user'])->latest()->paginate(4);
+        }
+
 
         $events = Event::with(['eventRoles'])->latest()->paginate(5);
         $centers = Center::all();
@@ -29,6 +41,23 @@ class BookedEventController extends Controller
             'centers' => $centers,
             'roles' => $roles,
         ]);
+    }
+
+
+    // Search booked events
+    private function searchBookedEvents($search){
+
+        $user = Auth::user();
+        $booked_events = BookedEvent::whereAny([
+            'user_id', 'event_id',
+            'payment_type', 'approved_by',
+            'payment_amount', 'status', 'paid',
+        ], 'like', '%' .$search['search'] .'%')
+        ->where('user_id', $user->id)
+            ->with(['event', 'event.center'])
+            ->latest()->paginate(5);
+
+        return $booked_events ?? null;
     }
 
     /**

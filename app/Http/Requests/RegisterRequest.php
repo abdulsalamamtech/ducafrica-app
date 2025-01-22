@@ -22,30 +22,30 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'other_name' => ['max:255'],
+            'title' => ['required', 'string', 'max:8'],
+            'first_name' => ['required', 'string', 'max:32'],
+            'last_name' => ['required', 'string', 'max:32'],
+            'other_name' => ['nullable', 'max:32'],
             'address' => [],
             'postal_code' => [],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'dob' => ['required','string', 'max:255'],
-            'phone' => ['required','string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:64', 'unique:users'],
+            'dob' => ['required','string', 'max:32'],
+            'phone' => ['required','string', 'max:14'],
             'phone_type' => [],
-            'city' => ['required', 'string', 'max:255'],
-            'state' => ['required', 'string', 'max:255'],
-            'country' => ['string', 'max:255'],
-            'dob' => ['required','string', 'max:255'],
-            'nok' => ['required', 'string', 'max:255'],
-            'nok_relationship' => ['required', 'string', 'max:255'],
-            'nok_phone' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:32'],
+            'state' => ['required', 'string', 'max:32'],
+            'country' => ['string', 'max:32'],
+            'dob' => ['required','string', 'max:16'],
+            'nok' => ['required', 'string', 'max:32'],
+            'nok_relationship' => ['required', 'string', 'max:32'],
+            'nok_phone' => ['required', 'string', 'max:14'],
             'food_allergies' => [],
             'diets' => ['nullable','string', 'max:255'], // string
             'other_diets' => [], // array
             'other_disability' => [],
-            'center_id' => ['nullable', 'string', 'max:255'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'password_clue' => [ 'string', 'max:255'],
+            'center_id' => ['nullable', 'string', 'max:32'],
+            'password' => ['required', 'string', 'min:8', 'max:32', 'confirmed'],
+            'password_clue' => [ 'string', 'max:32'],
         ];
     }
 }

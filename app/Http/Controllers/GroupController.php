@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRoleEnum;
 use App\Http\Requests\GroupRequest;
 use App\Models\Group;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,8 +16,20 @@ class GroupController extends Controller
      */
     public function index()
     {
+
+        $group_heads = User::whereHas('roles', function($role) {
+            $role->orWhere('name', UserRoleEnum::SUPERADMIN)
+            ->orWhere('name', UserRoleEnum::ADMIN)
+            ->orWhere('name', UserRoleEnum::LOCALCOUNCIL)
+            ->orWhere('name', UserRoleEnum::GROUPHEAD);
+        })->get();
+
         $groups = Group::latest()->paginate(10);
-        return view('dashboard.pages.groups.index', ['groups' => $groups]);
+        return view('dashboard.pages.groups.index', [
+            'groups' => $groups,
+            'group_heads' => $group_heads
+            ]
+        );
 
     }
 
@@ -33,7 +47,7 @@ class GroupController extends Controller
     public function store(GroupRequest $request)
     {
         $data = $request->validated();
-        $data['added_by'] = $request->user()->id;
+        $data['added_by'] = $data['added_by'] ?? $request->user()->id;
 
         $group = Group::create($data);
         return redirect()
@@ -73,8 +87,10 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
+        // return $group;
         $group->delete();
-        return redirect()->route('groups.index');
+        return redirect()->route('groups.index')
+            ->with('success', 'group deleted successfully');
     }
 
     public function myGroups()

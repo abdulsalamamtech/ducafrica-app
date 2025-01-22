@@ -100,7 +100,12 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     // Groups
     Route::resource('groups', GroupController::class)
+        ->middleware(['role:super-admin|admin'])
         ->only(['index','store', 'update']);
+    Route::delete('groups/{group}', [GroupController::class, 'destroy'])
+        ->middleware(['role:super-admin|admin'])
+        ->name('groups.delete');
+
     Route::get('/my-groups', [GroupController::class, 'myGroups'])
         ->name('my-groups')
         ->middleware(['role:super-admin|admin|group-head']); 
@@ -118,6 +123,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
         ->only(['index','store', 'update', 'show'])
         ->middleware(['role:super-admin|admin']);
 
+    // Delete a center
+    Route::delete('centers/{center}', [CenterController::class, 'destroy'])
+        ->middleware(['role:super-admin|admin'])
+        ->name('centers.delete');
     
     // Events
     Route::resource('event-types', EventTypeController::class)
@@ -167,9 +176,15 @@ Route::middleware(['auth', 'verified'])->group(function(){
         ->name('my-transactions');
 
 
+    // Users route
     Route::resource('users', UserController::class)
-        ->only(['index','store', 'update'])
+        ->only(['index','store', 'update', 'show'])
         ->middleware(['role:super-admin|admin']);
+    // Delete a center
+    Route::delete('users/{user}', [UserController::class, 'destroy'])
+    ->middleware(['role:super-admin|admin'])
+    ->name('users.delete');
+
     Route::get('new-users/', [UserController::class, 'newUsers'])
         ->name('new-users')
         ->middleware(['role:super-admin|admin']);        
@@ -177,11 +192,18 @@ Route::middleware(['auth', 'verified'])->group(function(){
     
     // Search users
     Route::post('/users/search', [UserController::class,'searchUser'])
+        ->middleware(['role:super-admin|admin'])
         ->name('users.search');
     // Search new users
     Route::post('/new-users/search', [UserController::class,'searchNewUser'])
-    ->name('new-users.search');
-    
+        ->middleware(['role:super-admin|admin'])
+        ->name('new-users.search');
+
+    // Index page for search
+    Route::get('/users/search/', [UserController::class, 'index'])
+        ->name('search.index');
+    Route::get('/new-users/search/', [UserController::class, 'newUsers'])
+        ->name('search.index');
 });
 
 Route::get('/paystack/verify/', [EventController::class, 'verify'])

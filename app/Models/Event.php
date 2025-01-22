@@ -85,6 +85,12 @@ class Event extends Model
 
     }
 
+    // Check if the event has reached its maximum limit
+    //  ($event->slots - ($event->allBookedEvents()->count() + 9)) >= 0 ? $event->slots - ($event->allBookedEvents()->count()): 0 
+    public function availableSlotsLimit(){
+        $availableSlots = ($this->slots - $this->allBookedEventsPaid()->count());
+        return ($availableSlots >= 0)? $availableSlots : 0;
+    }
 
     // Check if the user has already booked the event
     public function isBooked(){
@@ -118,7 +124,7 @@ class Event extends Model
         if($this->allBookedEvents()){
             return $this->allBookedEvents()->where('paid');
         }
-        return;
+        return 0;
     }
 
 

@@ -49,9 +49,12 @@ class AuthController extends Controller
 
         // $user->sendEmailVerificationNotification();
 
-        // Send Mail to Admin
-        Mail::to('abdulsalamamtech@gmail.com')
-        ->send(new NewRegistrationMail($user));
+        // Send Mail to Admin : 
+        // Mail::to('abdulsalamamtech@gmail.com')
+        // ->send(new NewRegistrationMail($user));
+        // Mail::to('dupeadegebo@gmail.com')
+        Mail::to('no-reply@ducafrica.com')
+            ->queue(new NewRegistrationMail($user));
 
 
         Log::error(['register-new-user' => $data['email'] . " " . $data['state']]);

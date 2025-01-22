@@ -22,7 +22,19 @@ class CenterController extends Controller
      */
     public function index()
     {
-        $centers = Center::with(['CenterAsset'])->latest()->paginate(10);
+
+        // Search for centers
+        if(request()->filled('search')){
+            $search = request()->validate([
+                'search' => ['required','string']
+            ]);
+            $centers = $this?->search($search);
+        }
+        else
+        {
+            $centers = Center::with(['CenterAsset'])->latest()->paginate(10);
+        }
+        
         $center_types = CenterType::latest()->get();
 
         // $local_councils = User::where()->latest()->get();
@@ -37,10 +49,7 @@ class CenterController extends Controller
             ->orWhere('name', UserRoleEnum::LOCALCOUNCIL);
         })->get();
 
-
-
-        // return $local_councils;
-        
+        // return $local_councils;        
 
         return view('dashboard.pages.centers.index', [
             'centers' => $centers,
@@ -49,6 +58,32 @@ class CenterController extends Controller
         ]);
 
     }
+
+
+        /**
+     * Search for events
+     */
+    private function search($search){
+        
+        $centers = Center::whereAny([
+            'added_by',
+            'center_type_id',
+            'belongs_to_user',
+            'name',
+            'payment_id',
+            'phone_number',
+            'type',
+            'address',
+            'map_url',
+            'state',
+        ], 'like', '%' .$search['search'] .'%')
+        ->with(['CenterAsset'])
+        ->latest()
+        ->paginate()->withQueryString();
+
+        return $centers ?? null;
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -179,6 +214,9 @@ class CenterController extends Controller
      */
     public function destroy(Center $center)
     {
-        //
+
+        $center->delete();
+        return redirect()->route('centers.index')
+        ->with('success', 'center deleted successfully');
     }
 }

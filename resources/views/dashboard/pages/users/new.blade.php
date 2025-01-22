@@ -313,7 +313,7 @@
                                         <!-- Modal content -->
                                         <form class="relative bg-white rounded-lg shadow dark:bg-gray-700" 
                                             action="{{ route('users.update', $user->id) }}" method="POST">
-                                            @method('PUT')
+                                            @method('POST')
                                             @csrf
                                             <!-- Modal header -->
                                             <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
@@ -447,7 +447,7 @@
                     <div class="text-center pt-4 bg-white dark:text-gray-100 dark:bg-gray-800">
                         <div class="px-8">
                             @if (isset($users) && !empty($users) && $users->links())
-                                {{ $users->links() }}
+                                {{ $users->withQueryString()->links() }}
                             @endif
                         </div>
                     </div>

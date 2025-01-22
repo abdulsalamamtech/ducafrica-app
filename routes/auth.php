@@ -10,8 +10,12 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+
+
 
 
 
@@ -76,3 +80,13 @@ Route::get('/migrate-force', function () {
 // chopsxenon@gmail.com
 // Amtech Pay ID
 // "subaccount" => "ACCT_7ib9ztjvcev66wo",
+
+
+
+Route::get('/mail', function (Request $request){
+    
+    $send = Mail::raw('This is a test email, from: DUCAFRICA', function ($message) {
+        $message->to('abdulsalamamtech@gmail.com')->subject('Test Email: ' . now());
+    });
+    return $send? "done": "fail";
+});

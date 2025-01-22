@@ -16,4 +16,8 @@ class Group extends Model
     {
         return $this->belongsToMany(User::class, 'group_members', 'group_id');
     }
+
+    public function groupHead(){
+        return $this->belongsTo(User::class, 'added_by');
+    }
 }

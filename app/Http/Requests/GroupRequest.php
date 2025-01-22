@@ -22,8 +22,9 @@ class GroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:100', 'unique:groups'],
+            'name' => ['required', 'string', 'max:100', 'unique:groups,name,' . $this->route('id')],
             'description' => ['required', 'string'],
+            'added_by' => ['required', 'integer']
         ];
     }
 }
