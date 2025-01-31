@@ -19,9 +19,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserInstallmentController;
 use App\Http\Controllers\UserInstallmentPaymentController;
 use App\Http\Controllers\UserRoleController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -178,47 +180,26 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     // Users route
     Route::resource('users', UserController::class)
-        ->only(['index','store', 'update', 'show'])
         ->middleware(['role:super-admin|admin']);
-    // Delete a center
-    Route::delete('users/{user}', [UserController::class, 'destroy'])
-    ->middleware(['role:super-admin|admin'])
-    ->name('users.delete');
+    // Delete a user
+    // Route::delete('users/{user}', [UserController::class, 'destroy'])
+    //     ->middleware(['role:super-admin|admin'])
+    //     ->name('users.destroy');
 
-    Route::get('new-users/', [UserController::class, 'newUsers'])
-        ->name('new-users')
-        ->middleware(['role:super-admin|admin']);        
+       
+    Route::any('/new-users', [UserController::class, 'newUsers'])
+        ->name('new-users');
 
-    
-    // Search users
-    Route::post('/users/search', [UserController::class,'searchUser'])
-        ->middleware(['role:super-admin|admin'])
-        ->name('users.search');
-    // Search new users
-    Route::post('/new-users/search', [UserController::class,'searchNewUser'])
-        ->middleware(['role:super-admin|admin'])
-        ->name('new-users.search');
 
-    // Index page for search
-    Route::get('/users/search/', [UserController::class, 'index'])
-        ->name('search.index');
-    Route::get('/new-users/search/', [UserController::class, 'newUsers'])
-        ->name('search.index');
 });
 
-Route::get('/paystack/verify/', [EventController::class, 'verify'])
+Route::get('/paystack/verify', [EventController::class, 'verify'])
     ->name('payment.verify');
 
 
 Route::resource('event-roles', EventRoleController::class);
 Route::resource('cancel-events', CancelEventController::class);
 Route::resource('user-installment-payments', UserInstallmentPaymentController::class);
-
-
-
-
-
-
 
 
 
@@ -246,26 +227,26 @@ Route::get('/my-dashboard', function () {
 
 
 
-Route::get('/events/info', function () {
-    return view('dashboard.pages.events.info');
-})->name('events.info');
+// Route::get('/events/info', function () {
+//     return view('dashboard.pages.events.info');
+// })->name('events.info');
 
 
-Route::get('/users/info', function () {
-    return view('dashboard.users.show');
-})->name('users.show');
+// Route::get('/users/info', function () {
+//     return view('dashboard.users.show');
+// })->name('users.show');
 
 // Route::get('/users/index', function () {
 //     return view('dashboard.pages.datas.index');
 // })->name('users.index');
 
-Route::get('/users/create', function () {
-    return view('dashboard.pages.datas.create');
-})->name('users.create');
+// Route::get('/users/create', function () {
+//     return view('dashboard.pages.datas.create');
+// })->name('users.create');
 
-Route::get('/users/about', function () {
-    return view('dashboard.pages.datas.about');
-})->name('users.about');
+// Route::get('/users/about', function () {
+//     return view('dashboard.pages.datas.about');
+// })->name('users.about');
 
 Route::get('/fallback', function () {
     return redirect()->back()->with('warnings', 'Features coming soon!');

@@ -18,7 +18,6 @@ class Center extends Model
         'name',
         'payment_id',
         'phone_number',
-        'type',
         'address',
         'map_url',
         'state'

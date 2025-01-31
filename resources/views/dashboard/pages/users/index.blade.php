@@ -172,9 +172,7 @@
                             </div>
                         </div>
 
-                        <form class="w-full max-w-md mx-auto" action="{{ route('users.search') }}" method="POST">
-                            @method('POST')
-                            @csrf
+                        <form class="w-full max-w-md mx-auto" action="{{ route('users.index') }}" method="GET">
                             <label for="default-search" class="mb-1 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -283,7 +281,7 @@
                                             <div id="dropdownDots{{ $user->id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton{{ $user->id }}">
                                                     <li>
-                                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
+                                                        <a href="{{ route('users.show', $user->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
                                                     </li>
                                                     <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                                         <!-- Modal toggle -->
@@ -312,7 +310,7 @@
                                     <div class="relative p-4 w-full max-w-md max-h-full">
                                         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700" >
                                         <form 
-                                            action="{{ route('users.delete', $user->id) }}" method="POST">
+                                            action="{{ route('users.destroy', $user->id) }}" method="POST">
                                             @csrf
                                             @method("DELETE")
 

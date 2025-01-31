@@ -460,15 +460,15 @@
                                             </div>
                                         </th>
                                         <td class="px-6 py-4">
-                                            {{ $event->center->payment_id }}
+                                            {{ $event?->center?->payment_id }}
                                             <div class="font-normal text-gray-500"><span class="font-bold text-gray-600">Cost:</span>
                                                 ₦ {{ $event->cost }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4">
                                             {{-- Link to Map --}}
-                                            <a href="{{ $event->center->map_url }}">
-                                                {{ $event->center->address . ', ' . $event->center->state . ' State'}}
+                                            <a href="{{ $event->center?->map_url }}">
+                                                {{ $event?->center->address . ', ' . $event?->center?->state . ' State'}}
                                             </a>
                                         </td>
                                         <td class="px-6 py-4">

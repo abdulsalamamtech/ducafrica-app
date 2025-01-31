@@ -70,10 +70,13 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            'email_verified_at' => 'datetime:l, jS F Y',
             'password' => 'hashed',
-            'dob' => 'datetime',
-            'role' => UserRoleEnum::class
+            'dob' => 'datetime:l, jS F Y',
+            'role' => UserRoleEnum::class,
+            'created_at' => 'datetime:l, jS F Y',
+            'updated_at' => 'datetime:l, jS F Y',
+            'deleted_at' => 'datetime:l, jS F Y',
         ];
     }
 

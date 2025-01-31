@@ -15,13 +15,94 @@ class UserController extends Controller
     public function index()
     {
 
-        // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
-        $users = User::latest()->paginate(10);
+        if(!empty(request()->search)){
+        
+            if(request()->filled('search')){
+                $query = request()->validate([
+                    'search' => ['required','string']
+                ]);
+                $users = $this->search($query['search']);
+            }
+        }else{
+
+            // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
+            $users = User::latest()->paginate(10);
+        }
+
         return view('dashboard.pages.users.index', [
             'users' => $users,
             'available_roles' => UserRoleEnum::cases()
         ]);
 
+    }
+
+    // Search users
+    private function search($search){
+        $users = User::where('name', 'like', '%'.$search.'%')
+            ->orWhere('email', 'like', '%'.$search.'%')
+            ->orWhereHas('roles', function($query) use ($search){
+                $query->where('name', 'like', '%'.$search.'%');
+            })->paginate();
+
+        if(($users->count() > 0)){
+            session()->flash('success', 'successful');
+            return $users;
+        }else{
+            session()->flash('error', 'No results found');
+            return [];
+        }
+    }
+
+    // Get new users
+    public function newUsers()
+    {
+
+        if(!empty(request()->search)){
+
+            if(request()->filled('search')){
+                $query = request()->validate([
+                    'search' => ['required','string']
+                ]);
+                $users = $this->search($query['search']);
+            }
+        }
+        else{
+
+            // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
+            // $users = User::latest()->paginate(10);
+            $users = User::where('status', 'pending')
+                ->orWhereNull('email_verified_at')
+                ->latest()->paginate(10);
+        }
+
+        return view('dashboard.pages.users.new', [
+            'users' => $users,
+            'available_roles' => UserRoleEnum::cases()
+        ]);
+    }
+
+
+    // Search new users
+    private function searchNewUsers($search){
+        $users = User::whereAny([
+            'name',
+            'email',
+            'phone',
+            'state',
+            'first_name',
+            'last_name',
+        ], 'like', '%' .$search .'%')
+        ->where('status', 'pending')
+        ->orWhereNull('email_verified_at')
+        ->latest()->paginate();
+
+        if(($users->count() > 0)){
+            session()->flash('success', 'successful');
+            return $users;
+        }else{
+            session()->flash('error', 'No results found');
+            return [];
+        }
     }
 
     /**
@@ -29,7 +110,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return redirect()->route('users.index');
     }
 
     /**
@@ -37,7 +118,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return redirect()->route('users.index');
     }
 
     /**
@@ -45,11 +126,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $users = User::latest()->paginate(10);
-        return view('dashboard.pages.users.index', [
-            'users' => $users,
-            'available_roles' => UserRoleEnum::cases()
-        ]);
+        // return redirect()->route('users.index')->with('success', 'successful!');
+        return view('dashboard.pages.users.show', ['user' => $user->toArray() ?? null]);
     }
 
     /**
@@ -57,7 +135,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return redirect()->route('users.index');
     }
 
     /**
@@ -72,7 +150,9 @@ class UserController extends Controller
             ]
         );
 
-        $user->update(['status' => ($data['status'] == 'active') ? 'active' : 'pending']);
+        $user->update([
+            'status' => ($data['status'] == 'active') ? 'active' : 'pending'
+        ]);
 
         $userRole = Role::where('name', $data['role'])?->first();
         if(!$userRole){
@@ -80,7 +160,9 @@ class UserController extends Controller
         }
 
         $user->roles()->sync($userRole?->id);
-        return redirect()->back()->with('success', 'user details updated successfully!');
+        // return redirect()->back()->with('success', 'user details updated successfully!');
+
+        return redirect()->route('users.index')->with('success', 'user details updated successfully!');
 
     }
 
@@ -91,8 +173,11 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('users.index')
-            ->withSuccess(__('User deleted successfully.'));
+        // return redirect()->route('users.index')
+        //     ->withSuccess(__('User deleted successfully.'));
+
+        return redirect()->route('users.index')->with('success', 'user deleted successfully!');
+
     }
 
     /**
@@ -142,69 +227,57 @@ class UserController extends Controller
     }
 
 
-    public function newUsers()
-    {
-        $users = User::where('status', 'pending')
-            ->orWhereNull('email_verified_at')
-            ->latest()->paginate(10);
-        return view('dashboard.pages.users.new', [
-            'users' => $users,
-            'available_roles' => UserRoleEnum::cases()
-        ]);
-    }
+    // public function searchUser(Request $request)
+    // {
 
-
-    public function searchUser(Request $request)
-    {
-
-        $search = $request->validate([
-            'search' => ['required','string']
-        ]);
+    //     $search = $request->validate([
+    //         'search' => ['required','string']
+    //     ]);
         
-        // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
-        $users = User::whereAny([
-            'name',
-            'email',
-            'phone',
-            'state',
-            'first_name',
-            'last_name',
-        ], 'like', '%' .$search['search'] .'%')->latest()->paginate()->withQueryString();
+    //     // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
+    //     $users = User::whereAny([
+    //         'name',
+    //         'email',
+    //         'phone',
+    //         'state',
+    //         'first_name',
+    //         'last_name',
+    //     ], 'like', '%' .$search['search'] .'%')->latest()->paginate()->withQueryString();
 
-        session()->flash('success', 'successful');
-        return view('dashboard.pages.users.index', [
-            'users' => $users,
-            'available_roles' => UserRoleEnum::cases()
-            ]);
+    //     session()->flash('success', 'successful');
+    //     return view('dashboard.pages.users.index', [
+    //         'users' => $users,
+    //         'available_roles' => UserRoleEnum::cases()
+    //         ]);
 
-    }
+    // }
 
-    public function searchNewUser(Request $request)
-    {
+    // public function searchNewUser(Request $request)
+    // {
 
-        $search = $request->validate([
-            'search' => ['required','string']
-        ]);
+    //     $search = $request->validate([
+    //         'search' => ['required','string']
+    //     ]);
         
-        // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
-        $users = User::whereAny([
-            'name',
-            'email',
-            'phone',
-            'state',
-            'first_name',
-            'last_name',
-        ], 'like', '%' .$search['search'] .'%')
-        ->where('status', 'pending')
-        ->orWhereNull('email_verified_at')
-        ->latest()->paginate();
+    //     // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
+    //     $users = User::whereAny([
+    //         'name',
+    //         'email',
+    //         'phone',
+    //         'state',
+    //         'first_name',
+    //         'last_name',
+    //     ], 'like', '%' .$search['search'] .'%')
+    //     ->where('status', 'pending')
+    //     ->orWhereNull('email_verified_at')
+    //     ->latest()->paginate();
 
-        session()->flash('success', 'successful');
-        return view('dashboard.pages.users.new', [
-            'users' => $users,
-            'available_roles' => UserRoleEnum::cases()
-            ]);
+    //     session()->flash('success', 'successful');
+    //     return view('dashboard.pages.users.new', [
+    //         'users' => $users,
+    //         'available_roles' => UserRoleEnum::cases()
+    //         ]);
 
-    }
+    // }
 
 }

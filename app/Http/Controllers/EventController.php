@@ -254,7 +254,6 @@ class EventController extends Controller
             'description',
             'start_date',
             'end_date',
-            'type',
             'cost',
             'slots',
             'status',
