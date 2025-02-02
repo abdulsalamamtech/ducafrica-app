@@ -7,6 +7,7 @@ use App\Http\Controllers\CenterTypeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventRoleController;
 use App\Http\Controllers\EventTypeController;
+use App\Http\Controllers\FastExcelController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupMemberController;
 use App\Http\Controllers\HomeController;
@@ -137,6 +138,19 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::resource('events', EventController::class)
         ->only(['index', 'show']);
 
+    // Close an event
+    Route::get('events/{event}/close', [EventController::class, 'closeEvent'])
+        ->middleware(['role:super-admin|admin'])
+        ->name('events.close');
+    // Open an event
+    Route::get('events/{event}/open', [EventController::class, 'openEvent'])
+        ->middleware(['role:super-admin|admin'])
+        ->name('events.open');
+    // Event details
+    Route::get('events/{event}/details', [EventController::class, 'eventDetails'])
+        ->middleware(['role:super-admin|admin'])
+        ->name('events.details');        
+
     Route::resource('events', EventController::class)
         ->only(['store', 'update'])
         ->middleware(['role:super-admin|admin']);
@@ -224,6 +238,32 @@ Route::get('/my-dashboard', function () {
 
 
 
+// Route::get('fast-excel-centers', [FastExcelController::class, 'exportFormatted'])->name('fast-excel.centers');
+// Working with Excel
+Route::prefix('fast-excel')->name('fast-excel.')->group(function () {
+
+    // Users
+    Route::get('users', [FastExcelController::class, 'users'])->name('users');    
+
+    // Centers
+    Route::get('centers', [FastExcelController::class, 'centers'])->name('centers');
+
+    // Events
+    Route::get('events', [FastExcelController::class, 'events'])->name('events');
+
+    // Booked Events
+    Route::get('booked-events', [FastExcelController::class, 'bookedEvents'])->name('booked-events');
+
+    // Booked Event Users
+    Route::get('booked-event-users/{event}', [FastExcelController::class, 'bookedEventUsers'])->name('booked_event_users');
+
+    // Transactions
+    Route::get('transactions', [FastExcelController::class, 'transactions'])->name('transactions');
+
+    // bookedEventTransactions
+    Route::get('booked-event-transactions/{event}', [FastExcelController::class, 'bookedEventTransactions'])->name('bookedEventTransactions');
+
+});
 
 
 
@@ -247,13 +287,6 @@ Route::get('/my-dashboard', function () {
 // Route::get('/users/about', function () {
 //     return view('dashboard.pages.datas.about');
 // })->name('users.about');
-
-Route::get('/fallback', function () {
-    return redirect()->back()->with('warnings', 'Features coming soon!');
-})->name('fallback');
-
-
-
 
 
 
@@ -308,3 +341,11 @@ Route::get('/artisan', function (Request $request) {
 //         @endif
 //     </div>
 // </div>
+
+
+
+
+// Fallback Route
+Route::get('/fallback', function () {
+    return redirect()->back()->with('warnings', 'Features coming soon!');
+})->name('fallback');

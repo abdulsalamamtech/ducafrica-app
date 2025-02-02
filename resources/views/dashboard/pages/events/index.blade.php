@@ -376,11 +376,11 @@
                                     <span class="pl-2">Print</span>
                                 </button>
                             </a> --}}
-                            <a href="#" class="">
+                            <a href="{{ route('fast-excel.events') }}" class="">
                                 <button type="button"
                                     class="inline-flex items-center px-2.5 py-1.5 text-sm font-medium text-gray-100 bg-green-500 border border-gray-300 focus:outline-none hover:bg-green-400 focus:ring-4 focus:ring-gray-100 rounded-lg dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                                    <i class="fa fa-download"></i>
-                                    <span class="pl-2">Download</span>
+                                    <i class="fa fa-file-excel-o"></i>
+                                    <span class="pl-2">Export Events</span>
                                 </button>
                             </a>
                         </div>
@@ -405,9 +405,6 @@
                                         Name
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Details
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
                                         Payment ID
                                     </th>
                                     <th scope="col" class="px-6 py-3">
@@ -415,6 +412,9 @@
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Slots
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Booked
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Status
@@ -429,7 +429,7 @@
                                 @forelse ($events as $event)
                                     <!-- User table record 1 -->
                                     <tr
-                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-400">
                                         <td class="w-4 p-4">
                                             <div class="flex items-center">
                                                 <input id="checkbox-table-search-1" type="checkbox"
@@ -437,46 +437,51 @@
                                                 <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                                             </div>
                                         </td>
-                                        <th scope="row"
-                                            class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                            <img class="w-10 h-10 rounded-full" src="/images/africa.jpg"
+                                        <th scope="row p-3"
+                                            class="flex items-center p-3 text-gray-900 whitespace-nowrap dark:text-white">
+                                            <img class="w-10 h-10 rounded-full" src="{{ $event?->center?->centerAsset?->url ??'/images/africa.jpg' }}"
                                                 alt="Jese image">
-                                            <div class="ps-3">
-                                                <div class="text-base font-semibold">{{ $event->name }}</div>
-                                                <div class="font-normal text-gray-500">{{ $event->eventType->name }}</div>
-                                                <div class="font-normal text-gray-600">{{ $event->contact_name }}</div>
-                                                <div class="font-normal text-gray-600">{{ $event->contact_phone_number }}</div>
-                                            </div>
-                                        </th>
-                                        <th class="px-4 py-2">
-                                            <div class="ps-3">
-                                                <div class="font-normal text-gray-500">{{ $event->description }}</div>
+                                            <div class="p-3">
+                                                <div class="text-base font-semibold">{{ $event?->name }}</div>
+                                                <div class="font-normal text-gray-500">{{ $event?->eventType?->name }}</div>
+                                                <div class="font-normal text-gray-500 px-2">{{ $event?->description }}</div>
                                                 <div class="font-normal text-gray-500"><span class="font-bold text-gray-600">START:</span>
-                                                    {{ $event->start_date->format('l jS, F Y') }} ({{ $event->start_date->diffForHumans() }})
+                                                    {{ $event?->start_date->format('l jS, F Y') }} ({{ $event?->start_date->diffForHumans() }})
                                                 </div>
                                                 <div class="font-normal text-gray-500"><span class="font-bold text-gray-600">ENDS:</span>
-                                                    {{ $event->end_date->format('l jS, F Y') }} ({{ $event->end_date->diffForHumans() }})
+                                                    {{ $event?->end_date->format('l jS, F Y') }} ({{ $event?->end_date->diffForHumans() }})
                                                 </div>
+                                                <div class="font-normal text-gray-600">{{ $event?->contact_name }}</div>
+                                                <div class="font-normal text-gray-600">{{ $event?->contact_phone_number }}</div>
                                             </div>
                                         </th>
-                                        <td class="px-6 py-4">
+                                        <td class="px-2 py-2">
                                             {{ $event?->center?->payment_id }}
                                             <div class="font-normal text-gray-500"><span class="font-bold text-gray-600">Cost:</span>
-                                                ₦ {{ $event->cost }}
+                                                ₦ {{ $event?->cost }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4">
                                             {{-- Link to Map --}}
                                             <a href="{{ $event->center?->map_url }}">
-                                                {{ $event?->center->address . ', ' . $event?->center?->state . ' State'}}
+                                                {{ $event?->center?->address . ', ' . $event?->center?->state . ' State'}}
                                             </a>
                                         </td>
                                         <td class="px-6 py-4">
-                                            {{ $event->slots }}
+                                            {{ $event?->slots }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $event?->allBookedEvents()?->count() }}
                                         </td>
                                         <td class="px-6 py-4">
                                             <div class="flex items-center">
-                                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Active
+                                                {{-- <div> --}}
+                                                    @if ($event->status)
+                                                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Open
+                                                    @else
+                                                        <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Close
+                                                    @endif
+                                                {{-- </div> --}}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4">
@@ -497,7 +502,7 @@
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                     aria-labelledby="dropdownMenuIconButton{{ $event->id }}">
                                                     <li>
-                                                        <a href="#"
+                                                        <a href="{{ route('events.details',  $event->id ) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
                                                     </li>
                                                     <li
@@ -510,8 +515,17 @@
                                                         </div>
                                                     </li>
                                                     <li>
-                                                        <a href="#"
-                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Deactivate</a>
+                                                        @if ($event->status)
+                                                            <a href="{{ route('events.close', $event->id ) }}"
+                                                                class="block px-4 py-2 hover:bg-red-100 dark:hover:bg-red-600 dark:hover:text-white">
+                                                                Close Event
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ route('events.open', $event->id ) }}"
+                                                                class="block px-4 py-2 hover:bg-green-100 dark:hover:bg-green-600 dark:hover:text-white">
+                                                                Open Event
+                                                            </a>
+                                                        @endif
                                                     </li>
                                                 </ul>
                                             </div>

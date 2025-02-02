@@ -178,11 +178,11 @@
                                             <img class="w-10 h-10 rounded-full" src="/images/africa.jpg"
                                                 alt="Jese image">
                                             <div class="ps-3">
-                                                <div class="text-base font-semibold">{{ $user_installment->bookedEvent->event->name }}</div>
-                                                <div class="font-normal text-gray-500">{{ $user_installment->bookedEvent->event->type }}</div>
-                                                <div class="font-normal text-gray-600">{{ $user_installment->bookedEvent->event->contact_name }}</div>
-                                                <div class="font-normal text-gray-600">{{ $user_installment->bookedEvent->event->contact_phone_number }}</div>
-                                                <div class="font-normal text-gray-600">{{ $user_installment->bookedEvent->event->center->state }}</div>
+                                                <div class="text-base font-semibold">{{ $user_installment?->bookedEvent?->event?->name }}</div>
+                                                <div class="font-normal text-gray-500">{{ $user_installment?->bookedEvent?->event?->type }}</div>
+                                                <div class="font-normal text-gray-600">{{ $user_installment?->bookedEvent?->event?->contact_name }}</div>
+                                                <div class="font-normal text-gray-600">{{ $user_installment?->bookedEvent?->event?->contact_phone_number }}</div>
+                                                <div class="font-normal text-gray-600">{{ $user_installment?->bookedEvent?->event?->center?->state }}</div>
                                             </div>
                                         </th>
                                         <th class="px-6 py-4">

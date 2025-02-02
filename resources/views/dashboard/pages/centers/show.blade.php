@@ -40,7 +40,7 @@
 
                       <div class="flex justify-between items-start">
                         <div class="w-1/3 text-gray-700 dark:text-gray-300">Type:</div>
-                        <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $center->type }}</div>
+                        <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $center->centerType?->name }}</div>
                       </div>
 
 

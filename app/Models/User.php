@@ -114,6 +114,7 @@ class User extends Authenticatable implements MustVerifyEmail
                     'users' => User::where('role', 'user')->count(),
                 ],
                 'centers' => Center::count(),
+                'inactive_centers' => Center::whereNull('status')->count(),
                 'events' => Event::count(),
                 'booked_events' => BookedEvent::count(),
                 'cancel_events' => CancelEvent::count(),

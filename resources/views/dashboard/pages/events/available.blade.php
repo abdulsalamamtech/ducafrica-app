@@ -94,8 +94,8 @@
                                     </p>
                                     <div class="flex gap-2">
                                         <p class="text-gray-900 dark:text-gray-100">Slots: <span class="text-gray-500 dark:text-gray-400"> {{ $event->slots }}</span></p>
-                                        <p class="text-gray-900 dark:text-gray-100">Available Slots: <span class="text-gray-500 dark:text-gray-400"> {{$event->availableSlotsLimit()}}</span></p>
-                                        <p class="text-gray-900 dark:text-gray-100">Booked: <span class="text-gray-500 dark:text-gray-400"> {{ $event->allBookedEventsPaid()->count() ?? 0 }}</span></p>
+                                        <p class="text-gray-900 dark:text-gray-100">Available Slots: <span class="text-gray-500 dark:text-gray-400"> {{ ($event->slots - $event->allBookedEvents()->count()) ?? 'unknown'}}</span></p>
+                                        <p class="text-gray-900 dark:text-gray-100">Booked: <span class="text-gray-500 dark:text-gray-400"> {{ $event->allBookedEvents()->count() ?? 0 }}</span></p>
                                     </div>                                    
                                 </div>
                                 <div class="py-2">

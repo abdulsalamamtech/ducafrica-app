@@ -87,25 +87,6 @@
                     </div>
 
 
-                    {{-- Download and Print --}}
-                    <div>
-                        <div class="text-right mt-3">
-                            {{-- <a href="#">
-                                <button type="button"
-                                    class="inline-flex items-center px-2.5 py-1.5 text-sm font-medium text-gray-100 bg-green-500 border border-gray-300 focus:outline-none hover:bg-green-400 focus:ring-4 focus:ring-gray-100 rounded-lg dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                                    <i class="fa fa-print"></i>
-                                    <span class="pl-2">Print</span>
-                                </button>
-                            </a> --}}
-                            <a href="#" class="">
-                                <button type="button"
-                                    class="inline-flex items-center px-2.5 py-1.5 text-sm font-medium text-gray-100 bg-green-500 border border-gray-300 focus:outline-none hover:bg-green-400 focus:ring-4 focus:ring-gray-100 rounded-lg dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                                    <i class="fa fa-download"></i>
-                                    <span class="pl-2">Download</span>
-                                </button>
-                            </a>
-                        </div>
-                    </div>
 
 
                     {{-- Table Content --}}
@@ -159,22 +140,22 @@
                                                 alt="Jese image">
                                             <div class="ps-3">
                                                 <div class="text-base font-semibold">{{ $booked_event->event->name }}</div>
-                                                <div class="font-normal text-gray-500">{{ $booked_event->event->type }}</div>
-                                                <div class="font-normal text-gray-600">{{ $booked_event->event->contact_name }}</div>
-                                                <div class="font-normal text-gray-600">{{ $booked_event->event->contact_phone_number }}</div>
-                                                <div class="font-normal text-gray-600">{{ $booked_event->event->center->state }}</div>
+                                                <div class="font-normal text-gray-500">{{ $booked_event?->event?->type }}</div>
+                                                <div class="font-normal text-gray-600">{{ $booked_event?->event?->contact_name }}</div>
+                                                <div class="font-normal text-gray-600">{{ $booked_event?->event?->contact_phone_number }}</div>
+                                                <div class="font-normal text-gray-600">{{ $booked_event?->event?->center?->state }}</div>
                                             </div>
                                         </th>
                                         <th class="px-6 py-4">
                                             <div class="ps-3">
-                                                <div class="text-base font-semibold">{{ Str::limit($booked_event->event->description, '40') }}</div>
+                                                <div class="text-base font-semibold">{{ Str::limit($booked_event->event?->description, '40') }}</div>
                                                 <div class="font-normal text-gray-500">
                                                     {{-- <span class="font-bold text-gray-600">START:</span> --}}
-                                                    {{ $booked_event->event->start_date->format('l jS, F Y') }} ({{ $booked_event->event->start_date->diffForHumans() }})
+                                                    {{ $booked_event->event?->start_date->format('l jS, F Y') }} ({{ $booked_event->event?->start_date->diffForHumans() }})
                                                 </div>
                                                 <div class="font-normal text-gray-500">
                                                     {{-- <span class="font-bold text-gray-600">ENDS:</span> --}}
-                                                    {{ $booked_event->event->end_date->format('l jS, F Y') }} ({{ $booked_event->event->end_date->diffForHumans() }})
+                                                    {{ $booked_event->event?->end_date->format('l jS, F Y') }} ({{ $booked_event->event?->end_date->diffForHumans() }})
                                                 </div>
                                             </div>
                                         </th>
@@ -183,8 +164,8 @@
                                         
                                         <td class="px-6 py-4">
                                             {{-- Link to Map --}}
-                                            <a href="{{ $booked_event->event->center->map_url }}">
-                                                {{ $booked_event->event->center->address . ', '. $booked_event->event->center->state }}
+                                            <a href="{{ $booked_event->event?->center?->map_url }}">
+                                                {{ $booked_event->event?->center?->address . ', '. $booked_event->event?->center?->state }}
                                             </a>
                                         </td>
                                         <td class="px-6 py-4">
@@ -217,7 +198,7 @@
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                                     aria-labelledby="dropdownMenuIconButton{{ $booked_event->event->id }}">
                                                     <li>
-                                                        <a href="#"
+                                                        <a href="{{ route('events.show', $booked_event->event->id) }}"
                                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
                                                     </li>
                                                     <li

@@ -113,12 +113,12 @@
                                 Inactive Centers</p>
                             <h4
                                 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                {{ Number::abbreviate(auth()->user()->statistics()['admin']['centers']?? 0) }}
+                                {{ Number::abbreviate(auth()->user()->statistics()['admin']['inactive_centers']?? 0) }}
                             </h4>
                         </div>
                         <div class="dark:border-gray-500 border-t border-blue-gray-50 p-4">
                             <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-                                <strong class="text-green-500">+0.1%</strong>&nbsp;than last week
+                                <strong class="text-green-500">+0.0%</strong>&nbsp;than last week
                             </p>
                         </div>
                     </div>
@@ -388,11 +388,11 @@
                                     <span class="pl-2">Print</span>
                                 </button>
                             </a> --}}
-                            <a href="#" class="">
+                            <a href="{{ route('fast-excel.centers') }}" class="">
                                 <button type="button"
                                     class="inline-flex items-center px-2.5 py-1.5 text-sm font-medium text-gray-100 bg-green-500 border border-gray-300 focus:outline-none hover:bg-green-400 focus:ring-4 focus:ring-gray-100 rounded-lg dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                                    <i class="fa fa-download"></i>
-                                    <span class="pl-2">Download</span>
+                                    <i class="fa fa-file-excel-o"></i>
+                                    <span class="pl-2">Export Centers</span>
                                 </button>
                             </a>
                         </div>

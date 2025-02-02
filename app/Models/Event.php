@@ -63,6 +63,13 @@ class Event extends Model
         return $this->hasMany(BookedEvent::class, 'event_id');
     }
 
+    public function transactions()
+    {
+        return $this->hasManyThrough(Transaction::class, BookedEvent::class);
+    }
+
+
+
 
     public function eventRoleExist($id){
         $exists = Event::whereHas('eventRoles', function ($query) use ($id) {
@@ -165,11 +172,11 @@ class Event extends Model
     // Get payment details for an event amount, balance and refund
     public function getPaymentDetails(){
         $booked_event = $this->getBookedEvent();
-        $details['payment_amount'] = $booked_event->payment_amount;
-        $details['payment_type'] = $booked_event->payment_type;
+        $details['payment_amount'] = $booked_event?->payment_amount;
+        $details['payment_type'] = $booked_event?->payment_type;
 
-        $details['amount_paid'] = $booked_event->transactions->where('payment_status', 'success')->sum('amount');
-        $details['balance'] =  ((float) $booked_event->payment_amount - (float) $details['amount_paid']);
+        $details['amount_paid'] = $booked_event?->transactions->where('payment_status', 'success')->sum('amount');
+        $details['balance'] =  ((float) $booked_event?->payment_amount - (float) $details['amount_paid']);
         // $details['payment_completed'] = ($details['amount_paid'] >= $details['payment_amount']) ? "true" : "false";
         $details['payment_status'] = ($details['amount_paid'] >= $details['payment_amount']) ? true : false;
         $details['refund'] = (($details['amount_paid'] > $details['payment_amount'] ? $details['amount_paid'] - $details['payment_amount'] : 0));

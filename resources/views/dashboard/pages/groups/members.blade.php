@@ -68,7 +68,7 @@
                         <h2 class="text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300">GroupMembers</h2>
                         <button class="px-3 md:px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700"
                         data-modal-target="addGroupMemberModal" data-modal-show="addGroupMemberModal">
-                            Add GroupMember
+                            Add Group Member
                         </button>
 
 
@@ -85,7 +85,7 @@
                                     <!-- Modal header -->
                                     <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                            Add GroupMember
+                                            Add Group Member
                                         </h3>
                                         <button type="button"
                                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -101,24 +101,28 @@
 
                                     <!-- Modal body -->
                                     <div class="p-6 space-y-6">
+                                        <div class="col-span-12">
+                                            <label for="local_councils"
+                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                Select a Group Member 
+                                            </label>
+                                            <select type="state" name="user_id" id="local_councils"
+                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                placeholder="Local Council">
+                                                    {{-- {{ $local_councils }} --}}
+                                                    @forelse ($new_group_members as $user)
+                                                        <option value="{{ $user->id }}">
+                                                            {{ $user->name . ' (' . $user->activeRole() . ') | ' . $user->email}}
+                                                        </option>
+                                                    @empty
+                                                        <option value="">unavailable</option>
+                                                    @endforelse
+                                            </select>
+                                        </div>                                            
                                         <div>
-                                            <label for="GroupMember-name"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                    Name
-                                                </label>
-                                                <input type="text" name="name" id="GroupMember-name"4
-                                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="Bonnie" required="">
-                                        </div>
-
-                                        <div>
-                                            <label for="first-name"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                    Description
-                                                    </label>
-                                                <input type="text" name="description" id="GroupMember-description"
-                                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    placeholder="this GroupMember are for premium users" required="">
+                                            <input type="hidden" name="group_id" id="group_id" value="{{ $group?->id ?? 0 }}""
+                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                placeholder="this GroupMember are for premium users" required="">
                                         </div>
                                     </div>
 

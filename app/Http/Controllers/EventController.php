@@ -68,7 +68,6 @@ class EventController extends Controller
             'description',
             'start_date',
             'end_date',
-            'type',
             'cost',
             'slots',
             'status',
@@ -138,10 +137,17 @@ class EventController extends Controller
                     $user = Auth::user();
                     $booked_event = BookedEvent::where('user_id', $user->id)
                     ->where('event_id', $event->id)->first();
-                    if($booked_event->payment_type == 'full_payment'){
+                    if(!$booked_event){
+                        $booked_event = BookedEvent::where('event_id', $event->id)->first();
                         $booked_event->paid = true;
                         $booked_event->status = true;
                         $booked_event->save();
+                    }elseif($booked_event?->payment_type == 'full_payment'){
+                        $booked_event->paid = true;
+                        $booked_event->status = true;
+                        $booked_event->save();
+                    }else{
+                        // more options
                     }
 
                     // Confirm booked event for installment payments
@@ -152,11 +158,14 @@ class EventController extends Controller
                     }
 
                 }
-                return redirect()->route('events.show', $event->id)
-                    ->with('success', $message);
+                // return redirect()->route('events.show', $event->id)
+                //     ->with('success', $message);
+                return redirect()->back()->with('success', $message);
+
             }
-            return redirect()->route('events.show', $event->id)
-                    ->with('error', $message);
+            // return redirect()->route('events.show', $event->id)
+            //         ->with('error', $message);
+            return redirect()->back()->with('error', $message);
         }
 
         return view('dashboard.pages.events.show', ['event' => $event]);
@@ -164,11 +173,11 @@ class EventController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the event details.
      */
-    public function edit(Event $event)
+    public function eventDetails(Event $event)
     {
-        //
+        return view('dashboard.pages.events.details', ['event' => $event]);
     }
 
     /**
@@ -186,6 +195,39 @@ class EventController extends Controller
         return redirect()
             ->route('events.index')
             ->with('success', 'event updated successfully');
+    }
+
+
+    /**
+     * Close an events
+     */
+    public function closeEvent(Request $request, Event $event)
+    {
+
+
+        // return $data;
+        $event->status = false;
+        $event->save();
+
+        return redirect()
+            ->route('events.index')
+            ->with('success', 'event closed successfully');
+    }
+
+    /**
+     * Open an events
+     */
+    public function openEvent(Request $request, Event $event)
+    {
+
+
+        // return $data;
+        $event->status = true;
+        $event->save();
+
+        return redirect()
+            ->route('events.index')
+            ->with('success', 'event opened successfully');
     }
 
     /**
@@ -225,7 +267,7 @@ class EventController extends Controller
             $events = Event::where('end_date', '>=', now())
                 // ->where('start_date', '<=', now())
                 ->where('slots', '>', 0)
-                ->whereNotNull('status')
+                ->where('status', true)
                 ->whereHas('eventRoles', function($role) {
                     $user = Auth::user();
                     $userRole = Role::where('name', $user?->activeRole())->first();
@@ -263,7 +305,7 @@ class EventController extends Controller
         ->where('end_date', '>=', now())
             // ->where('start_date', '<=', now())
             ->where('slots', '>', 0)
-            ->whereNotNull('status')
+            ->where('status', true)
             ->whereHas('eventRoles', function($role) {
                 $user = Auth::user();
                 $userRole = Role::where('name', $user?->activeRole())->first();

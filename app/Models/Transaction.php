@@ -27,4 +27,9 @@ class Transaction extends Model
     public function bookedEvent(){
         return $this->belongsTo(BookedEvent::class, 'booked_event_id');
     }
+
+    public function event()
+    {
+        return $this->hasManyThrough(Event::class, BookedEvent::class);
+    }
 }

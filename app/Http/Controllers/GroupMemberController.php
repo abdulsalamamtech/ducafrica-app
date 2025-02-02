@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GroupMemberRequest;
 use App\Models\GroupMember;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class GroupMemberController extends Controller
@@ -14,8 +15,12 @@ class GroupMemberController extends Controller
      */
     public function index()
     {
+        $new_group_members = User::where('email_verified_at')->get();
         $group_members = GroupMember::latest()->paginate(10);
-        return view('dashboard.pages.groups.members', ['group_members' => $group_members]);
+        return view('dashboard.pages.groups.members', [
+            'group_members' => $group_members,
+            'new_group_members' => $new_group_members,
+        ]);
 
     }
 
@@ -49,7 +54,13 @@ class GroupMemberController extends Controller
      */
     public function show(GroupMember $groupMember)
     {
-        return view('group-members.index', compact('groupMember'));
+        // $new_group_members = User::where('email_verified_at')->get();
+        // return view('group-members.index', [
+        //     'group_members' => $groupMember,
+        //     'new_group_members' => $new_group_members,
+        // ]);
+
+        return view('group-members.index', ['group_member' => $groupMember]);
     }
 
     /**
@@ -57,7 +68,7 @@ class GroupMemberController extends Controller
      */
     public function edit(GroupMember $groupMember)
     {
-        return view('group-members.edit', compact('group_members'));
+        return view('group-members.index', compact('group_members'));
     }
 
     /**

@@ -188,6 +188,18 @@
 
                     </div>
 
+                    {{-- Download and Print --}}
+                    <div>
+                        <div class="text-right m-3">
+                            <a href="{{ route('fast-excel.users') }}" class="">
+                                <button type="button"
+                                    class="inline-flex items-center px-2.5 py-1.5 text-sm font-medium text-gray-100 bg-green-500 border border-gray-300 focus:outline-none hover:bg-green-400 focus:ring-4 focus:ring-gray-100 rounded-lg dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                                    <i class="fa fa-file-excel-o"></i>
+                                    <span class="pl-2">Export All Users</span>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
 
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
