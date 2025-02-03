@@ -8,6 +8,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventRoleController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\FastExcelController;
+use App\Http\Controllers\GoogleRecaptchaController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupMemberController;
 use App\Http\Controllers\HomeController;
@@ -266,6 +267,9 @@ Route::prefix('fast-excel')->name('fast-excel.')->group(function () {
 });
 
 
+
+// Google reCaptcha API
+Route::apiResource('google-recaptcha', GoogleRecaptchaController::class);
 
 // Route::get('/events/info', function () {
 //     return view('dashboard.pages.events.info');
