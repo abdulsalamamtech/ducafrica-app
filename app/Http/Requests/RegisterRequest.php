@@ -46,6 +46,7 @@ class RegisterRequest extends FormRequest
             'center_id' => ['nullable', 'string', 'max:32'],
             'password' => ['required', 'string', 'min:8', 'max:32', 'confirmed'],
             'password_clue' => [ 'string', 'max:32'],
+            'g-recaptcha-response' => 'required|captcha'
         ];
     }
 }

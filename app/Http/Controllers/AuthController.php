@@ -44,6 +44,8 @@ class AuthController extends Controller
                         $data['other_diets']:
                         json_encode($data['diets']??'');
 
+        // 'g-recaptcha-response' => 'required|captcha'
+        unset($data['g-recaptcha_response']);
         // Store the user information
         $user = User::create($data);
 
