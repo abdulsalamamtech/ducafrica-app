@@ -137,24 +137,20 @@ class EventController extends Controller
                     $user = Auth::user();
                     $booked_event = BookedEvent::where('user_id', $user->id)
                     ->where('event_id', $event->id)->first();
-                    if(!$booked_event){
-                        $booked_event = BookedEvent::where('event_id', $event->id)->first();
-                        $booked_event->paid = true;
-                        $booked_event->status = true;
-                        $booked_event->save();
-                    }elseif($booked_event?->payment_type == 'full_payment'){
-                        $booked_event->paid = true;
-                        $booked_event->status = true;
-                        $booked_event->save();
-                    }else{
-                        // more options
-                    }
 
-                    // Confirm booked event for installment payments
-                    if($booked_event->payment_type == 'installment' && $event->isPaid()){
-                        $booked_event->paid = true;
-                        $booked_event->status = true;
-                        $booked_event->save();
+                    if ($booked_event) {
+                        if($booked_event->payment_type == 'full_payment'){
+                            $booked_event->paid = true;
+                            $booked_event->status = true;
+                            $booked_event->save();
+                        }
+    
+                        // Confirm booked event for installment payments
+                        if($booked_event->payment_type == 'installment' && $event->isPaid()){
+                            $booked_event->paid = true;
+                            $booked_event->status = true;
+                            $booked_event->save();
+                        }
                     }
 
                 }
