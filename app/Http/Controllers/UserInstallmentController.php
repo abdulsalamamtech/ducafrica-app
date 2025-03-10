@@ -20,10 +20,10 @@ class UserInstallmentController extends Controller
     public function index()
     {
 
-        // $user_installments = UserInstallment::whereNot('approved_by', null)
-        //     ->whereNot('approved_by', null)
-        //     ->latest()->get();
-        $user_installments = UserInstallment::where('approved')->where('approved_by')->latest()->get();
+        $user_installments = UserInstallment::whereNot('approved_by', null)
+            ->whereNot('approved_by', null)
+            ->latest()->get();
+        // $user_installments = UserInstallment::where('approved')->where('approved_by')->latest()->get();
 
 
         $centers = Center::all();
