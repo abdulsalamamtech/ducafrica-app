@@ -169,6 +169,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/user-installments/{userInstallment}/approve', [UserInstallmentController::class, 'approve'])
         ->name('user-installments.approve')
         ->middleware(['role:super-admin|admin']);
+    Route::get('/user-installments/{userInstallment}/reject', [UserInstallmentController::class, 'reject'])
+        ->name('user-installments.reject')
+        ->middleware(['role:super-admin|admin']);        
 
     Route::get('/pending-installment-requests', [UserInstallmentController::class, 'request'])
         ->name('pending-installments.request');    
@@ -204,6 +207,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
        
     Route::any('/new-users', [UserController::class, 'newUsers'])
         ->name('new-users');
+
+    Route::get('/users/{user}/verify-email', [UserController::class, 'verifyEmail'])->name('users.verify-email');    
+
 
 
 });

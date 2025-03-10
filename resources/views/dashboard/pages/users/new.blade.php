@@ -269,7 +269,7 @@
                                     <td class="px-6 py-4">
                                         <div class="flex items-center">
                                             @if ($user->status == 'active')
-                                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Verified
+                                                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Active
                                             @else
                                                 <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Pending
                                             @endif
@@ -297,6 +297,12 @@
                                                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit
                                                         </div>
                                                     </li>
+
+                                                    @if (!$user->email_verified_at)
+                                                        <li>
+                                                            <a href="{{ route('users.verify-email', $user->id) }}" class="block px-4 py-2 hover:bg-green-100 dark:hover:bg-green-600 dark:hover:text-white">Verify Account</a>
+                                                        </li>
+                                                    @endif
                                                     <li>
                                                         {{-- Delete Button --}}
                                                         <div href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">

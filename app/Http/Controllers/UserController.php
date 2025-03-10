@@ -194,7 +194,20 @@ class UserController extends Controller
         return redirect()->route('users.index', ['status' => 'archived'])
             ->withSuccess(__('User restored successfully.'));
     }
+    /**
+     *  Restore user data
+     *
+     * @param User $user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function verifyEmail(User $user){
+        $user->email_verified_at = now();
+        $user->save();
 
+        return redirect()->back()->with('success', 'Email verified successfully!');
+
+    }
 
     /**
      * Force delete user data

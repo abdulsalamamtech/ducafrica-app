@@ -175,17 +175,36 @@
                                                 Make Payment
                                             </a>
                                         </div>
-                                        <div>
-                                            <form action="{{ route('user-installments.store') }}" method="POST">
-                                                @method('POST')
-                                                @csrf
+                                        {{-- Request for installment payment --}}
+                                        @if(request()->user()->role == \App\Enum\UserRoleEnum::ADMIN || 
+                                            request()->user()->role == \App\Enum\UserRoleEnum::SUPERNUMERARIES || 
+                                            in_array(request()->user()?->activeRole(), [
+                                                \App\Enum\UserRoleEnum::SUPERADMIN, 
+                                                \App\Enum\UserRoleEnum::ADMIN,
+                                                \App\Enum\UserRoleEnum::SUPERNUMERARIES])
+                                            )
+                                            @if ($event->status == 0) 
+                                            {{-- A perfect logic is needed --}}
+                                            <div>
+                                                <h3 href="#"
+                                                    class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
+                                                    Installment not approved
+                                                </h3>
+                                            </div>
+                                            @else
+                                                <div>
+                                                    <form action="{{ route('user-installments.store') }}" method="POST">
+                                                        @method('POST')
+                                                        @csrf
 
-                                                <input type="hidden" name="event_id" value="{{ $event->id }}">
-                                                <button
-                                                    class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700"
-                                                    type="submit">Request for Installment</button>
-                                            </form>
-                                        </div>
+                                                        <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                                        <button
+                                                            class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700"
+                                                            type="submit">Request for Installment</button>
+                                                    </form>
+                                                </div>
+                                            @endif
+                                        @endif
                                     </div>
                                 </div>
                             @endif

@@ -20,10 +20,10 @@ class UserInstallmentController extends Controller
     public function index()
     {
 
-        $user_installments = UserInstallment::whereNot('approved_by', null)
-            ->whereNot('approved_by', null)
-            ->latest()->get();
-        // $user_installments = UserInstallment::where('approved_by', '<', '1')->latest()->get();
+        // $user_installments = UserInstallment::whereNot('approved_by', null)
+        //     ->whereNot('approved_by', null)
+        //     ->latest()->get();
+        $user_installments = UserInstallment::where('approved')->where('approved_by')->latest()->get();
 
 
         $centers = Center::all();
@@ -217,6 +217,36 @@ class UserInstallmentController extends Controller
         }
 
         return redirect()->back()->with('success', 'User installment payment request approved.');
+ 
+    }
+
+    public function reject(Request $request, UserInstallment $userInstallment)
+    {
+
+
+        $user = $request->user();        
+        $accessible_roles = [\App\Enum\UserRoleEnum::SUPERADMIN, \App\Enum\UserRoleEnum::ADMIN, 'admin'];
+
+
+        if(request()->user()->role !== \App\Enum\UserRoleEnum::ADMIN || 
+            !in_array(request()->user()?->activeRole(), $accessible_roles)
+        ){
+            return redirect()->back()->with('error', 'You are not eligible to approve installment payment.');
+        }
+
+        // Change booked event type to full payment
+        $booked_event_id = $userInstallment->bookedEvent->id;
+        $booked_event = BookedEvent::where('id', $booked_event_id)->first();
+        $booked_event->payment_type = 'full_payment';
+        $booked_event->save();
+ 
+        $userInstallment->delete();
+        // Send email notification to user
+        if (!$userInstallment) {
+            return redirect()->back()->with('error', 'User installment payment request for this event, rejection error, try again later.');
+        }
+
+        return redirect()->back()->with('success', 'User installment payment request rejected.');
  
     }
 }
