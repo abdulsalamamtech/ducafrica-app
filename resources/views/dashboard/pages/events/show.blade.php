@@ -148,7 +148,7 @@
                         @if (!$event->isPaid())
                             {{-- If installment payment has been requested and payment is incomplete--}}
                             @if ($event->getBookedEvent()?->payment_type == 'installment' && !$event->getPaymentDetails()['payment_status'])
-                                {{-- If istallment payment request hasn't been approved --}}
+                                {{-- If installment payment request hasn't been approved --}}
                                 @if (!$event->getBookedEvent()?->installment()?->approved)                                    
                                     <div class="mt-2">
                                         <a href="#"
