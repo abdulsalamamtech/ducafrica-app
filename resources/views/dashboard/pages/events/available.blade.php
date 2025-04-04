@@ -92,7 +92,7 @@
                                             {{ $event->end_date->format('l, jS F Y') }} ({{ $event->end_date->diffForHumans() }})
                                         </span>
                                     </p>
-                                    <div class="flex gap-2">
+                                    <div class="p-2">
                                         <p class="text-gray-900 dark:text-gray-100">Slots: <span class="text-gray-500 dark:text-gray-400"> {{ $event->slots }}</span></p>
                                         <p class="text-gray-900 dark:text-gray-100">Fully Booked: <span class="text-gray-500 dark:text-gray-400"> {{ $event->allBookedEventWithPayment()}}</span></p>
                                         {{-- <p class="text-gray-900 dark:text-gray-100">Available Slots: <span class="text-gray-500 dark:text-gray-400"> {{ ($event->slots - $event->allBookedEventWithPayment() > 0 ? $event->allBookedEventWithPayment() : 0)}}</span></p> --}}
