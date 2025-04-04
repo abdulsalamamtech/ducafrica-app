@@ -108,7 +108,7 @@
                                 @if ($event->isBooked() )
                                     <div class="w-7/12 text-gray-500 dark:text-green-400">Booked</div>
                                 @else
-                                    <div class="w-7/12 text-gray-500 dark:text-gray-400">Not Booked</div>
+                                    <div class="w-7/12 text-gray-500 dark:text-gray-400">Not booked</div>
                                 @endif
                         </div>
 
@@ -126,7 +126,7 @@
                             @if ($event->isPaid() )
                                 <div class="w-7/12 text-gray-500 dark:text-green-400">Paid</div>
                             @else
-                                <div class="w-7/12 text-gray-500 dark:text-gray-400">Not Paid</div>
+                                <div class="w-7/12 text-gray-500 dark:text-gray-400">Not completed</div>
                             @endif
                         </div>
 
@@ -176,21 +176,22 @@
                                             </a>
                                         </div>
                                         {{-- Request for installment payment --}}
-                                        @if(request()->user()->role == \App\Enum\UserRoleEnum::ADMIN || 
-                                            request()->user()->role == \App\Enum\UserRoleEnum::SUPERNUMERARIES || 
+                                        @if(
+                                            request()->user()->role == \App\Enum\UserRoleEnum::ADMIN->value || 
+                                            request()->user()->role == \App\Enum\UserRoleEnum::SUPERNUMERARIES->value ||
                                             in_array(request()->user()?->activeRole(), [
-                                                \App\Enum\UserRoleEnum::SUPERADMIN, 
-                                                \App\Enum\UserRoleEnum::ADMIN,
-                                                \App\Enum\UserRoleEnum::SUPERNUMERARIES])
+                                                \App\Enum\UserRoleEnum::SUPERADMIN->value, 
+                                                \App\Enum\UserRoleEnum::ADMIN->value,
+                                                \App\Enum\UserRoleEnum::SUPERNUMERARIES->value])
                                             )
                                             @if ($event->status == 0) 
-                                            {{-- A perfect logic is needed --}}
-                                            <div>
-                                                <h3 href="#"
-                                                    class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
-                                                    Installment not approved
-                                                </h3>
-                                            </div>
+                                                {{-- A perfect logic is needed --}}
+                                                <div>
+                                                    <h3 href="#"
+                                                        class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
+                                                        Installment not approved
+                                                    </h3>
+                                                </div>
                                             @else
                                                 <div>
                                                     <form action="{{ route('user-installments.store') }}" method="POST">
@@ -341,7 +342,7 @@
 
 
                 {{-- Payment Transactions table --}}
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-6 my-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+                <div class="relative overflow-x-auto sm:rounded-lg p-6 my-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
 
                     {{-- Transactions --}}
                     <div class="p-2">
@@ -460,7 +461,8 @@
                                         {{ $transaction->amount }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        NGN. 0
+                                        NGN.
+                                        {{ $transaction->getBookedEventTransactionBalance() }}
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex items-center">

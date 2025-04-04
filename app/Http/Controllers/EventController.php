@@ -431,7 +431,7 @@ class EventController extends Controller
             ->first();
 
         // If transaction payment status is pending
-        if($transaction->payment_status != 'success'){
+        if($transaction?->payment_status != 'success'){
 
             $paymentController = new PaymentController();
             $response = $paymentController->verify($transaction->reference);

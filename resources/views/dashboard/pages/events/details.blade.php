@@ -96,8 +96,8 @@
                             <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $event->availableSlotsLimit() ?? 0 }}</div>
                         </div>
                         <div class="flex justify-between items-start border-b px-2">
-                            <div class="w-1/3 text-gray-700 dark:text-gray-300">Booked and Full Payment:</div>
-                            <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $event->allBookedEventsPaid()->count() ?? 0 }}</div>
+                            <div class="w-1/3 text-gray-700 dark:text-gray-300">Booked events with payment:</div>
+                            <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $event?->allBookedEventWithPayment() ?? 0 }}</div>
                         </div>
                         <div class="flex justify-between items-start border-b px-2">
                             <div class="w-1/3 text-gray-700 dark:text-gray-300">Booked:</div>

@@ -95,7 +95,7 @@ class Event extends Model
     // Check if the event has reached its maximum limit
     //  ($event->slots - ($event->allBookedEvents()->count() + 9)) >= 0 ? $event->slots - ($event->allBookedEvents()->count()): 0 
     public function availableSlotsLimit(){
-        $availableSlots = ($this->slots - $this->allBookedEventsPaid()->count());
+        $availableSlots = ($this->slots - $this->allBookedEventWithPayment());
         return ($availableSlots >= 0)? $availableSlots : 0;
     }
 
@@ -132,6 +132,18 @@ class Event extends Model
             return $this->allBookedEvents()->where('paid');
         }
         return 0;
+    }
+
+
+    public function allBookedEventWithPayment(){
+        $trans = $this->transactions()
+            ->where('amount', '>', 0)
+            ->where('payment_status', 'success')
+            ->groupBy('booked_event_id')
+            // distinct worked well
+            ->distinct('booked_event_id')
+            ->count();
+        return $trans;
     }
 
 

@@ -32,4 +32,19 @@ class Transaction extends Model
     {
         return $this->hasManyThrough(Event::class, BookedEvent::class);
     }
+
+
+    public function getBookedEventTransactionAmount(){
+        $bal = Transaction::where('user_id', $this->user->id)
+            ->where('booked_event_id', $this->bookedEvent->id)
+            ->where('payment_status', 'success')
+            ->where('deleted_at', null)
+            ->sum('amount');
+        return $bal;
+    }
+
+    public function getBookedEventTransactionBalance(){
+        // This function calculates the balance of the booked event transaction
+        return $this->bookedEvent->payment_amount - $this->getBookedEventTransactionAmount();
+    }
 }

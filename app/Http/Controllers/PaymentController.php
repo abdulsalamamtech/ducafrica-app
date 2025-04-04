@@ -42,6 +42,7 @@ class PaymentController extends Controller
                 ->post(config('services.paystack.url') . '/transaction/initialize', $data);
 
             // return $response;
+            // dd($response->body());
 
             if ($response->failed()) {
                 return ([

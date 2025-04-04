@@ -332,6 +332,9 @@
                                 Balance
                             </th>
                             <th scope="col" class="px-6 py-3">
+                                Total Paid
+                            </th>
+                            <th scope="col" class="px-6 py-3">
                                 Status
                             </th>
                             <th scope="col" class="px-6 py-3">
@@ -398,7 +401,12 @@
                                     {{ $transaction->amount }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    NGN. 0
+                                    NGN.
+                                    {{ $transaction->getBookedEventTransactionBalance() }}
+                                </td>
+                                <td>
+                                    NGN.
+                                    {{ $transaction->getBookedEventTransactionAmount() }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center">
