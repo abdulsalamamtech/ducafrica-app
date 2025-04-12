@@ -207,14 +207,17 @@ class Event extends Model
 
     public function confirmedBookings(){
         $event_id = $this->id;
-        $booked_event = BookedEvent::where('event_id', $event_id)
+        $conf = BookedEvent::where('event_id', $event_id)
         ->whereHas('transactions', function ($query) {
             $query->where('amount', '>', 0)
-            ->where('payment_status', 'success');
+            ->where('payment_status', 'success')
+            ->distinct('booked_event_id');
         })->get();
-        if($booked_event){
-            return $booked_event->count();
-        }
-        return;
+        // $conf = BookedEvent::where('event_id', $event_id)
+        // ->transactions
+        //     ->where('amount', '>', 0)
+        //     ->where('payment_status', 'success')
+        //     ->distinct('booked_event_id')->get();
+        return $conf;
     }
 }

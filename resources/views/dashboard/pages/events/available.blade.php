@@ -95,7 +95,7 @@
                                     <div class="p-2">
                                         <p class="text-gray-900 dark:text-gray-100">Slots: <span class="text-gray-500 dark:text-gray-400"> {{ $event->slots }}</span></p>
                                         <p class="text-gray-900 dark:text-gray-100">Confirmed Bookings: <span class="text-gray-500 dark:text-gray-400"> {{ $event->allBookedEventWithPayment()}}</span></p>
-                                        <p class="text-gray-900 dark:text-gray-100">Confirmed Bookings: <span class="text-gray-500 dark:text-gray-400"> {{ $event->confirmedBookings()}}</span></p>
+                                        <p class="text-gray-900 dark:text-gray-100">Confirmed Bookings: <span class="text-gray-500 dark:text-gray-400"> {{ $event->confirmedBookings()->count()}}</span></p>
 
                                         {{-- <p class="text-gray-900 dark:text-gray-100">Available Slots: <span class="text-gray-500 dark:text-gray-400"> {{ ($event->slots - $event->allBookedEventWithPayment() > 0 ? $event->allBookedEventWithPayment() : 0)}}</span></p> --}}
                                         {{-- <p class="text-gray-900 dark:text-gray-100">Available Slots: <span class="text-gray-500 dark:text-gray-400"> {{ ($event->slots - $event->allBookedEventWithPayment())}}</span></p> --}}
