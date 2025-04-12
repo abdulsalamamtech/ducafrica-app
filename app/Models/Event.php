@@ -141,13 +141,14 @@ class Event extends Model
             ->where('payment_status', 'success')
             // ->groupBy('booked_event_id')
             // distinct worked well
-            ->distinct('user_id');
+            ->distinct('user_id')
+            ->count();
             // info(json_decode($trans));
             info($trans);
             // info($this . ' confirmed booking ' . $trans);
         return $trans;
     }
-
+    
     public function confirmedBookings(){
         $event_id = $this->id;
         $conf = BookedEvent::where('event_id', $event_id)
