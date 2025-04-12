@@ -211,7 +211,7 @@ class Event extends Model
         ->whereHas('transactions', function ($query) {
             $query->where('amount', '>', 0)
             ->where('payment_status', 'success')
-            ->distinct('booked_event_id');
+            ->distinct('user_id');
         })->get();
         // $conf = BookedEvent::where('event_id', $event_id)
         // ->transactions
