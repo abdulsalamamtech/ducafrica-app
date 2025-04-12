@@ -141,7 +141,7 @@ class Event extends Model
             ->where('payment_status', 'success')
             // ->groupBy('booked_event_id')
             // distinct worked well
-            ->distinct('user_id')
+            ->distinct('transactions.user_id')
             ->count();
             // info(json_decode($trans));
             info($trans);
@@ -154,14 +154,10 @@ class Event extends Model
         $conf = BookedEvent::where('event_id', $event_id)
         ->whereHas('transactions', function ($query) {
             $query->where('amount', '>', 0)
-            ->where('payment_status', 'success')
-            ->distinct('user_id');
-        })->get();
-        // $conf = BookedEvent::where('event_id', $event_id)
-        // ->transactions
-        //     ->where('amount', '>', 0)
-        //     ->where('payment_status', 'success')
-        //     ->distinct('booked_event_id')->get();
+            ->where('payment_status', 'success');
+        })
+        // ->distinct('transactions.user_id')
+        ->get();
         return $conf;
     }
 
