@@ -139,11 +139,15 @@ class Event extends Model
         $trans = $this->transactions()
             ->where('amount', '>', 0)
             ->where('payment_status', 'success')
-            ->groupBy('booked_event_id')
+            // ->groupBy('booked_event_id')
             // distinct worked well
             ->distinct('booked_event_id')
             ->count();
-        return $trans;
+            // info(json_decode($trans));
+            info($trans);
+            // info($this . ' confirmed booking ' . $trans);
+        // return $trans;
+        return 1;
     }
 
 
@@ -201,5 +205,16 @@ class Event extends Model
     }
 
 
-
+    public function confirmedBookings(){
+        $event_id = $this->id;
+        $booked_event = BookedEvent::where('event_id', $event_id)
+        ->whereHas('transactions', function ($query) {
+            $query->where('amount', '>', 0)
+            ->where('payment_status', 'success');
+        })->get();
+        if($booked_event){
+            return $booked_event->count();
+        }
+        return;
+    }
 }
