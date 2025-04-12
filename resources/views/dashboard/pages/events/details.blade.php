@@ -99,6 +99,7 @@
                             <div class="w-1/3 text-gray-700 dark:text-gray-300">Booked events with payment:</div>
                             <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $event?->allBookedEventWithPayment() ?? 0 }}</div>
                         </div>
+                        
                         <div class="flex justify-between items-start border-b px-2">
                             <div class="w-1/3 text-gray-700 dark:text-gray-300">Confirm Booking:</div>
                             <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $event?->confirmedBookings()->count() ?? 0 }}</div>
