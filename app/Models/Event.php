@@ -141,15 +141,28 @@ class Event extends Model
             ->where('payment_status', 'success')
             // ->groupBy('booked_event_id')
             // distinct worked well
-            ->distinct('booked_event_id')
-            ->count();
+            ->distinct('user_id');
             // info(json_decode($trans));
             info($trans);
             // info($this . ' confirmed booking ' . $trans);
-        // return $trans;
-        return 1;
+        return $trans;
     }
 
+    public function confirmedBookings(){
+        $event_id = $this->id;
+        $conf = BookedEvent::where('event_id', $event_id)
+        ->whereHas('transactions', function ($query) {
+            $query->where('amount', '>', 0)
+            ->where('payment_status', 'success')
+            ->distinct('user_id');
+        })->get();
+        // $conf = BookedEvent::where('event_id', $event_id)
+        // ->transactions
+        //     ->where('amount', '>', 0)
+        //     ->where('payment_status', 'success')
+        //     ->distinct('booked_event_id')->get();
+        return $conf;
+    }
 
     // Get user transactions for a specific event
     public function getTransactions(){
@@ -205,19 +218,5 @@ class Event extends Model
     }
 
 
-    public function confirmedBookings(){
-        $event_id = $this->id;
-        $conf = BookedEvent::where('event_id', $event_id)
-        ->whereHas('transactions', function ($query) {
-            $query->where('amount', '>', 0)
-            ->where('payment_status', 'success')
-            ->distinct('user_id');
-        })->get();
-        // $conf = BookedEvent::where('event_id', $event_id)
-        // ->transactions
-        //     ->where('amount', '>', 0)
-        //     ->where('payment_status', 'success')
-        //     ->distinct('booked_event_id')->get();
-        return $conf;
-    }
+
 }
