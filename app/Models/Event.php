@@ -95,7 +95,7 @@ class Event extends Model
     // Check if the event has reached its maximum limit
     //  ($event->slots - ($event->allBookedEvents()->count() + 9)) >= 0 ? $event->slots - ($event->allBookedEvents()->count()): 0 
     public function availableSlotsLimit(){
-        $availableSlots = ($this->slots - $this->allBookedEventWithPayment());
+        $availableSlots = ($this->slots - $this->confirmedBookings()?->count());
         return ($availableSlots >= 0)? $availableSlots : 0;
     }
 
