@@ -81,7 +81,7 @@ class Event extends Model
     // Check if the event is available
     public function isAvailable(){
         // Some order logic is required
-        return $this->slots >= $this->allBookedEvents()->count();
+        return $this->slots >= $this->confirmedBookings()?->count();
 
         // $events = Event::where('id', $this->id)->where('start_date', '<=', now())
         // ->where('end_date', '>=', now())
