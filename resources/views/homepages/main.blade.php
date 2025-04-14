@@ -68,8 +68,12 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li> --}}
-          <li><a class="getstarted" href="{{ route('register') }}">Register</a></li>
-          <li><a class="getstarted _scrollto" href="{{ route('login') }}">Login</a></li>
+          @auth
+            <li><a class="nav-link getstarted" href="{{ route('dashboard') }}">Dashboard</a></li>
+          @else
+            <li><a class="getstarted" href="{{ route('register') }}">Register</a></li>
+            <li><a class="getstarted _scrollto" href="{{ route('login') }}">Login</a></li>
+          @endauth
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->

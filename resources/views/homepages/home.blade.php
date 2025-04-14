@@ -70,14 +70,21 @@
           </h2>
           <div data-aos="fade-up" data-aos-delay="600">
             <div class="text-center text-lg-start">
-              <a href="{{route('login')}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
-                <span>Login</span>
-                <i class="bi bi-arrow-right"></i>
-              </a>
-               <a href="{{route('register')}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
-                <span>Register</span>
-                <i class="bi bi-arrow-right"></i>
-              </a>
+              @auth
+                <a href="{{route('dashboard')}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                  <span>Dashboard</span>
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              @else
+                <a href="{{route('login')}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                  <span>Login</span>
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+                <a href="{{route('register')}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                  <span>Register</span>
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              @endauth
             </div>
           </div>
         </div>
