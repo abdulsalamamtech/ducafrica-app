@@ -70,7 +70,19 @@
           </li> --}}
           @auth
             <li><a class="nav-link getstarted" href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li><a class="getstarted _scrollto" href="{{ route('logout') }}">Logout</a></li>
+            <li>
+              <form method="post" action="{{ route('logout') }}" class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                @csrf
+                <button type="submit"
+                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white group">
+                    <div
+                        lass="flex-shrink-0 w-8 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                        <i class='fa fa-sign-out'></i>
+                    </div>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
+                </button>
+            </form>
+            </li>
           @else
             <li><a class="getstarted" href="{{ route('register') }}">Register</a></li>
             <li><a class="getstarted _scrollto" href="{{ route('login') }}">Login</a></li>

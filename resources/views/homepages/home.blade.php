@@ -75,9 +75,18 @@
                   <span>Dashboard</span>
                   <i class="bi bi-arrow-right"></i>
                 </a>
-                <a href="{{route('logout')}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
-                  <span>Logout</span>
-                  <i class="bi bi-arrow-right"></i>
+                <div class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                  <form method="post" action="{{ route('logout') }}" class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                    @csrf
+                    <button type="submit"
+                        class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white group">
+                        <div
+                            lass="flex-shrink-0 w-8 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                            <i class='fa fa-sign-out'></i>
+                        </div>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
+                    </button>
+                </form>
                 </a>
               @else
                 <a href="{{route('login')}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
