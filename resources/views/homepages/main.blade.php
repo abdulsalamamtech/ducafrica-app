@@ -71,16 +71,10 @@
           @auth
             <li><a class="nav-link getstarted" href="{{ route('dashboard') }}">Dashboard</a></li>
             <li>
-              <form method="post" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" >
-                    <div
-                        class="flex-shrink-0 w-8 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                        <i class='fa fa-sign-out'></i>
-                    </div>
-                    <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
-                </button>
-            </form>
+                <form method="post" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" >Logout</button>
+                </form>
             </li>
           @else
             <li><a class="getstarted" href="{{ route('register') }}">Register</a></li>

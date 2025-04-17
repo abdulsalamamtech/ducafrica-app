@@ -78,13 +78,7 @@
                 <div class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
                   <form method="post" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" >
-                        <div
-                            lass="flex-shrink-0 w-8 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                            <i class='fa fa-sign-out'></i>
-                        </div>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
-                    </button>
+                    <button type="submit" >Logout</button>
                 </form>
                 </a>
               @else
