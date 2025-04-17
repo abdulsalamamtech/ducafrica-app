@@ -70,6 +70,7 @@
           </li> --}}
           @auth
             <li><a class="nav-link getstarted" href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li><a class="getstarted _scrollto" href="{{ route('logout') }}">Logout</a></li>
           @else
             <li><a class="getstarted" href="{{ route('register') }}">Register</a></li>
             <li><a class="getstarted _scrollto" href="{{ route('login') }}">Login</a></li>

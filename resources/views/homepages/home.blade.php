@@ -75,6 +75,10 @@
                   <span>Dashboard</span>
                   <i class="bi bi-arrow-right"></i>
                 </a>
+                <a href="{{route('logout')}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                  <span>Logout</span>
+                  <i class="bi bi-arrow-right"></i>
+                </a>
               @else
                 <a href="{{route('login')}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
                   <span>Login</span>
