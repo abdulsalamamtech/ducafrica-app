@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GroupMemberRequest;
+use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,15 +39,13 @@ class GroupMemberController extends Controller
     public function store(GroupMemberRequest $request)
     {
 
-        return redirect()->back()->with('warnings', 'Features coming soon!');
+        // return redirect()->back()->with('warnings', 'Features coming soon!');
 
         $data = $request->validated();
         $data['added_by'] = $request->user()->id;
-
+        // return $data;
         $group_members = GroupMember::create($data);
-        return redirect()
-            ->route('group-members.index')
-            ->with('success', 'group member added successfully');
+        return redirect()->back()->with('success', 'group member added successfully');
     }
 
     /**
@@ -94,5 +93,20 @@ class GroupMemberController extends Controller
         return redirect()->route('group-member.index');
     }
 
-    
+    /**
+     * Display a listing of the group members.
+     */
+    public function getGroupMembers(Group $group)
+    {
+        $new_group_members = User::all();
+        // $new_group_members = User::where('email_verified_at')->get();
+        $group_members = GroupMember::where('group_id', $group->id)
+            ->latest()->paginate(10);
+        return view('dashboard.pages.groups.members', [
+            'group' => $group,
+            'group_members' => $group_members,
+            'new_group_members' => $new_group_members,
+        ]);
+
+    }    
 }

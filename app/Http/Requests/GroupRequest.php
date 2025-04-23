@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Group;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class GroupRequest extends FormRequest
 {
@@ -22,7 +24,7 @@ class GroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:100', 'unique:groups,name,' . $this->route('id')],
+            'name' => ['required', 'string', 'max:100', Rule::unique(Group::class)->ignore($this->route()->group)],
             'description' => ['required', 'string'],
             'added_by' => ['required', 'integer']
         ];

@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('added_by')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('added_by')->constrained('users')->nullOnDelete();
+            // Add group_head_id to online database table
+            $table->foreignId('group_head_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('name');
             $table->text('description');
             $table->boolean('status')->default(1);            

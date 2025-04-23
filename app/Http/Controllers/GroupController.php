@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enum\UserRoleEnum;
 use App\Http\Requests\GroupRequest;
 use App\Models\Group;
+use App\Models\GroupMember;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,11 +21,11 @@ class GroupController extends Controller
         $group_heads = User::whereHas('roles', function($role) {
             $role->orWhere('name', UserRoleEnum::SUPERADMIN)
             ->orWhere('name', UserRoleEnum::ADMIN)
-            ->orWhere('name', UserRoleEnum::LOCALCOUNCIL)
+            // ->orWhere('name', UserRoleEnum::LOCALCOUNCIL)
             ->orWhere('name', UserRoleEnum::GROUPHEAD);
         })->get();
 
-        $groups = Group::latest()->paginate(10);
+        $groups = Group::with('groupHead')->latest()->paginate(10);
         return view('dashboard.pages.groups.index', [
             'groups' => $groups,
             'group_heads' => $group_heads
@@ -76,7 +77,8 @@ class GroupController extends Controller
      */
     public function update(GroupRequest $request, Group $group)
     {
-        $group->update($request->validated());
+        $data = $request->validated();
+        $group->update($data);
         return redirect()
             ->route('groups.index')
             ->with('success', 'group updated successfully');
@@ -102,4 +104,7 @@ class GroupController extends Controller
         return view('dashboard.pages.groups.my-groups', ['groups' => $groups]);
 
     }    
+
+
+
 }

@@ -9,7 +9,7 @@ class Group extends Model
 {
     use SoftDeletes;
     
-    protected $fillable = ['added_by', 'name', 'description'];
+    protected $fillable = ['added_by', 'group_head_id', 'name', 'description'];
 
 
     public function users()
@@ -20,4 +20,14 @@ class Group extends Model
     public function groupHead(){
         return $this->belongsTo(User::class, 'added_by');
     }
+
+    // public function groupHead(){
+    //     return $this->belongsTo(User::class, 'group_head_id');
+    // }
+
+    // Group members
+    public function groupMember()
+    {
+        return $this->hasMany(GroupMember::class, 'group_id');
+    }  
 }

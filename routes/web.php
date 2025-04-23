@@ -110,6 +110,11 @@ Route::middleware(['auth', 'verified'])->group(function(){
         ->middleware(['role:super-admin|admin'])
         ->name('groups.delete');
 
+    // Get group members
+    Route::get('groups/{group}/members', [GroupMemberController::class, 'getGroupMembers'])
+        ->middleware(['role:super-admin|admin|group-head'])
+        ->name('groups.members');
+
     Route::get('/my-groups', [GroupController::class, 'myGroups'])
         ->name('my-groups')
         ->middleware(['role:super-admin|admin|group-head']); 
