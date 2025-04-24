@@ -15,7 +15,7 @@
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300">Groups</h2>
 
-                        <a href="#">
+                        <a href="{{ route('dashboard') }}">
                             <button class="px-3 md:px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700"
                             data-modal-target="addGroupModal" data-modal-show="addGroupModal">
                                 <i class="fa fa-pie-chart"></i>
@@ -91,6 +91,9 @@
                                     Name
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    Group Head
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     Number of Members
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -125,6 +128,14 @@
 
                                         </div>
                                     </th>
+                                    <th scope="row">
+                                        <div class="ps-3">
+                                            {{-- {{ $group}} --}}
+                                            <div class="text-base font-semibold">{{$group?->groupHead?->name}}</div>
+                                            <div class="font-normal text-gray-500">{{$group?->groupHead?->email}}</div>
+                                            <div class="font-normal text-gray-500">{{$group?->groupHead?->phone}}</div>
+                                        </div>
+                                    </th> 
                                     <td class="px-6 py-4">
                                         {{ $group->users->count()}}
                                     </td>
@@ -145,20 +156,17 @@
                                             <!-- Dropdown menu -->
                                             <div id="dropdownDots{{ $group->id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton{{ $group->id }}">
-                                                    <li>
-                                                        <a href="{{ route('group-members.index') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">view members</a>
-                                                    </li>
                                                 <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                                    <!-- Modal toggle -->
-                                                    <a href="#" type="button"
-                                                        data-modal-target="editGroupModal{{ $group->id }}"
-                                                        data-modal-show="editGroupModal{{ $group->id }}"
-                                                        class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Group Details
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activate</a>
-                                                </li>
+                                                        <!-- Modal toggle -->
+                                                        <a href="#" type="button"
+                                                            data-modal-target="editGroupModal{{ $group->id }}"
+                                                            data-modal-show="editGroupModal{{ $group->id }}"
+                                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Group Details
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('my-groups.members', $group->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View Members</a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                     </td>
@@ -166,7 +174,7 @@
                                 <!-- Edit Group modal 2 -->
                                 <div id="editGroupModal{{ $group->id }}" tabindex="-1" aria-hidden="true"
                                     class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                                    <div class="relative w-full max-w-2xl max-h-full bg-white">
+                                    <div class="relative w-full max-w-2xl max-h-full bg-white dark:bg-gray-700">
                                         <!-- Modal content -->
                                         <form action="#" method="GET"
                                             class="relative bg-white rounded-lg shadow dark:bg-gray-700">

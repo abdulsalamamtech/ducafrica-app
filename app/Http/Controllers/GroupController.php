@@ -62,6 +62,7 @@ class GroupController extends Controller
     public function show(Group $Group)
     {
         return view('groups.index', compact('group'));
+        
     }
 
     /**
@@ -99,8 +100,10 @@ class GroupController extends Controller
     {
         // Get the logged in user
         $user = Auth::user();
+        // $user = User::find(20);
+        $groups = $user->groups;
 
-        $groups = Group::latest()->paginate(10);
+        // $groups = Group::latest()->paginate(10);
         return view('dashboard.pages.groups.my-groups', ['groups' => $groups]);
 
     }    

@@ -170,8 +170,9 @@
                             <span class="flex-1 ms-3 whitespace-nowrap">My Transactions</span>
                         </a>
                     </li>
-                @endif
-
+                    @endif
+                    
+                
                 {{-- If user is not admin --}}
                 @if(request()->user()->role == \App\Enum\UserRoleEnum::ADMIN || 
                     in_array(request()->user()->activeRole()??request()->user()->role, [
@@ -186,17 +187,28 @@
                             <div
                                 class="flex-shrink-0 w-8 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
                                 {{-- <i class="fa fa-layer-group"></i> --}}
-                                <i class="fa fa-wpforms"></i>
+                                <i class="fa fa-flag"></i>
                             </div>
                             <span class="flex-1 ms-3 whitespace-nowrap">Groups</span>
                         </a>
                     </li>
                 @endif
 
+                <li class="">
+                    <a href="{{ route('my-groups.index') }}"
+                        class="{{ request()->routeIs('my-groups.*')? 'text-white bg-['.$brand['bg-color'].']' :''; }}
+                        flex items-center p-2 text-gray-900 hover:text-gray-100 rounded-lg dark:text-white hover:bg-blue-700 dark:hover:bg-gray-700 group">
+                        <div
+                            class="flex-shrink-0 w-8 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                            <i class="fa fa-tree"></i>
+                        </div>
+                        <span class="flex-1 ms-3 whitespace-nowrap">My Groups</span>
+                    </a>
+                </li>    
 
                 {{-- For users --}}
                 {{-- If user is not admin --}}
-                @if(request()->user()->role == \App\Enum\UserRoleEnum::USER || 
+                {{-- @if(request()->user()->role == \App\Enum\UserRoleEnum::USER || 
                     in_array(request()->user()->activeRole(), [
                         \App\Enum\UserRoleEnum::COOPERATORS, 
                         \App\Enum\UserRoleEnum::GROUPHEAD, 
@@ -205,18 +217,17 @@
                         \App\Enum\UserRoleEnum::USER])
                 )
                     <li class="">
-                        <a href="{{ route('my-groups') }}"
+                        <a href="{{ route('my-groups.index') }}"
                             class="{{ request()->routeIs('my-groups.*')? 'text-white bg-['.$brand['bg-color'].']' :''; }}
                             flex items-center p-2 text-gray-900 hover:text-gray-100 rounded-lg dark:text-white hover:bg-blue-700 dark:hover:bg-gray-700 group">
                             <div
                                 class="flex-shrink-0 w-8 h-5 text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                                {{-- <i class="fa fa-layer-group"></i> --}}
                                 <i class="fa fa-wpforms"></i>
                             </div>
                             <span class="flex-1 ms-3 whitespace-nowrap">My Groups</span>
                         </a>
                     </li>   
-                @endif
+                @endif --}}
 
                 {{-- If user is admin --}}
                 @if(request()->user()->role == \App\Enum\UserRoleEnum::ADMIN || 

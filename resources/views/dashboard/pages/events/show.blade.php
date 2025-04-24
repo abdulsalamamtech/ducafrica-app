@@ -28,7 +28,7 @@
                         <span class="text-blue-600 dark:text-blue-400">Nigeria 🇳🇬</span>
                       </div> --}}
 
-                      <div class="text-gray-900 text-center font-bold pb-2">
+                      <div class="text-gray-900 text-center font-bold pb-2 dark:text-gray-200">
                         <h2>DucAfrica Nigeria</h2>
                       </div>
 

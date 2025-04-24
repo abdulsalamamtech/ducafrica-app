@@ -116,12 +116,17 @@ Route::middleware(['auth', 'verified'])->group(function(){
         ->name('groups.members');
 
     Route::get('/my-groups', [GroupController::class, 'myGroups'])
-        ->name('my-groups')
+        ->name('my-groups.index')
         ->middleware(['role:super-admin|admin|group-head']); 
+    Route::get('my-groups/{group}/members', [GroupMemberController::class, 'getGroupMembers'])
+        ->middleware(['role:super-admin|admin|group-head'])
+        ->name('my-groups.members');
 
     Route::resource('group-members', GroupMemberController::class)
-        ->only(['index','store', 'update']);
-
+        ->only(['index', 'show','store', 'update']);
+    Route::delete('group-members/{groupMember}', [GroupMemberController::class, 'destroy'])
+        ->middleware(['role:super-admin|admin|group-head'])
+        ->name('group-members.delete');
 
     // Centers
     Route::resource('center-types', CenterTypeController::class)

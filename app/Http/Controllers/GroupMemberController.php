@@ -19,6 +19,7 @@ class GroupMemberController extends Controller
         $new_group_members = User::where('email_verified_at')->get();
         $group_members = GroupMember::latest()->paginate(10);
         return view('dashboard.pages.groups.members', [
+            'group' => Group::findOrFail(3),
             'group_members' => $group_members,
             'new_group_members' => $new_group_members,
         ]);
@@ -27,7 +28,8 @@ class GroupMemberController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     */
+     */        // return redirect()->back()->with('warnings', 'Features coming soon!');
+
     public function create()
     {
         return view('group-members.create');
@@ -39,10 +41,18 @@ class GroupMemberController extends Controller
     public function store(GroupMemberRequest $request)
     {
 
-        // return redirect()->back()->with('warnings', 'Features coming soon!');
-
+        // Get validated data
         $data = $request->validated();
         $data['added_by'] = $request->user()->id;
+
+        // Check if user is a group member
+        $userInGroup = GroupMember::where('user_id', $data['user_id'])
+            ->where('group_id', $data['group_id'])
+            ->first();
+        if($userInGroup){
+            return redirect()->back()->with('error', 'User is already a group member');
+        }
+
         // return $data;
         $group_members = GroupMember::create($data);
         return redirect()->back()->with('success', 'group member added successfully');
@@ -53,13 +63,16 @@ class GroupMemberController extends Controller
      */
     public function show(GroupMember $groupMember)
     {
+
         // $new_group_members = User::where('email_verified_at')->get();
         // return view('group-members.index', [
         //     'group_members' => $groupMember,
         //     'new_group_members' => $new_group_members,
         // ]);
 
-        return view('group-members.index', ['group_member' => $groupMember]);
+        // return view('group-members.index', ['group_member' => $groupMember]);
+        return redirect()->back();
+
     }
 
     /**
@@ -67,7 +80,8 @@ class GroupMemberController extends Controller
      */
     public function edit(GroupMember $groupMember)
     {
-        return view('group-members.index', compact('group_members'));
+        // return view('group-members.index', compact('group_members'));
+        return redirect()->back();
     }
 
     /**
@@ -90,7 +104,8 @@ class GroupMemberController extends Controller
     public function destroy(GroupMember $groupMember)
     {
         $groupMember->delete();
-        return redirect()->route('group-member.index');
+        return redirect()->back()->with('success', 'group member removed successfully');
+
     }
 
     /**
@@ -98,7 +113,17 @@ class GroupMemberController extends Controller
      */
     public function getGroupMembers(Group $group)
     {
-        $new_group_members = User::all();
+        // return $group;
+        // Get users who are not members of the group
+        $new_group_members = User::whereNotNull('email_verified_at')
+            ->whereNotIn('id', function ($query) use ($group) 
+            {
+                $query->select('user_id')
+                ->from('group_members')
+                ->where('group_id', $group->id);
+            })
+            ->get();
+        // $new_group_members = User::all();
         // $new_group_members = User::where('email_verified_at')->get();
         $group_members = GroupMember::where('group_id', $group->id)
             ->latest()->paginate(10);
@@ -108,5 +133,27 @@ class GroupMemberController extends Controller
             'new_group_members' => $new_group_members,
         ]);
 
-    }    
+    }   
+    
+    
+    public function getAllGroupMembers(Group $group)
+    {
+        // Get users who are not members of the group
+        $non_group_members = User::whereNotIn('id', function ($query) use ($group) {
+            $query->select('user_id')
+                ->from('group_members')
+                ->where('group_id', $group->id);
+        })->get();
+
+        // Get users who are members of the group
+        $group_members = GroupMember::where('group_id', $group->id)
+            ->latest()->paginate(10);
+
+        return view('dashboard.pages.groups.members', [
+            'group' => $group,
+            'group_members' => $group_members,
+            'new_group_members' => $non_group_members, // Users not in the group
+        ]);
+    }
+    
 }
