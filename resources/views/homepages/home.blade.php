@@ -70,27 +70,34 @@
           </h2>
           <div data-aos="fade-up" data-aos-delay="600">
             <div class="text-center text-lg-start">
+
+              {{-- Check if user is Auth --}}
               @auth
+              {{-- Dashboard --}}
                 <a href="{{route('dashboard')}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
-                  <span>Dashboard</span>
+                  <span>dashboard</span>
                   <i class="bi bi-arrow-right"></i>
                 </a>
-                <div class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                <span class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
                   <form method="post" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" >Logout</button>
-                </form>
-                </a>
+                      @csrf
+                      {{-- <button class="nav-link getstarted" type="submit" >Logout</button> --}}
+                      <button class="py-2 bg-transparent nav-link getstarted" type="submit" >Logout</button>
+                  </form>
+                </span>
               @else
+                {{-- Login --}}
                 <a href="{{route('login')}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
                   <span>Login</span>
                   <i class="bi bi-arrow-right"></i>
                 </a>
+                {{-- Register --}}
                 <a href="{{route('register')}}" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
                   <span>Register</span>
                   <i class="bi bi-arrow-right"></i>
                 </a>
               @endauth
+
             </div>
           </div>
         </div>

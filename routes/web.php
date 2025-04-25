@@ -116,10 +116,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
         ->name('groups.members');
 
     Route::get('/my-groups', [GroupController::class, 'myGroups'])
-        ->name('my-groups.index')
-        ->middleware(['role:super-admin|admin|group-head']); 
+        ->name('my-groups.index'); 
     Route::get('my-groups/{group}/members', [GroupMemberController::class, 'getGroupMembers'])
-        ->middleware(['role:super-admin|admin|group-head'])
         ->name('my-groups.members');
 
     Route::resource('group-members', GroupMemberController::class)

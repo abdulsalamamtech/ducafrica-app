@@ -64,3 +64,26 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+
+
+
+
+## Vite manifest.json (from public folder)
+{
+  "resources/js/app.js": {
+    "file": "assets/app-66e7f68a.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-298ba296.css",
+    "isEntry": true,
+    "src": "resources/sass/app.scss"
+  }
+}
+
+# ducafrica.com/ducafrica-app/public/build/manifest.json
+cp public_html/build ducafrica-app/public/build
