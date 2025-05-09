@@ -35,8 +35,8 @@ class Transaction extends Model
 
 
     public function getBookedEventTransactionAmount(){
-        $bal = Transaction::where('user_id', $this->user->id)
-            ->where('booked_event_id', $this->bookedEvent->id)
+        $bal = Transaction::where('user_id', $this->user?->id)
+            ->where('booked_event_id', $this->bookedEvent?->id)
             ->where('payment_status', 'success')
             ->where('deleted_at', null)
             ->sum('amount');
