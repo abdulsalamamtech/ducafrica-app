@@ -82,6 +82,14 @@ class UserInstallmentController extends Controller
         }
 
 
+        $accessible_roles = [\App\Enum\UserRoleEnum::SUPERADMIN, \App\Enum\UserRoleEnum::ADMIN, \App\Enum\UserRoleEnum::SUPERNUMERARIES, 'admin'];
+        if(request()->user()->role !== \App\Enum\UserRoleEnum::ADMIN || 
+            !in_array(request()->user()?->activeRole(), $accessible_roles)
+        ){
+            return redirect()->back()->with('error', 'You are not eligible to apply for installment payment.');
+        }
+
+
         // Create a new installment payment request
         // 'user_id',
         // 'booked_event_id',

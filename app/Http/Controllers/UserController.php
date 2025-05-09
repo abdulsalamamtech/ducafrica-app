@@ -39,6 +39,10 @@ class UserController extends Controller
     // Search users
     private function search($search){
         $users = User::where('name', 'like', '%'.$search.'%')
+            ->orWhere('phone', 'like', '%'.$search.'%')
+            ->orWhere('state', 'like', '%'.$search.'%')
+            ->orWhere('first_name', 'like', '%'.$search.'%')
+            ->orWhere('last_name', 'like', '%'.$search.'%')
             ->orWhere('email', 'like', '%'.$search.'%')
             ->orWhereHas('roles', function($query) use ($search){
                 $query->where('name', 'like', '%'.$search.'%');

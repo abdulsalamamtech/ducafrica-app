@@ -7,10 +7,13 @@ use App\Http\Requests\StoreCenterRequest;
 use App\Http\Requests\UpdateCenterRequest;
 use App\Models\Center;
 use App\Models\CenterAsset;
+use App\Models\CenterGroup;
 use App\Models\CenterType;
+use App\Models\Group;
 use App\Models\Role;
 use App\Models\User;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -140,7 +143,31 @@ class CenterController extends Controller
      */
     public function show(Center $center)
     {
-        return view('dashboard.pages.centers.show', ['center' => $center]);
+
+        $group_heads = User::whereHas('roles', function($role) {
+            $role->orWhere('name', UserRoleEnum::SUPERADMIN)
+            ->orWhere('name', UserRoleEnum::ADMIN)
+            // ->orWhere('name', UserRoleEnum::LOCALCOUNCIL)
+            ->orWhere('name', UserRoleEnum::GROUPHEAD);
+        })->get();
+
+        $groups = Group::with('groupHead')->latest()->paginate(10);
+        $available_groups = Group::with('groupHead')->latest()->paginate(10);
+
+        // $a = $center->events->transactions->sum('amount');
+        $a = $center->transactions()->sum('amount');
+        // $transactions = Transaction::where('booked_event_id', $booked_event?->id)->get();
+        // return $a;
+
+        $data = [
+            'center' => $center,
+            // For Center Groups
+            'groups' => $groups,
+            'available_groups' => $available_groups,
+            'group_heads' => $group_heads
+        ];
+        // return $data;
+        return view('dashboard.pages.centers.show', $data);
 
     }
 
@@ -216,6 +243,36 @@ class CenterController extends Controller
 
         $center->delete();
         return redirect()->route('centers.index')
-        ->with('success', 'center deleted successfully');
+            ->with('success', 'center deleted successfully');
+    }
+
+
+    // Add Group
+    public function addGroup(Request $request, Center $center){
+        $data = $request->validate([
+            'group_id' => ['required', 'exists:groups,id']
+        ]);
+
+        $center->groups()->attach($data['group_id']);
+
+        // return $center->groups;
+        // return [$data, $center];
+        return redirect()->back()->with('success', 'Group added to center!');
+
+    }
+
+    // Remove Group
+    public function removeGroup(Center $center, Group $group){
+
+        // Check user role from hear or middleware
+        // $centerGroup = CenterGroup::where('center_id', $center->id)
+        //                     ->where('group_id', $group->id)
+        //                     ->get();
+        // $centerGroup->delete();
+        $center->groups()->detach($group->id);
+        
+        // return [$center, $group];
+
+        return redirect()->back()->with('success', 'Group deleted from center!');
     }
 }
