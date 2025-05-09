@@ -368,10 +368,10 @@
                                 <td >
                                     <div class="ps-3">
                                         <div class="font-normal text-gray-500">
-                                            {{ Str::limit($transaction->user->first_name . ' '. $transaction->user->last_name, 40); }}
+                                            {{ Str::limit($transaction->user?->first_name . ' '. $transaction->user?->last_name, 40); }}
                                         </div>
                                         <div class="font-normal text-gray-500">
-                                            {{ Str::limit($transaction->user->email, 40); }}
+                                            {{ Str::limit($transaction->user?->email, 40); }}
                                         </div>
                                     </div>
                                 </td>
