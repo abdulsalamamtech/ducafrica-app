@@ -222,3 +222,13 @@
       "updated_at" => "2024-12-18 05:32:28"
 
 ```
+
+
+
+## Show executed migration sql
+```sh
+php artisan migrate --pretend
+```
+```sql
+create table "center_group" ("id" integer primary key autoincrement not null, "center_id" integer not null, "group_id" integer not null, "created_at" datetime, "updated_at" datetime, foreign key("center_id") references "centers"("id") on delete cascade, foreign key("group_id") references "groups"("id") on delete cascade) 
+```
