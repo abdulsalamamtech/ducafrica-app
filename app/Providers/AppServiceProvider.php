@@ -26,12 +26,12 @@ class AppServiceProvider extends ServiceProvider
             //     return redirect()->back()->with('error', 'please login');
             // }
             info('LogViewer Auth', [
-                'user' => $request?->user(),
-                'role' => $request?->user()?->role,
+                'user' => request()?->user(),
+                'role' => request()?->user()?->role,
             ]);
             // return true to allow viewing the Log Viewer.
-            return ($request?->user()?->role == UserRoleEnum::ADMIN) ?? $request->user()
-            || in_array($request?->user()?->email, [
+            return (request()?->user()?->role == UserRoleEnum::ADMIN) ?? request()?->user()
+            || in_array(request()?->user()?->email, [
                 'abdulsalamamtech@gmail.com',
             ]);
         });
