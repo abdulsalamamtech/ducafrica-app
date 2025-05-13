@@ -355,21 +355,21 @@
                                 <td >
                                     <div class="ps-3">
                                         <div class="font-normal text-gray-500">
-                                            {{ $transaction->bookedEvent->event->name }}
+                                            {{ $transaction?->bookedEvent?->event?->name }}
                                         </div>
                                         <div class="font-normal text-gray-500">
-                                            {{ Str::limit($transaction->bookedEvent->event->description, 10); }}
+                                            {{ Str::limit($transaction?->bookedEvent?->event?->description, 10); }}
                                         </div>
                                     </div>
                                 </td>
                                 <td >
                                     <div class="ps-3">
                                         <div class="font-normal text-gray-500">
-                                            {{ $transaction->user->name }}
-                                            {{ Str::limit($transaction->user->first_name . ' '. $transaction->user->last_name, 40); }}
+                                            {{ $transaction?->user?->name }}
+                                            {{ Str::limit($transaction?->user?->first_name . ' '. $transaction?->user?->last_name, 40); }}
                                         </div>
                                         <div class="font-normal text-gray-500">
-                                            {{ Str::limit($transaction->user->email, 40); }}
+                                            {{ Str::limit($transaction?->user?->email, 40); }}
                                         </div>
                                     </div>
                                 </td>

@@ -50,4 +50,17 @@ class Center extends Model
         return $this->hasOne(CenterAsset::class, 'center_id');
     }
 
+    public function transactions()
+    {
+        $transaction = Transaction::where('payment_status', 'success')
+            ->whereIn('booked_event_id',  $this?->events?->pluck('id'));
+        // return dd($transaction->toRawSql());
+        return $transaction?->get();
+    }
+
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class);
+    }
 }

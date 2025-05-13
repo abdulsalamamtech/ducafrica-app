@@ -42,7 +42,7 @@
 
                         <div class="flex justify-between items-start border-b px-2">
                             <div class="w-1/3 text-gray-700 dark:text-gray-300">Type:</div>
-                            <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $event->eventType->name }}</div>
+                            <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $event->eventType?->name }}</div>
                         </div>
 
 
@@ -53,7 +53,7 @@
 
                         <div class="flex justify-between items-start border-b px-2">
                             <div class="w-1/3 text-gray-700 dark:text-gray-300">Address:</div>
-                            <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $event->center->address }}, {{ $event->center->state }}
+                            <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $event->center?->address }}, {{ $event->center->state }}
                             </div>
                         </div>
 
@@ -93,7 +93,7 @@
                         </div>
                         <div class="flex justify-between items-start border-b px-2">
                             <div class="w-1/3 text-gray-700 dark:text-gray-300">Available:</div>
-                            <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $event->availableSlotsLimit() ?? 0 }}</div>
+                            <div class="w-7/12 text-gray-500 dark:text-gray-400">{{ $event?->availableSlotsLimit() ?? 0 }}</div>
                         </div>
                         {{-- <div class="flex justify-between items-start border-b px-2">
                             <div class="w-1/3 text-gray-700 dark:text-gray-300">Booked events with payment:</div>
@@ -106,7 +106,7 @@
                         </div>
                         <div class="flex justify-between items-start border-b px-2">
                             <div class="w-1/3 text-gray-700 dark:text-gray-300">Interested Slots:</div>
-                            <div class="w-7/12 text-gray-500 dark:text-gray-400">{{$event->allBookedEvents()->count() ?? 0 }}</div>
+                            <div class="w-7/12 text-gray-500 dark:text-gray-400">{{$event?->allBookedEvents()?->count() ?? 0 }}</div>
                         </div>                        
 
 
@@ -251,10 +251,10 @@
                                             <img class="w-10 h-10 rounded-full" src="/images/default-profile.png"
                                                 alt="Jese image">
                                             <div class="ps-3">
-                                                <div class="text-base font-semibold">{{ $booked_event->user->last_name . ' ' . $booked_event->user->first_name }}</div>
-                                                <div class="font-normal text-gray-600">{{ $booked_event->user->email }}</div>
-                                                <div class="font-normal text-gray-600">{{ $booked_event->user->phone }}</div>
-                                                <div class="font-normal text-gray-600">{{ $booked_event->user->address . ', ' .$booked_event->user->state }}</div>
+                                                <div class="text-base font-semibold">{{ $booked_event?->user?->last_name . ' ' . $booked_event?->user?->first_name }}</div>
+                                                <div class="font-normal text-gray-600">{{ $booked_event?->user?->email }}</div>
+                                                <div class="font-normal text-gray-600">{{ $booked_event?->user?->phone }}</div>
+                                                <div class="font-normal text-gray-600">{{ $booked_event?->user?->address . ', ' .$booked_event?->user?->state }}</div>
                                             </div>
                                         </div>
                                     </th>
@@ -413,38 +413,38 @@
                                     <td >
                                         <div class="ps-3">
                                             <div class="font-normal text-gray-500">
-                                                {{ $transaction->user->name }}
-                                                {{ Str::limit($transaction->user->first_name . ' '. $transaction->user->last_name, 40); }}
+                                                {{ $transaction?->user?->name }}
+                                                {{ Str::limit($transaction?->user?->first_name . ' '. $transaction?->user?->last_name, 40); }}
                                             </div>
                                             <div class="font-normal text-gray-500">
-                                                {{ Str::limit($transaction->user->email, 40); }}
+                                                {{ Str::limit($transaction?->user?->email, 40); }}
                                             </div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="font-normal text-gray-500">
-                                            {{ Str::limit($transaction->bookedEvent->event->center->name, 40); }}
+                                            {{ Str::limit($transaction->bookedEvent->event->center?->name, 40); }}
                                         </div>
                                         <div class="font-normal text-gray-500">
-                                            {{ $transaction->bookedEvent->event->center->payment_id }}
+                                            {{ $transaction->bookedEvent->event->center?->payment_id }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ $transaction->bookedEvent->payment_type }}
+                                        {{ $transaction->bookedEvent?->payment_type }}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $transaction->reference }}
                                     </td>
                                     <td class="px-6 py-4">
                                         NGN.
-                                        {{ $transaction->bookedEvent->payment_amount }}
+                                        {{ $transaction->bookedEvent?->payment_amount }}
                                     </td>
                                     <td class="px-6 py-4">
                                         NGN.
                                         {{ $transaction->amount }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        NGN. {{ $event->getPaymentDetails()['balance'] ?? 0 }}
+                                        NGN. {{ $event?->getPaymentDetails()['balance'] ?? 0 }}
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex items-center">
@@ -456,7 +456,7 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <a href="{{ route('events.show', $transaction->bookedEvent->event->id) }}/?trxref={{ $transaction->reference }}&reference={{ $transaction->reference }}"
+                                        <a href="{{ route('events.show', $transaction->bookedEvent->event?->id) }}/?trxref={{ $transaction->reference }}&reference={{ $transaction->reference }}"
                                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                             Verify</a>
                                     </td>

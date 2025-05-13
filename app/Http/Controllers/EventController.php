@@ -134,8 +134,9 @@ class EventController extends Controller
                     $transaction->save();
 
                     // Confirm the booked event
-                    $user = Auth::user();
-                    $booked_event = BookedEvent::where('user_id', $user->id)
+                    // $user = Auth::user();
+                    // $booked_event = BookedEvent::where('user_id', $user->id)
+                    $booked_event = BookedEvent::where('user_id', $transaction->user_id)
                     ->where('event_id', $event->id)->first();
 
                     if ($booked_event) {
@@ -363,6 +364,9 @@ class EventController extends Controller
 
         // Get the logged in user
         $user = Auth::user();
+        if(!$user){
+            return redirect()->route('login')->with('success', 'Please login!');
+        }
 
         // If the event has been paid for
         if($event->isPaid()){

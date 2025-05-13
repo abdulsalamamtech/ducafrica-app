@@ -135,6 +135,14 @@ Route::middleware(['auth', 'verified'])->group(function(){
         ->only(['index','store', 'update', 'show'])
         ->middleware(['role:super-admin|admin']);
 
+    // Center Groups
+    // Add group to center
+    Route::post('centers/{center}/groups', [CenterController::class, 'addGroup'])
+        ->name('centers.groups.store');
+    // Delete group from center
+    Route::delete('centers/{center}/groups/{group}', [CenterController::class, 'removeGroup'])
+        ->name('centers.groups.delete');
+
     // Delete a center
     Route::delete('centers/{center}', [CenterController::class, 'destroy'])
         ->middleware(['role:super-admin|admin'])

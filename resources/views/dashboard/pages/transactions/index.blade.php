@@ -368,10 +368,10 @@
                                 <td >
                                     <div class="ps-3">
                                         <div class="font-normal text-gray-500">
-                                            {{ Str::limit($transaction->user?->first_name . ' '. $transaction->user?->last_name, 40); }}
+                                            {{ Str::limit($transaction?->user?->first_name . ' '. $transaction?->user?->last_name, 40); }}
                                         </div>
                                         <div class="font-normal text-gray-500">
-                                            {{ Str::limit($transaction->user?->email, 40); }}
+                                            {{ Str::limit($transaction?->user?->email, 40); }}
                                         </div>
                                     </div>
                                 </td>
@@ -380,10 +380,10 @@
                                 </td> --}}
                                 <td class="px-6 py-4">
                                     <div class="font-normal text-gray-500">
-                                        {{ Str::limit($transaction->bookedEvent->event->center->name, 40); }}
+                                        {{ Str::limit($transaction->bookedEvent?->event?->center?->name, 40); }}
                                     </div>
                                     <div class="font-normal text-gray-500">
-                                        {{ $transaction->bookedEvent->event->center->payment_id }}
+                                        {{ $transaction->bookedEvent->event?->center?->payment_id }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
@@ -402,11 +402,11 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     NGN.
-                                    {{ $transaction->getBookedEventTransactionBalance() }}
+                                    {{ $transaction?->getBookedEventTransactionBalance() }}
                                 </td>
                                 <td>
                                     NGN.
-                                    {{ $transaction->getBookedEventTransactionAmount() }}
+                                    {{ $transaction?->getBookedEventTransactionAmount() }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center">
