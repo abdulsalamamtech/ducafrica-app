@@ -86,7 +86,7 @@ return [
     */
 
     'middleware' => [
-        'web',
+        // 'web',
         'auth',
         'role:super-admin|admin',
         \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
@@ -122,7 +122,15 @@ return [
         'local' => [
             'name' => ucfirst(env('APP_ENV', 'local')),
         ],
-
+        'production' => [
+            'name' => 'Production',
+            'host' => 'https://app.ducafrica.com/log-viewer',
+            'auth' => [      // Example of HTTP Basic auth
+                'username' => 'username',
+                'password' => 'password',
+            ],
+            'verify_server_certificate' => true,
+        ],
         // 'staging' => [
         //     'name' => 'Staging',
         //     'host' => 'https://staging.example.com/log-viewer',
