@@ -22,21 +22,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         LogViewer::auth(function ($request) {
-            // if(!auth()->user()){
-            //     return redirect()->back()->with('error', 'please login');
-            // }
             info('LogViewer Auth', [
                 'time' => now(),
                 'user' => $request?->user(),
                 'role' => $request?->user()?->role,
             ]);
-            return true;
-            // return true to allow viewing the Log Viewer.
-            // return (
-            //     // $request?->user()?->role == UserRoleEnum::ADMIN) ?? $request->user() || 
-            //     in_array($request?->user()?->email, [
-            //     'abdulsalamamtech@gmail.com',
-            // ]) ?? false);
+            return $request->user() && in_array(
+                $request->user()->email, 
+                ['abdulsalamamtech@gmail.com',]
+            );
         });
     }
 }
