@@ -27,16 +27,10 @@ class AppServiceProvider extends ServiceProvider
                 'user' => $request?->user(),
                 'role' => $request?->user()?->role,
             ]);
-            if($request?->user() && in_array(
-                $request?->user()?->email, 
-                ['abdulsalamamtech@gmail.com']
-            )){
-                return true;
-            }
-            else{
-
-                return redirect()->back()->with('error', 'You are not authorized to view this page');
-            }
+            return ($request->user() && in_array(
+                $request->user()->email, 
+                ['abdulsalamamtech@gmail.com',]
+            ));
         });
     }
 }
