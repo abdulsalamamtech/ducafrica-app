@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
             //     return redirect()->back()->with('error', 'please login');
             // }
             info('LogViewer Auth', [
+                'time' => now(),
                 'user' => $request?->user(),
                 'role' => $request?->user()?->role,
             ]);
