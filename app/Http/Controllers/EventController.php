@@ -272,7 +272,7 @@ class EventController extends Controller
         
 
             // $events = Event::all();
-            return($events);
+            // return($events);
 
 
         return view('dashboard.pages.events.available', [
