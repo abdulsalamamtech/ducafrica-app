@@ -215,5 +215,12 @@ class Event extends Model
     }
 
 
-
+    // Visible events to user
+    public function visibleEvents()
+    {
+        $userId = auth()->user()->id;
+        return Event::whereHas('center.groups.members', function ($query) use ($userId) {
+            $query->where('users_id', $userId);
+        });
+    }
 }

@@ -113,15 +113,17 @@ class GroupMemberController extends Controller
      */
     public function getGroupMembers(Group $group)
     {
+
+
         // return request()->user()->groups->contains($group);
         // if user is not admin or group head and not a group member, redirect to dashboard
-        if(in_array(request()->user()->activeRole()??request()->user()->role, [
-                \App\Enum\UserRoleEnum::SUPERADMIN, 
-                \App\Enum\UserRoleEnum::ADMIN, 
-                \App\Enum\UserRoleEnum::GROUPHEAD]) || 
-            request()->user()->groups->contains($group)
+        if(!(request()->user()->role === \App\Enum\UserRoleEnum::ADMIN ||
+            in_array(request()->user()->activeRole() ?? request()->user()->role, [
+                \App\Enum\UserRoleEnum::SUPERADMIN->value,
+                \App\Enum\UserRoleEnum::ADMIN->value,
+                \App\Enum\UserRoleEnum::GROUPHEAD->value]) ||
+            request()->user()->groups->contains($group))
         ){
-        }else{
             return redirect()->back()->with('error', 'You are not authorized to view this page');
         }
 

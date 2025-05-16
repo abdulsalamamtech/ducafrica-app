@@ -18,7 +18,9 @@ return new class extends Migration
             $table->foreignId('booked_event_id')->nullable()->constrained('booked_events')->cascadeOnDelete();
             $table->decimal('amount_paid', 10, 2);
             $table->text('message');
-            $table->string('refunded')->nullable()->default('false');
+            // $table->string('refunded')->nullable()->default('false');
+            // `refunded` varchar(255) NOT NULL DEFAULT 'false',
+            $table->string('refunded')->default('false');
             $table->boolean('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
