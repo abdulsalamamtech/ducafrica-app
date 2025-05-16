@@ -260,20 +260,40 @@ class EventController extends Controller
         }
         else
         {
+
+            $userId = Auth::id();
             // Get the available event available for the user role
-            $events = Event::where('status', true)
-                ->where('start_date', '<=', now())
-                ->where('slots', '>', 0)
-                ->where('end_date', '>=', now())
-                ->whereHas('eventRoles', function($role) {
-                    $user = Auth::user();
-                    $userRole = Role::where('name', $user?->activeRole())->first();
-                    $role->Where('role_id', $userRole?->id);
-                })
-                ->with(['center', 'center.centerAsset'])
-                ->whereHas('center.groups.groupMember', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
+            // $events = Event::where('status', true)
+            //     ->where('start_date', '<=', now())
+            //     ->where('slots', '>', 0)
+            //     ->where('end_date', '>=', now())
+            //     ->whereHas('eventRoles', function($role) {
+            //         $user = Auth::user();
+            //         $userRole = Role::where('name', $user?->activeRole())->first();
+            //         $role->Where('role_id', $userRole?->id);
+            //     })
+            //     ->with(['center', 'center.centerAsset'])
+            //     ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
+            //         $query->where('user_id', $userId);
+            //     })
+            // // ->groupBy('center_id')
+            // ->latest()
+            // ->paginate(9);
+
+
+        $events = Event::where('status', true)
+            ->where('start_date', '<=', now())
+            ->where('slots', '>', 0)
+            ->where('end_date', '>=', now())
+            ->whereHas('eventRoles', function($role) {
+                $user = Auth::user();
+                $userRole = Role::where('name', $user?->activeRole())->first();
+                $role->Where('role_id', $userRole?->id);
+            })
+            ->with(['center', 'center.centerAsset'])
+            ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
             // ->groupBy('center_id')
             ->latest()
             ->paginate(9);
