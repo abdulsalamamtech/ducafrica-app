@@ -242,15 +242,6 @@ class EventController extends Controller
         // Get the logged in user
         $user = Auth::user();
 
-        // $events = Event::where('slots', '>', 0)
-        //     ->whereNotNull('status')
-        //     ->where('end_date', '>=', now())
-        //     ->with(['center'])
-        //     ->latest()
-        //     ->paginate(6);
-        // return $events;
-
-
         // Search for events
         if(request()->filled('search')){
             $search = request()->validate([
@@ -261,12 +252,11 @@ class EventController extends Controller
         else
         {
 
-            $userId = Auth::id();
-            // Get the available event available for the user role
-            $events = Event::where('status', true)
-                ->where('start_date', '<=', now())
+        $userId = auth()->user()->id;
+        $events = Event::where('end_date', '>=', now())
+                // ->where('start_date', '<=', now())
                 ->where('slots', '>', 0)
-                ->where('end_date', '>=', now())
+                ->where('status', true)
                 ->whereHas('eventRoles', function($role) {
                     $user = Auth::user();
                     $userRole = Role::where('name', $user?->activeRole())->first();
@@ -276,8 +266,7 @@ class EventController extends Controller
                 ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
                     $query->where('user_id', $userId);
                 })
-                ->latest()
-                ->paginate(9);
+                ->latest()->paginate(9);
         // return $events;
         }
         
