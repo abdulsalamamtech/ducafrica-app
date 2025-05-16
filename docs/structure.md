@@ -18,7 +18,7 @@
     - address
     - city
     - state
-    - country 
+    - country
     - postal_code
     - nok [next of kins]
     - nok_relationship [friend, brother, sister, husband, wife, mother, father]
@@ -38,7 +38,6 @@
     - name
     - description
     - status [active 1 | inactive 0]
-
 
 ## user_roles
 
@@ -100,7 +99,6 @@
     - paid [false | true]
     - status
 
-
 ## cancel_events
 
     - user_id
@@ -109,7 +107,6 @@
     - message
     - refunded
     - status
-
 
 ## transactions
 
@@ -137,8 +134,8 @@
     - balance [amount remaining]
     - settle [yes or no | send invoice email after full payment]
 
-
 ## user_installment_payments
+
     - user_id
     - event_id
     - transaction_id
@@ -164,12 +161,9 @@
     -   print payment invoice
 -   view booked events
 
-
-
-
-
 ## Regular sh commands
-```bash
+
+````bash
     php -m | grep intl
     sudo apt-get update
     sudo apt-get install php-intl
@@ -178,7 +172,7 @@
     composer clear-cache
     composer dump-autoload
     php artisan serve
-    
+
 ``
 
 
@@ -221,14 +215,68 @@
       "created_at" => "2024-12-10 10:43:00"
       "updated_at" => "2024-12-18 05:32:28"
 
-```
-
-
+````
 
 ## Show executed migration sql
+
 ```sh
 php artisan migrate --pretend
 ```
+
 ```sql
-create table "center_group" ("id" integer primary key autoincrement not null, "center_id" integer not null, "group_id" integer not null, "created_at" datetime, "updated_at" datetime, foreign key("center_id") references "centers"("id") on delete cascade, foreign key("group_id") references "groups"("id") on delete cascade) 
+create table "center_group" ("id" integer primary key autoincrement not null, "center_id" integer not null, "group_id" integer not null, "created_at" datetime, "updated_at" datetime, foreign key("center_id") references "centers"("id") on delete cascade, foreign key("group_id") references "groups"("id") on delete cascade)
+```
+
+## ERROR
+
+```php
+    $userId = auth()->user()->id;
+    $events = Event::whereHas('center.groups.groupMember', function ($query) use ($userId) {
+                $query->where('users.id', $userId);
+            })->get();
+    return $events;
+```
+column: users.id 
+```sql
+-- Error --
+(Connection: sqlite, SQL: 
+select * from "events" where exists 
+(select * from "centers" where "events"."center_id" = "centers"."id" and exists 
+(select * from "groups" inner join "center_group" on "groups"."id" = "center_group"."group_id" where "centers"."id" = "center_group"."center_id" and exists
+(select * from "group_members" where "groups"."id" = "group_members"."group_id" and "users"."id" = 2) 
+and "groups"."deleted_at" is null) 
+and "centers"."deleted_at" is null) 
+and "events"."deleted_at" is null)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+```php
+    $userId = auth()->user()->id;
+    $events = Event::whereHas('center.groups.groupMember', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })->get();
+
+    return $events;
+```
+```sql
+-- Correction --
+(Connection: sqlite, SQL: 
+select * from "events" where exists 
+(select * from "centers" where "events"."center_id" = "centers"."id" and exists 
+(select * from "groups" inner join "center_group" on "groups"."id" = "center_group"."group_id" where "centers"."id" = "center_group"."center_id" and exists
+(select * from "group_members" where "groups"."id" = "group_members"."group_id" and "users_id" = 2) 
+and "groups"."deleted_at" is null) 
+and "centers"."deleted_at" is null) 
+and "events"."deleted_at" is null)
 ```

@@ -21,9 +21,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserInstallmentController;
 use App\Http\Controllers\UserInstallmentPaymentController;
 use App\Http\Controllers\UserRoleController;
+use App\Models\Event;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,6 +38,82 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
+
+Route::get('/test-events', function () {
+    // return view('welcome');
+    $userId = auth()->user()->id;
+
+    $filter = request()->query('filter');
+    $search = request()->query('search');
+    $sort = request()->query('sort');
+    $sortBy = request()->query('sortBy');
+    $sortBy = $sortBy ?? 'start_date';
+    $sort = $sort ?? 'asc';
+
+    if(request()->filled('filter') && $filter == "type"){
+        $events = Event::where('status', true)
+            ->where('start_date', '<=', now())
+            ->where('slots', '>', 0)
+            ->where('end_date', '>=', now())
+            ->whereHas('eventRoles', function($role) {
+                $user = Auth::user();
+                $userRole = Role::where('name', $user?->activeRole())->first();
+                $role->Where('role_id', $userRole?->id);
+            })
+            ->with(['center', 'center.centerAsset'])
+            ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->groupBy('event_type_id')
+            // ->latest()
+            ->paginate(9);
+        // return $events;
+    }else if(request()->filled('filter') && $filter == "centers"){
+        $events = Event::where('status', true)
+            ->where('start_date', '<=', now())
+            ->where('slots', '>', 0)
+            ->where('end_date', '>=', now())
+            ->whereHas('eventRoles', function($role) {
+                $user = Auth::user();
+                $userRole = Role::where('name', $user?->activeRole())->first();
+                $role->Where('role_id', $userRole?->id);
+            })
+            ->with(['center', 'center.centerAsset'])
+            ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->groupBy('center_id')
+            // ->latest()
+            ->paginate(9);
+        // return $events;
+    }else{
+
+        $events = Event::where('end_date', '>=', now())
+                // ->where('start_date', '<=', now())
+                ->where('slots', '>', 0)
+                ->where('status', true)
+                ->whereHas('eventRoles', function($role) {
+                    $user = Auth::user();
+                    $userRole = Role::where('name', $user?->activeRole())->first();
+                    $role->Where('role_id', $userRole?->id);
+                })
+                ->with(['center', 'center.centerAsset'])
+                ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                })
+                ->latest()->paginate(9);
+    }
+
+
+
+
+
+    // return $events;
+            return view('dashboard.pages.events.available', [
+            'events' => $events,
+        ]);
+});
 
 
 

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 class EventController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Admin] Display a listing of the resource.
      */
     public function index()
     {
@@ -269,7 +269,8 @@ class EventController extends Controller
                     $user = Auth::user();
                     $userRole = Role::where('name', $user?->activeRole())->first();
                     $role->Where('role_id', $userRole?->id);
-                })->with(['center', 'center.centerAsset'])
+                })
+                ->with(['center', 'center.centerAsset'])
                 ->latest()->paginate(9);
         }
         
@@ -300,15 +301,17 @@ class EventController extends Controller
             'contact_phone_number',
         ], 'like', '%' .$search['search'] .'%')
         ->where('end_date', '>=', now())
-            // ->where('start_date', '<=', now())
-            ->where('slots', '>', 0)
-            ->where('status', true)
-            ->whereHas('eventRoles', function($role) {
+        // ->where('start_date', '<=', now())
+        ->where('slots', '>', 0)
+        ->where('status', true)
+        ->whereHas('eventRoles', function($role) {
                 $user = Auth::user();
                 $userRole = Role::where('name', $user?->activeRole())->first();
                 $role->Where('role_id', $userRole?->id);
-            })->with(['center', 'center.centerAsset'])
-            ->latest()->paginate(9);
+            })
+        ->with(['center', 'center.centerAsset'])
+        ->latest()
+        ->paginate(9);
 
         return $events ?? null;
     

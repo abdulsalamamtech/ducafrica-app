@@ -30,4 +30,10 @@ class Group extends Model
     {
         return $this->hasMany(GroupMember::class, 'group_id');
     }  
+
+
+    public function centers()
+    {
+        return $this->belongsToMany(Center::class, 'center_group');
+    }
 }
