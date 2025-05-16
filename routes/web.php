@@ -45,11 +45,11 @@ Route::get('/test-events', function () {
     $userId = auth()->user()->id;
 
     $filter = request()->query('filter');
-    $search = request()->query('search');
-    $sort = request()->query('sort');
-    $sortBy = request()->query('sortBy');
-    $sortBy = $sortBy ?? 'start_date';
-    $sort = $sort ?? 'asc';
+    // $search = request()->query('search');
+    // $sort = request()->query('sort');
+    // $sortBy = request()->query('sortBy');
+    // $sortBy = $sortBy ?? 'start_date';
+    // $sort = $sort ?? 'asc';
 
     if(request()->filled('filter') && $filter == "type"){
         $events = Event::where('status', true)
