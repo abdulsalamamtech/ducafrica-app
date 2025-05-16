@@ -274,7 +274,7 @@ class EventController extends Controller
                 ->whereHas('center.groups.groupMember', function ($query) use ($user) {
                     $query->where('user_id', $user->id);
                 })
-            ->groupBy('center_id')
+            // ->groupBy('center_id')
             ->latest()
             ->paginate(9);
         // return $events;
