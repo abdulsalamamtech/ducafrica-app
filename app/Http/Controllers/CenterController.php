@@ -151,14 +151,21 @@ class CenterController extends Controller
             ->orWhere('name', UserRoleEnum::GROUPHEAD);
         })->get();
 
-        $groups = Group::with('groupHead')->latest()->paginate(10);
-        $available_groups = Group::with('groupHead')->latest()->paginate(10);
+        // $groups = Group::with('groupHead')->latest()->paginate(10);
+        // $available_groups = Group::with('groupHead')->latest()->paginate(10);
 
         // $a = $center->events->transactions->sum('amount');
         $a = $center->transactions()->sum('amount');
         // $transactions = Transaction::where('booked_event_id', $booked_event?->id)->get();
         // return $a;
 
+        // Get groups not part of center
+        $group_ids = $center->groups()->pluck('group_id')->unique()->toArray();
+        $available_groups = Group::with('groupHead')->whereNotIn('id', $group_ids)->latest()->get();
+        //  $groups = $center->groups();
+        // Get part of center
+        $groups = Group::with('groupHead')->whereIn('id', $group_ids)->latest()->paginate(10);
+        
         $data = [
             'center' => $center,
             // For Center Groups

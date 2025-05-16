@@ -84,7 +84,7 @@ Route::get('/test-events', function () {
                 $query->where('user_id', $userId);
             })
             ->groupBy('center_id')
-            // ->latest()
+            ->latest()
             ->paginate(9);
         // return $events;
     }else{
