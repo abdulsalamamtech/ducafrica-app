@@ -51,58 +51,58 @@ Route::get('/test-events', function () {
     // $sortBy = $sortBy ?? 'start_date';
     // $sort = $sort ?? 'asc';
 
-    if(request()->filled('filter') && $filter == "type"){
+    if (request()->filled('filter') && $filter == "type") {
         $events = Event::where('status', true)
             ->where('start_date', '<=', now())
             ->where('slots', '>', 0)
             ->where('end_date', '>=', now())
-            ->whereHas('eventRoles', function($role) {
+            ->whereHas('eventRoles', function ($role) {
                 $user = Auth::user();
                 $userRole = Role::where('name', $user?->activeRole())->first();
                 $role->Where('role_id', $userRole?->id);
             })
             ->with(['center', 'center.centerAsset'])
-            ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            })
+            // ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
+            //     $query->where('user_id', $userId);
+            // })
             ->groupBy('event_type_id')
             // ->latest()
             ->paginate(9);
         // return $events;
-    }else if(request()->filled('filter') && $filter == "centers"){
+    } else if (request()->filled('filter') && $filter == "centers") {
         $events = Event::where('status', true)
             ->where('start_date', '<=', now())
             ->where('slots', '>', 0)
             ->where('end_date', '>=', now())
-            ->whereHas('eventRoles', function($role) {
+            ->whereHas('eventRoles', function ($role) {
                 $user = Auth::user();
                 $userRole = Role::where('name', $user?->activeRole())->first();
                 $role->Where('role_id', $userRole?->id);
             })
             ->with(['center', 'center.centerAsset'])
-            ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            })
+            // ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
+            //     $query->where('user_id', $userId);
+            // })
             ->groupBy('center_id')
             ->latest()
             ->paginate(9);
         // return $events;
-    }else{
+    } else {
 
         $events = Event::where('end_date', '>=', now())
-                // ->where('start_date', '<=', now())
-                ->where('slots', '>', 0)
-                ->where('status', true)
-                ->whereHas('eventRoles', function($role) {
-                    $user = Auth::user();
-                    $userRole = Role::where('name', $user?->activeRole())->first();
-                    $role->Where('role_id', $userRole?->id);
-                })
-                ->with(['center', 'center.centerAsset'])
-                ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
-                    $query->where('user_id', $userId);
-                })
-                ->latest()->paginate(9);
+            // ->where('start_date', '<=', now())
+            ->where('slots', '>', 0)
+            ->where('status', true)
+            ->whereHas('eventRoles', function ($role) {
+                $user = Auth::user();
+                $userRole = Role::where('name', $user?->activeRole())->first();
+                $role->Where('role_id', $userRole?->id);
+            })
+            ->with(['center', 'center.centerAsset'])
+            // ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
+            //     $query->where('user_id', $userId);
+            // })
+            ->latest()->paginate(9);
     }
 
 
@@ -110,9 +110,9 @@ Route::get('/test-events', function () {
 
 
     // return $events;
-            return view('dashboard.pages.events.available', [
-            'events' => $events,
-        ]);
+    return view('dashboard.pages.events.available', [
+        'events' => $events,
+    ]);
 });
 
 
@@ -173,18 +173,18 @@ Route::get('/activate-account/{id}', [App\Http\Controllers\HomeController::class
 
 
 
-Route::middleware(['auth', 'verified'])->group(function(){
-    
+Route::middleware(['auth', 'verified'])->group(function () {
+
     Route::resource('roles', RoleController::class)
-        ->only(['index','store', 'update'])
+        ->only(['index', 'store', 'update'])
         ->middleware(['role:super-admin|admin']);
-        
+
     Route::resource('user-roles', UserRoleController::class);
 
     // Groups
     Route::resource('groups', GroupController::class)
         ->middleware(['role:super-admin|admin'])
-        ->only(['index','store', 'update']);
+        ->only(['index', 'store', 'update']);
     Route::delete('groups/{group}', [GroupController::class, 'destroy'])
         ->middleware(['role:super-admin|admin'])
         ->name('groups.delete');
@@ -195,23 +195,23 @@ Route::middleware(['auth', 'verified'])->group(function(){
         ->name('groups.members');
 
     Route::get('/my-groups', [GroupController::class, 'myGroups'])
-        ->name('my-groups.index'); 
+        ->name('my-groups.index');
     Route::get('my-groups/{group}/members', [GroupMemberController::class, 'getGroupMembers'])
         ->name('my-groups.members');
 
     Route::resource('group-members', GroupMemberController::class)
-        ->only(['index', 'show','store', 'update']);
+        ->only(['index', 'show', 'store', 'update']);
     Route::delete('group-members/{groupMember}', [GroupMemberController::class, 'destroy'])
         ->middleware(['role:super-admin|admin|group-head'])
         ->name('group-members.delete');
 
     // Centers
     Route::resource('center-types', CenterTypeController::class)
-        ->only(['index','store', 'update', 'show'])
+        ->only(['index', 'store', 'update', 'show'])
         ->middleware(['role:super-admin|admin']);
 
     Route::resource('centers', CenterController::class)
-        ->only(['index','store', 'update', 'show'])
+        ->only(['index', 'store', 'update', 'show'])
         ->middleware(['role:super-admin|admin']);
 
     // Center Groups
@@ -226,10 +226,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::delete('centers/{center}', [CenterController::class, 'destroy'])
         ->middleware(['role:super-admin|admin'])
         ->name('centers.delete');
-    
+
     // Events
     Route::resource('event-types', EventTypeController::class)
-        ->only(['index','store', 'update', 'show'])
+        ->only(['index', 'store', 'update', 'show'])
         ->middleware(['role:super-admin|admin']);
     Route::resource('events', EventController::class)
         ->only(['index', 'show']);
@@ -245,7 +245,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     // Event details
     Route::get('events/{event}/details', [EventController::class, 'eventDetails'])
         ->middleware(['role:super-admin|admin'])
-        ->name('events.details');        
+        ->name('events.details');
 
     Route::resource('events', EventController::class)
         ->only(['store', 'update'])
@@ -266,10 +266,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
         ->middleware(['role:super-admin|admin']);
     Route::get('/user-installments/{userInstallment}/reject', [UserInstallmentController::class, 'reject'])
         ->name('user-installments.reject')
-        ->middleware(['role:super-admin|admin']);        
+        ->middleware(['role:super-admin|admin']);
 
     Route::get('/pending-installment-requests', [UserInstallmentController::class, 'request'])
-        ->name('pending-installments.request');    
+        ->name('pending-installments.request');
 
 
     // Route::get('pdfs/events/{event}/', [PdfController::class, 'event'])
@@ -282,7 +282,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     Route::resource('booked-events', BookedEventController::class);
     Route::get('my-booked-events/', [BookedEventController::class, 'myEvents'])
-    ->name('my-events');
+        ->name('my-events');
 
     // Transactions
     Route::resource('transactions', TransactionController::class)
@@ -295,18 +295,15 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::resource('users', UserController::class)
         ->middleware(['role:super-admin|admin']);
     // Delete a user
-    // Route::delete('users/{user}', [UserController::class, 'destroy'])
-    //     ->middleware(['role:super-admin|admin'])
-    //     ->name('users.destroy');
+    Route::delete('users/{user}', [UserController::class, 'destroy'])
+        ->middleware(['role:super-admin|admin', 'password.confirm'])
+        ->name('users.destroy');
 
-       
+
     Route::any('/new-users', [UserController::class, 'newUsers'])
         ->name('new-users');
 
-    Route::get('/users/{user}/verify-email', [UserController::class, 'verifyEmail'])->name('users.verify-email');    
-
-
-
+    Route::get('/users/{user}/verify-email', [UserController::class, 'verifyEmail'])->name('users.verify-email');
 });
 
 Route::get('/paystack/verify', [EventController::class, 'verify'])
@@ -321,15 +318,16 @@ Route::resource('user-installment-payments', UserInstallmentPaymentController::c
 
 // Admin Dashboard
 Route::get('/dashboard', function () {
-    if(request()->user()->role == \App\Enum\UserRoleEnum::ADMIN || 
+    if (
+        request()->user()->role == \App\Enum\UserRoleEnum::ADMIN ||
         in_array(request()->user()?->activeRole(), [
-            \App\Enum\UserRoleEnum::SUPERADMIN, 
-            \App\Enum\UserRoleEnum::ADMIN])
-    ) {   
-       return view('dashboard.dashboard');
+            \App\Enum\UserRoleEnum::SUPERADMIN,
+            \App\Enum\UserRoleEnum::ADMIN
+        ])
+    ) {
+        return view('dashboard.dashboard');
     }
     return view('dashboard.my-dashboard');
-
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
@@ -345,7 +343,7 @@ Route::get('/my-dashboard', function () {
 Route::prefix('fast-excel')->name('fast-excel.')->group(function () {
 
     // Users
-    Route::get('users', [FastExcelController::class, 'users'])->name('users');    
+    Route::get('users', [FastExcelController::class, 'users'])->name('users');
 
     // Centers
     Route::get('centers', [FastExcelController::class, 'centers'])->name('centers');
@@ -364,7 +362,6 @@ Route::prefix('fast-excel')->name('fast-excel.')->group(function () {
 
     // bookedEventTransactions
     Route::get('booked-event-transactions/{event}', [FastExcelController::class, 'bookedEventTransactions'])->name('bookedEventTransactions');
-
 });
 
 
@@ -431,7 +428,6 @@ Route::get('/artisan', function (Request $request) {
 
 
     return ['artisan' => 'successfully deployed ' . $deploy];
-
 });
 
 

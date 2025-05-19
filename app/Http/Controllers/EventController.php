@@ -263,9 +263,10 @@ class EventController extends Controller
                     $role->Where('role_id', $userRole?->id);
                 })
                 ->with(['center', 'center.centerAsset'])
-                ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
-                    $query->where('user_id', $userId);
-                })
+                // We don't need this
+                // ->whereHas('center.groups.groupMember', function ($query) use ($userId) {
+                //     $query->where('user_id', $userId);
+                // })
                 ->latest()->paginate(9);
         // return $events;
         }

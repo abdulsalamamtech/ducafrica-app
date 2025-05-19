@@ -15,15 +15,15 @@ class UserController extends Controller
     public function index()
     {
 
-        if(!empty(request()->search)){
-        
-            if(request()->filled('search')){
+        if (!empty(request()->search)) {
+
+            if (request()->filled('search')) {
                 $query = request()->validate([
-                    'search' => ['required','string']
+                    'search' => ['required', 'string']
                 ]);
                 $users = $this->search($query['search']);
             }
-        }else{
+        } else {
 
             // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
             $users = User::latest()->paginate(10);
@@ -33,25 +33,25 @@ class UserController extends Controller
             'users' => $users,
             'available_roles' => UserRoleEnum::cases()
         ]);
-
     }
 
     // Search users
-    private function search($search){
-        $users = User::where('name', 'like', '%'.$search.'%')
-            ->orWhere('phone', 'like', '%'.$search.'%')
-            ->orWhere('state', 'like', '%'.$search.'%')
-            ->orWhere('first_name', 'like', '%'.$search.'%')
-            ->orWhere('last_name', 'like', '%'.$search.'%')
-            ->orWhere('email', 'like', '%'.$search.'%')
-            ->orWhereHas('roles', function($query) use ($search){
-                $query->where('name', 'like', '%'.$search.'%');
+    private function search($search)
+    {
+        $users = User::where('name', 'like', '%' . $search . '%')
+            ->orWhere('phone', 'like', '%' . $search . '%')
+            ->orWhere('state', 'like', '%' . $search . '%')
+            ->orWhere('first_name', 'like', '%' . $search . '%')
+            ->orWhere('last_name', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%')
+            ->orWhereHas('roles', function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
             })->paginate();
 
-        if(($users->count() > 0)){
+        if (($users->count() > 0)) {
             session()->flash('success', 'successful');
             return $users;
-        }else{
+        } else {
             session()->flash('error', 'No results found');
             return [];
         }
@@ -61,16 +61,15 @@ class UserController extends Controller
     public function newUsers()
     {
 
-        if(!empty(request()->search)){
+        if (!empty(request()->search)) {
 
-            if(request()->filled('search')){
+            if (request()->filled('search')) {
                 $query = request()->validate([
-                    'search' => ['required','string']
+                    'search' => ['required', 'string']
                 ]);
                 $users = $this->search($query['search']);
             }
-        }
-        else{
+        } else {
 
             // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
             // $users = User::latest()->paginate(10);
@@ -87,7 +86,8 @@ class UserController extends Controller
 
 
     // Search new users
-    private function searchNewUsers($search){
+    private function searchNewUsers($search)
+    {
         $users = User::whereAny([
             'name',
             'email',
@@ -95,15 +95,15 @@ class UserController extends Controller
             'state',
             'first_name',
             'last_name',
-        ], 'like', '%' .$search .'%')
-        ->where('status', 'pending')
-        ->orWhereNull('email_verified_at')
-        ->latest()->paginate();
+        ], 'like', '%' . $search . '%')
+            ->where('status', 'pending')
+            ->orWhereNull('email_verified_at')
+            ->latest()->paginate();
 
-        if(($users->count() > 0)){
+        if (($users->count() > 0)) {
             session()->flash('success', 'successful');
             return $users;
-        }else{
+        } else {
             session()->flash('error', 'No results found');
             return [];
         }
@@ -149,7 +149,7 @@ class UserController extends Controller
     {
         $data = $request->validate(
             [
-                'role' => ['required', 'string', 'in:'. implode(',', UserRoleEnum::getValues())],
+                'role' => ['required', 'string', 'in:' . implode(',', UserRoleEnum::getValues())],
                 'status' => ['required', 'string'],
             ]
         );
@@ -159,7 +159,7 @@ class UserController extends Controller
         ]);
 
         $userRole = Role::where('name', $data['role'])?->first();
-        if(!$userRole){
+        if (!$userRole) {
             return redirect()->back()->with('error', $data['role'] . ' role has not been updated on the database');
         }
 
@@ -167,7 +167,6 @@ class UserController extends Controller
         // return redirect()->back()->with('success', 'user details updated successfully!');
 
         return redirect()->route('users.index')->with('success', 'user details updated successfully!');
-
     }
 
     /**
@@ -175,13 +174,16 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        // Check if user has booked any event
+        if ($user->bookedEvents()->count()) {
+            return redirect()->back()->with('error', 'Error, User has booked event!');
+        }
         $user->delete();
 
         // return redirect()->route('users.index')
         //     ->withSuccess(__('User deleted successfully.'));
 
         return redirect()->route('users.index')->with('success', 'user deleted successfully!');
-
     }
 
     /**
@@ -205,12 +207,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function verifyEmail(User $user){
+    public function verifyEmail(User $user)
+    {
         $user->email_verified_at = now();
         $user->save();
 
         return redirect()->back()->with('success', 'Email verified successfully!');
-
     }
 
     /**
@@ -250,7 +252,7 @@ class UserController extends Controller
     //     $search = $request->validate([
     //         'search' => ['required','string']
     //     ]);
-        
+
     //     // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
     //     $users = User::whereAny([
     //         'name',
@@ -275,7 +277,7 @@ class UserController extends Controller
     //     $search = $request->validate([
     //         'search' => ['required','string']
     //     ]);
-        
+
     //     // return([UserRoleEnum::getValues(), UserRoleEnum::cases()]);
     //     $users = User::whereAny([
     //         'name',
