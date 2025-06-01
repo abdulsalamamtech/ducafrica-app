@@ -12,6 +12,8 @@ use App\Http\Controllers\GoogleRecaptchaController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupMemberController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\MessageRepliesController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\Pdfs\GeneratePdfController;
 use App\Http\Controllers\ProfileController;
@@ -21,13 +23,21 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserInstallmentController;
 use App\Http\Controllers\UserInstallmentPaymentController;
 use App\Http\Controllers\UserRoleController;
+use App\Models\Center;
 use App\Models\Event;
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\NotifyAdmin;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailer;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+
+
+
+
 
 
 
@@ -160,7 +170,11 @@ Route::get('/register-success', [App\Http\Controllers\HomeController::class, 're
 Route::get('/activate-account/{id}', [App\Http\Controllers\HomeController::class, 'activateAccount'])->name('activate-account');
 
 
+Route::get('contact', [MessageController::class, 'create'])->name('message.create');
+Route::post('contact', [MessageController::class, 'store'])->name('message.store');
 
+// Newsletter
+// Route::post('newsletters', [NewsletterController::class, 'store'])->name('newsletters.store');
 
 
 
@@ -298,12 +312,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('users/{user}', [UserController::class, 'destroy'])
         ->middleware(['role:super-admin|admin', 'password.confirm'])
         ->name('users.destroy');
-
+    // User activities route
+    Route::get('users/{user}/activities', [UserController::class, 'activities'])
+        ->middleware(['role:super-admin|admin'])
+        ->name('users.activities');
 
     Route::any('/new-users', [UserController::class, 'newUsers'])
         ->name('new-users');
 
     Route::get('/users/{user}/verify-email', [UserController::class, 'verifyEmail'])->name('users.verify-email');
+
+
+    // Messages routes
+    Route::apiResource('messages', MessageController::class);
+    // Message Reply routes
+    Route::apiResource('message-replies', MessageRepliesController::class);
+
 });
 
 Route::get('/paystack/verify', [EventController::class, 'verify'])
@@ -369,9 +393,15 @@ Route::prefix('fast-excel')->name('fast-excel.')->group(function () {
 // Google reCaptcha API
 Route::apiResource('google-recaptcha', GoogleRecaptchaController::class);
 
-// Route::get('/events/info', function () {
-//     return view('dashboard.pages.events.info');
-// })->name('events.info');
+Route::get('/notify', function () {
+
+    $contents = Center::with(['centerAsset'])
+        ->get();
+    $user = User::find(2);
+    $user->notify(new NotifyAdmin($contents));
+
+    return "Notification Sent to ". $user->email;
+})->name('admin.notify');
 
 
 // Route::get('/users/info', function () {
@@ -444,6 +474,18 @@ Route::get('/artisan', function (Request $request) {
 // </div>
 
 
+// Test sending mail
+Route::get('/test-mail', function () {
+    // $user = User::find(2);
+    $email = 'abdulsalamamtech@gmail.com';
+    // Using the Mail facade to send a test email
+    $send = Mail::to($email)->send(new \App\Mail\SendMessageMail($message = 'This is a test email, from: Ducafrica!'));
+    // Using the Mailer facade to send a test email
+    // $send = Mail::raw('This is a test email, from: SDSSN', function ($message) use ($email) {
+    //     $message->to($email)->subject('Test Email: ' . now());
+    // });
+    return $send? "done": "fail";
+});
 
 
 // Fallback Route

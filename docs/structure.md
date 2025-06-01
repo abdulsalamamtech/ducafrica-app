@@ -250,6 +250,9 @@ and "events"."deleted_at" is null)
 ```
 
 
+php artisan make:migration add_phone_number_to_message
+s_table --table=messages
+
 
 
 

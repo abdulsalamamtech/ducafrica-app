@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // LogViewer configuration
         LogViewer::auth(function ($request) {
             info('LogViewer Auth', [
                 'time' => now(),
@@ -31,6 +32,13 @@ class AppServiceProvider extends ServiceProvider
                 $request->user()->email, 
                 ['abdulsalamamtech@gmail.com',]
             ));
+        });
+
+        // Admin dashboard
+        view()->composer('dashboard.*', function ($view) {
+            // Count messages where status is unread
+            $unreadMessages = \App\Models\Message::where('status', 'unread')->count();
+            $view->with('unreadMessages', $unreadMessages);
         });
     }
 }
