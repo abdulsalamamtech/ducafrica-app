@@ -35,7 +35,8 @@ jobs:
             php artisan cache:clear  # Clear the cache
             php artisan view:clear  # Clear the view cache
             php artisan route:cache  # Clear the route cache
-
+            
             npm install  # Install dependencies
             npm run build  # Build the Node app
+            php artisan queue:listen # Start the queue listener
           EOF
