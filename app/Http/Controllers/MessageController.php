@@ -44,7 +44,7 @@ class MessageController extends Controller
         Log::info('Message created and automated response sent', [
             'id' => $message->id,
             'email' => $message->email,
-            'content' => $message->content,
+            'content' => $message->message,
         ]);
         return redirect()->route('home')
             ->with('success', 'message sent!')

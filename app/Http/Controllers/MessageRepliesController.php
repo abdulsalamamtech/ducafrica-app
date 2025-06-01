@@ -48,7 +48,7 @@ class MessageRepliesController extends Controller
             'message_id' => $messageReplies->message_id,
             'reply_id' => $messageReplies->id,
             'user_id' => $messageReplies->user_id,
-            'content' => $messageReplies->content,
+            'content' => $messageReplies->message,
         ]);
 
         // return redirect to message route
