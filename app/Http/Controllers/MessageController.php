@@ -39,7 +39,7 @@ class MessageController extends Controller
         $message = Message::create($data);
 
         // Send an automated response email
-        Mail::to($message->email)->send(new AutomatedMessageResponseMail());
+        Mail::to($message->email)->queue(new AutomatedMessageResponseMail());
         // log the message creation
         Log::info('Message created and automated response sent', [
             'id' => $message->id,
