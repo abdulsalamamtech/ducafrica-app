@@ -164,7 +164,7 @@ class CenterController extends Controller
         $available_groups = Group::with('groupHead')->whereNotIn('id', $group_ids)->latest()->get();
         //  $groups = $center->groups();
         // Get part of center
-        $groups = Group::with('groupHead')->whereIn('id', $group_ids)->latest()->paginate(10);
+        $groups = Group::with('groupHead')->whereIn('id', $group_ids)->latest()->paginate();
         
         $data = [
             'center' => $center,

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enum\UserRoleEnum;
+use App\Models\Event;
+use App\Models\Group;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -185,6 +187,27 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', 'user deleted successfully!');
     }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function activities(User $user)
+    {
+        // User transactions
+        $transactions = $user->transactions()->paginate();
+        // return $transactions;
+
+        $bookedEvents = $user->bookedEvents()->paginate();
+        // return $bookedEvents;
+
+        return view('dashboard.pages.users.activities', [
+            'user' => $user,
+            'bookedEvents' => $bookedEvents,
+            'transactions' => $transactions,
+        ]);
+    }
+
 
     /**
      *  Restore user data

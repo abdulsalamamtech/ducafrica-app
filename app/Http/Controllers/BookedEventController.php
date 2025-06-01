@@ -19,14 +19,12 @@ class BookedEventController extends Controller
     {
 
         // Search for events
-        if(request()->filled('search')){
+        if (request()->filled('search')) {
             $search = request()->validate([
-                'search' => ['required','string']
+                'search' => ['required', 'string']
             ]);
             $bookedEvents = $this?->searchBookedEvents($search);
-        }
-        else
-        {
+        } else {
             $bookedEvents = bookedEvent::with(['event', 'user'])->latest()->paginate(4);
         }
 
@@ -44,16 +42,52 @@ class BookedEventController extends Controller
     }
 
 
-    // Search booked events
-    private function searchBookedEvents($search){
+    // Search booked events and search by center and event
+    private function searchBookedEvents($search)
+    {
 
         $user = Auth::user();
+        $q = $search['search'];
         $booked_events = BookedEvent::whereAny([
-            'user_id', 'event_id',
-            'payment_type', 'approved_by',
-            'payment_amount', 'status', 'paid',
-        ], 'like', '%' .$search['search'] .'%')
-        ->where('user_id', $user->id)
+            'user_id',
+            'event_id',
+            'payment_type',
+            'approved_by',
+            'payment_amount',
+            'status',
+            'paid',
+        ], 'like', '%' . $search['search'] . '%')
+            ->orWhereHas('event', function ($query) use ($q) {
+                $query->whereAny([
+                    'added_by',
+                    'center_id',
+                    'event_type_id',
+                    'name',
+                    'description',
+                    'start_date',
+                    'end_date',
+                    'type',
+                    'cost',
+                    'slots',
+                    'status',
+                    'contact_name',
+                    'contact_phone_number'
+                ], 'like', '%' . $q . '%');
+            })
+            ->orWhereHas('event.center', function ($query) use ($q) {
+                $query->whereAny([
+                    'added_by',
+                    'center_type_id',
+                    'belongs_to_user',
+                    'name',
+                    'payment_id',
+                    'phone_number',
+                    'address',
+                    'map_url',
+                    'state',
+                ], 'like', '%' . $q . '%');
+            })
+            // ->where('user_id', $user->id)
             ->with(['event', 'event.center'])
             ->latest()->paginate(5);
 

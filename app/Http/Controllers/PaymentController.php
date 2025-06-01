@@ -35,6 +35,7 @@ class PaymentController extends Controller
             'callback_url' => $payment_data['redirect_url'] ?? url()->previous(),
 
         ];
+        // dd($data);
 
 
         try {
@@ -43,8 +44,10 @@ class PaymentController extends Controller
 
             // return $response;
             // dd($response->body());
+            info('Paystack Response: ' . $response->body());
 
             if ($response->failed()) {
+                error_log('Paystack Error: ' . $response->body());
                 return ([
                     'success'=> false,
                     'message' => 'Failed to initialize payment, ' . $response['message']
@@ -59,7 +62,8 @@ class PaymentController extends Controller
                 'gateway' => 'paystack',
             ]);
         } catch (\Throwable $th) {
-            //throw $th;
+            // throw $th;
+            error_log('Paystack Exception: ' . $th->getMessage());
             return ([
                 'success'=> false,
                 'message' => 'Failed to initialize payment, please try again later',

@@ -510,15 +510,46 @@ class EventController extends Controller
     // Search booked events
     private function searchBookedEvents($search){
 
+        $q = $search['search'];
         $user = Auth::user();
         $booked_events = BookedEvent::whereAny([
             'user_id', 'event_id',
             'payment_type', 'approved_by',
             'payment_amount', 'status', 'paid',
         ], 'like', '%' .$search['search'] .'%')
-        ->where('user_id', $user->id)
-            ->with(['event', 'event.center'])
-            ->latest()->paginate(5);
+        ->orWhereHas('event', function ($query) use ($q) {
+            $query->whereAny([
+                'added_by',
+                'center_id',
+                'event_type_id',
+                'name',
+                'description',
+                'start_date',
+                'end_date',
+                'type',
+                'cost',
+                'slots',
+                'status',
+                'contact_name',
+                'contact_phone_number'
+            ], 'like', '%' .$q .'%');
+        })
+        ->orWhereHas('event.center', function ($query) use ($q) {
+            $query->whereAny([
+                'added_by',
+                'center_type_id',
+                'belongs_to_user',
+                'name',
+                'payment_id',
+                'phone_number',
+                'address',
+                'map_url',
+                'state',
+            ], 'like', '%' .$q .'%');
+        })
+        // ->where('user_id', $user->id)
+        ->with(['event', 'event.center'])
+        ->latest()->paginate(5);
 
         return $booked_events ?? null;
     }

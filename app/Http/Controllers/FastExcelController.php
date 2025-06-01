@@ -14,14 +14,15 @@ use Rap2hpoutre\FastExcel\Facades\FastExcel;
 class FastExcelController extends Controller
 {
 
-    private function fileName($name = 'file'){
+    private function fileName($name = 'file')
+    {
         return $name . '-export-' . now() . '.xlsx';
     }
 
     // public function centers()
     // {
     //     $center = Center::with(['centerType'])->get();
-        
+
     //     return FastExcel::data($center)->download('centers.xlsx');
     // }
 
@@ -30,7 +31,7 @@ class FastExcelController extends Controller
     public function users()
     {
         $users = User::all();
-        
+
         return FastExcel::data($users)->download('users.xlsx');
     }
 
@@ -43,7 +44,7 @@ class FastExcelController extends Controller
 
         $center = Center::with(['centerType'])->get();
 
-        return FastExcel::data($center)->download($file_name , function ($center) {
+        return FastExcel::data($center)->download($file_name, function ($center) {
             return [
                 'id' => $center->id,
                 'name' => $center->name,
@@ -66,7 +67,7 @@ class FastExcelController extends Controller
 
         $data = Event::with(['eventType', 'center'])->get();
 
-        return FastExcel::data($data)->download($file_name , function ($data) {
+        return FastExcel::data($data)->download($file_name, function ($data) {
             // 'added_by',
             // 'center_id',
             // 'event_type_id',
@@ -107,21 +108,34 @@ class FastExcelController extends Controller
         // $file_name = $this->fileName('centers');
         $file_name = $this->fileName('booked-events');
 
-        $data = BookedEvent::with(['user','event.eventType', 'event.center'])->get();
+        $data = BookedEvent::with(['user', 'event.eventType', 'event.center'])->get();
 
-        return FastExcel::data($data)->download($file_name , function ($data) {
+        return FastExcel::data($data)->download($file_name, function ($data) {
             return [
                 'id' => $data->id,
                 'user_id' => $data->user_id,
                 'first_name' => $data->user->first_name,
                 'last_name' => $data->user->last_name,
                 'email' => $data->user->email,
+                'middle_name' => $data->user->middle_name,
+                'dob' => $data->user->dob?->toDateString(),
+                'city' => $data->user->city,
+                'state' => $data->user->state,
+                'address' => $data->user->address . ', ' . $data->user->city . ', ' . $data->user->state . ', ' . $data->user->country,
+                'nok' => $data->user->nok,
+                'nok_relationship' => $data->user->nok_relationship,
+                'nok_phone' => $data->user->nok_phone,
+                'food_allergies' => $data->user->food_allergies,
+                'diets' => $data->user->diets,
+                'center_id' => $data->user->center_id,
+                'other_disability' => $data->user->other_disability,
+
                 'phone_number' => $data->user->phone,
-                'payment_type' => $data->payment_type, 
-                'payment_amount' => $data->payment_amount, 
+                'payment_type' => $data->payment_type,
+                'payment_amount' => $data->payment_amount,
                 'cost' => $data->event->cost,
                 'slots' => $data->event->slots,
-                'status' => $data->status, 
+                'status' => $data->status,
                 'paid' => $data->paid ? 'successful' : 'pending',
                 'event_name' => $data->event->name,
                 'type' => $data->event->eventType->name,
@@ -137,9 +151,9 @@ class FastExcelController extends Controller
             ];
             return $data;
         });
-    }  
-    
-    
+    }
+
+
 
     // Export Booked Event Users data
     public function bookedEventUsers(Event $event)
@@ -148,38 +162,52 @@ class FastExcelController extends Controller
         $file_name = $this->fileName('booked-event-users');
 
         $data = BookedEvent::where('event_id', $event->id)
-            ->with(['user','event.eventType', 'event.center'])
+            ->with(['user', 'event.eventType', 'event.center'])
             ->get();
 
-        return FastExcel::data($data)->download($file_name , function ($data) {
+        return FastExcel::data($data)->download($file_name, function ($data) {
             return [
-                'id' => $data->id,
-                'user_id' => $data->user_id,
-                'first_name' => $data->user->first_name,
-                'last_name' => $data->user->last_name,
-                'email' => $data->user->email,
-                'phone_number' => $data->user->phone,
-                'payment_type' => $data->payment_type, 
-                'payment_amount' => $data->payment_amount, 
-                'cost' => $data->event->cost,
-                'slots' => $data->event->slots,
-                'status' => $data->status, 
-                'paid' => $data->paid ? 'successful' : 'pending',
-                'event_name' => $data->event->name,
-                'type' => $data->event->eventType->name,
-                'description' => $data->event->description,
-                'contact_name' => $data->event->contact_name,
-                'contact_phone_number' => $data->event->contact_phone_number,
-                'address' => $data->event->center?->address,
-                'map_url' => $data->event->center?->map_url,
-                'state' => $data->event->center?->state,
-                'start_date' => $data->event->start_date->format('Y-m-d'),
-                'end_date' => $data->event->end_date->format('Y-m-d'),
-                'created_at' => $data->created_at->format('Y-m-d')
+                'id' => $data?->id,
+                'user_id' => $data?->user_id,
+                'first_name' => $data?->user?->first_name,
+                'last_name' => $data?->user?->last_name,
+                'middle_name' => $data?->user?->middle_name,
+                'email' => $data?->user?->email,
+                'phone_number' => $data?->user?->phone,
+                'role' => $data?->user?->activeRole(),
+                'dob' => $data?->user?->dob?->toDateString(),
+                'city' => $data?->user?->city,
+                'state' => $data?->user?->state,
+                'address' => $data?->user?->address . ', ' . $data?->user?->city . ', ' . $data?->user?->state . ', ' . $data?->user?->country,
+                'nok' => $data?->user?->nok,
+                'nok_relationship' => $data?->user?->nok_relationship,
+                'nok_phone' => $data?->user?->nok_phone,
+                'food_allergies' => $data?->user?->food_allergies,
+                'diets' => $data?->user?->diets,
+                'center_id' => $data?->user?->center_id,
+                'other_disability' => $data?->user?->other_disability,
+
+                'payment_type' => $data?->payment_type,
+                'paid' => $data?->paid ? 'successful' : 'pending',
+                'payment_amount' => $data?->payment_amount,
+                'cost' => $data?->event?->cost,
+                'slots' => $data?->event?->slots,
+                'status' => $data?->status,
+                'event_name' => $data?->event?->name,
+                'type' => $data?->event?->eventType?->name,
+                'description' => $data?->event?->description,
+                'contact_name' => $data?->event?->contact_name,
+                'contact_phone_number' => $data?->event?->contact_phone_number,
+                'address' => $data?->event?->center?->address,
+                // 'map_url' => $data?->event?->center?->map_url,
+                'state' => $data?->event?->center?->state,
+                'start_date' => $data?->event?->start_date?->format('Y-m-d'),
+                'end_date' => $data?->event?->end_date?->format('Y-m-d'),
+                'created_at' => $data?->created_at?->format('Y-m-d')
             ];
             return $data;
         });
-    } 
+    }
 
     public function transactions()
     {
@@ -187,9 +215,30 @@ class FastExcelController extends Controller
         // $file_name = $this->fileName('centers');
         $file_name = $this->fileName('transactions');
 
-        $data = Transaction::with(['user','bookedEvent.event.eventType', 'bookedEvent.event.center'])->get();
+        $data = Transaction::with(['user', 'bookedEvent.event.eventType', 'bookedEvent.event.center']);
+                // Successful payment
+        if (request()->filled('filter') && request('filter') == 'successful') {
+            $data = $data->where('payment_status', 'success');
+        }
+        // Incomplete payment
+        if (request()->filled('filter') && request('filter') == 'incomplete') {
+            $data = $data->where('payment_status', '!=', 'success');
+        }
+        // Installment
+        if (request()->filled('filter') && request('filter') == 'installment') {
+            $data = $data->whereHas('bookedEvent', function ($query) {
+                $query->where('payment_type', 'installment');
+            });
+        }
+        // Full payment
+        if (request()->filled('filter') && request('filter') == 'full') {
+            $data = $data->whereHas('bookedEvent', function ($query) {
+                $query->where('payment_type', 'full_payment');
+            });
+        }
+        $data = $data->get();
 
-        return FastExcel::data($data)->download($file_name , function ($data) {
+        return FastExcel::data($data)->download($file_name, function ($data) {
             return [
                 'id' => $data->id,
                 'user_id' => $data->user_id,
@@ -208,11 +257,11 @@ class FastExcelController extends Controller
                 'payment_status' => $data->payment_status,
                 'status' => $data->status ? 'successful' : 'pending',
 
-                'payment_type' => $data->bookedEvent->payment_type, 
-                'payment_amount' => $data->bookedEvent->payment_amount, 
+                'payment_type' => $data->bookedEvent->payment_type,
+                'payment_amount' => $data->bookedEvent->payment_amount,
                 'cost' => $data->bookedEvent->event->cost,
                 'slots' => $data->bookedEvent->event->slots,
-                'status' => $data->bookedEvent->status, 
+                'status' => $data->bookedEvent->status,
                 'paid' => $data->bookedEvent->paid ? 'successful' : 'pending',
                 'event_name' => $data->bookedEvent->event->name,
                 'type' => $data->bookedEvent->event->eventType->name,
@@ -239,9 +288,9 @@ class FastExcelController extends Controller
 
         // Get event transactions
         $trans = $event->transactions;
-        $data = $trans->load(['user','bookedEvent.event.eventType', 'bookedEvent.event.center']);
+        $data = $trans->load(['user', 'bookedEvent.event.eventType', 'bookedEvent.event.center']);
 
-        return FastExcel::data($data)->download($file_name , function ($data) {
+        return FastExcel::data($data)->download($file_name, function ($data) {
             return [
                 'id' => $data->id,
                 'user_id' => $data->user_id,
@@ -260,11 +309,11 @@ class FastExcelController extends Controller
                 'payment_status' => $data->payment_status,
                 'status' => $data->status ? 'successful' : 'pending',
 
-                'payment_type' => $data->bookedEvent->payment_type, 
-                'payment_amount' => $data->bookedEvent->payment_amount, 
+                'payment_type' => $data->bookedEvent->payment_type,
+                'payment_amount' => $data->bookedEvent->payment_amount,
                 'cost' => $data->bookedEvent->event->cost,
                 'slots' => $data->bookedEvent->event->slots,
-                'status' => $data->bookedEvent->status, 
+                'status' => $data->bookedEvent->status,
                 'paid' => $data->bookedEvent->paid ? 'successful' : 'pending',
                 'event_name' => $data->bookedEvent->event->name,
                 'type' => $data->bookedEvent->event->eventType->name,
@@ -280,5 +329,5 @@ class FastExcelController extends Controller
             ];
             return $data;
         });
-    }      
+    }
 }
