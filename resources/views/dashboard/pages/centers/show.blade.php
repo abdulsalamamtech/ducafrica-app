@@ -455,7 +455,7 @@
                         <div class="text-center pt-4 bg-white dark:text-gray-100 dark:bg-gray-800">
                             <div class="px-8">
                                 @if (isset($groups) && !empty($groups) && $groups->links())
-                                    {{ $groups->links() }}
+                                    {{ $groups?->withQueryString()?->links() }}
                                 @endif
                             </div>
                         </div>

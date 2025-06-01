@@ -252,10 +252,10 @@
                                         {{-- <img class="w-10 h-10 rounded-full" src="/images/default-profile.png"
                                             alt="Jese image"> --}}
                                         <div class="ps-3">
-                                            <div class="text-base font-semibold">{{ $groupMember->user->name }}</div>
-                                            <div class="font-normal text-gray-500">{{ $groupMember->user->phone }}</div>
-                                            <div class="font-normal text-gray-500">{{ $groupMember->user->email }}</div>
-                                            <div class="font-normal text-gray-500">{{ $groupMember->user->address . ", ". $groupMember->user->city . ", ". $groupMember->user->country}}</div>
+                                            <div class="text-base font-semibold">{{ $groupMember?->user?->name }}</div>
+                                            <div class="font-normal text-gray-500">{{ $groupMember?->user?->phone }}</div>
+                                            <div class="font-normal text-gray-500">{{ $groupMember?->user?->email }}</div>
+                                            <div class="font-normal text-gray-500">{{ $groupMember?->user?->address . ", ". $groupMember?->user?->city . ", ". $groupMember?->user?->country}}</div>
                                         </div>
                                     </th>
                                     <td class="px-6 py-4">
@@ -287,10 +287,10 @@
                                                 </button>
 
                                                 <!-- Dropdown menu -->
-                                                <div id="dropdownDots{{ $groupMember->id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                                <div id="dropdownDots{{ $groupMember?->id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton{{ $groupMember->id }}">
                                                         <li>
-                                                            <a href="{{ route('users.show', $groupMember->user->id ) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
+                                                            <a href="{{ route('users.show', $groupMember?->user?->id ?? 2 ) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
                                                         </li>
                                                         <li>
                                                             {{-- Deactivate --}}
