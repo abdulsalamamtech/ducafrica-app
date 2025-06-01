@@ -90,6 +90,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(BookedEvent::class);
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function activeRole(){
         $active_role = $this->roles->first()->name ?? 'user';
         return $active_role;
