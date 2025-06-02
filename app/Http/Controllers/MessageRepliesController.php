@@ -41,7 +41,9 @@ class MessageRepliesController extends Controller
         // Send message to the user
         // Mail::to($message->email)
         //     ->queue(new \App\Mail\MessageReply($message, $reply));
-        Mail::to($message?->email)->queue(new AdminMessageResponseMail(Message::find($messageReplies->message_id), $messageReplies));
+        // Mail::to($message?->email)->queue(new AdminMessageResponseMail(Message::find($messageReplies->message_id), $messageReplies));
+        Mail::to($message?->email)->send(new AdminMessageResponseMail(Message::find($messageReplies->message_id), $messageReplies));
+
 
         // log
         info('Message reply sent from admin', [
