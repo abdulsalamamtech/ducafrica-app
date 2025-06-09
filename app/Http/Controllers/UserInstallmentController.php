@@ -81,14 +81,18 @@ class UserInstallmentController extends Controller
             return redirect()->back()->with('error', 'You have already made installment payment request for this event.');
         }
 
-        if(!(
-        request()->user()->role == \App\Enum\UserRoleEnum::ADMIN->value || 
-        request()->user()->role == \App\Enum\UserRoleEnum::SUPERNUMERARIES->value ||
-        in_array(request()->user()?->activeRole(), [
-        \App\Enum\UserRoleEnum::SUPERADMIN->value, 
-        \App\Enum\UserRoleEnum::ADMIN->value,
-        \App\Enum\UserRoleEnum::SUPERNUMERARIES->value])
-        )){
+
+        // Check if user is eligible to apply for installment payment
+        // Check if user has the right role to apply for installment payment
+        if (!(
+            request()->user()->role == \App\Enum\UserRoleEnum::ADMIN->value ||
+            request()->user()->role == \App\Enum\UserRoleEnum::SUPERNUMERARIES->value ||
+            in_array(request()->user()?->activeRole(), [
+                \App\Enum\UserRoleEnum::SUPERADMIN->value,
+                \App\Enum\UserRoleEnum::ADMIN->value,
+                \App\Enum\UserRoleEnum::SUPERNUMERARIES->value
+            ])
+        )) {
             return redirect()->back()->with('error', 'You are not eligible to apply for installment payment.');
         }
         // $accessible_roles = [\App\Enum\UserRoleEnum::SUPERADMIN->value, \App\Enum\UserRoleEnum::ADMIN->value, \App\Enum\UserRoleEnum::SUPERNUMERARIES->value, 'admin'];
