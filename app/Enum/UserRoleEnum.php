@@ -13,7 +13,7 @@ enum UserRoleEnum: string
     // Can manage groups
     case GROUPHEAD = "group-head";
 
-    case SUPERNUMERARIES = "super-numeraries";
+    case SUPERNUMERARIES = "super-numeraries"; // super-numeraries
     case COOPERATORS = "cooperator";
     case STANDARD = "standard";
     case USER = "user";
