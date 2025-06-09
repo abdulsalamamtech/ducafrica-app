@@ -34,7 +34,7 @@ class UserInstallmentController extends Controller
             'user_installments' => $user_installments,
             'centers' => $centers,
             'roles' => $roles
-        ]);  
+        ]);
     }
 
     /**
@@ -82,10 +82,11 @@ class UserInstallmentController extends Controller
         }
 
 
-        $accessible_roles = [\App\Enum\UserRoleEnum::SUPERADMIN, \App\Enum\UserRoleEnum::ADMIN, \App\Enum\UserRoleEnum::SUPERNUMERARIES, 'admin'];
-        if(request()->user()->role !== \App\Enum\UserRoleEnum::ADMIN || 
+        $accessible_roles = [\App\Enum\UserRoleEnum::SUPERADMIN->value, \App\Enum\UserRoleEnum::ADMIN->value, \App\Enum\UserRoleEnum::SUPERNUMERARIES->value, 'admin'];
+        if (
+            request()->user()->role !== \App\Enum\UserRoleEnum::ADMIN->value ||
             !in_array(request()->user()?->activeRole(), $accessible_roles)
-        ){
+        ) {
             return redirect()->back()->with('error', 'You are not eligible to apply for installment payment.');
         }
 
@@ -114,7 +115,7 @@ class UserInstallmentController extends Controller
         // 'settle'
         // return [$data, $request->all(), $booked_event];
         $userInstallment = UserInstallment::create($data);
-        if($userInstallment){
+        if ($userInstallment) {
 
             // Update the booking payment type
             $booked_event->payment_type = 'installment';
@@ -134,7 +135,6 @@ class UserInstallmentController extends Controller
         }
 
         return redirect()->back()->with('error', 'Failed to send installment payment request. Please try again later.');
-
     }
 
     /**
@@ -186,7 +186,7 @@ class UserInstallmentController extends Controller
             'user_installments' => $user_installments,
             'centers' => $centers,
             'roles' => $roles
-        ]);  
+        ]);
     }
 
 
@@ -196,17 +196,18 @@ class UserInstallmentController extends Controller
 
         $user = $request->user();
 
-        
-        
+
+
         $accessible_roles = [\App\Enum\UserRoleEnum::SUPERADMIN, \App\Enum\UserRoleEnum::ADMIN, 'admin'];
 
 
-        if(request()->user()->role !== \App\Enum\UserRoleEnum::ADMIN || 
+        if (
+            request()->user()->role !== \App\Enum\UserRoleEnum::ADMIN ||
             !in_array(request()->user()?->activeRole(), $accessible_roles)
-        ){
+        ) {
             return redirect()->back()->with('error', 'You are not eligible to approve installment payment.');
         }
-        
+
         // dd($userInstallment);
 
         $booked_event_id = $userInstallment->bookedEvent->id;
@@ -225,20 +226,20 @@ class UserInstallmentController extends Controller
         }
 
         return redirect()->back()->with('success', 'User installment payment request approved.');
- 
     }
 
     public function reject(Request $request, UserInstallment $userInstallment)
     {
 
 
-        $user = $request->user();        
+        $user = $request->user();
         $accessible_roles = [\App\Enum\UserRoleEnum::SUPERADMIN, \App\Enum\UserRoleEnum::ADMIN, 'admin'];
 
 
-        if(request()->user()->role !== \App\Enum\UserRoleEnum::ADMIN || 
+        if (
+            request()->user()->role !== \App\Enum\UserRoleEnum::ADMIN ||
             !in_array(request()->user()?->activeRole(), $accessible_roles)
-        ){
+        ) {
             return redirect()->back()->with('error', 'You are not eligible to approve installment payment.');
         }
 
@@ -247,7 +248,7 @@ class UserInstallmentController extends Controller
         $booked_event = BookedEvent::where('id', $booked_event_id)->first();
         $booked_event->payment_type = 'full_payment';
         $booked_event->save();
- 
+
         $userInstallment->delete();
         // Send email notification to user
         if (!$userInstallment) {
@@ -255,6 +256,5 @@ class UserInstallmentController extends Controller
         }
 
         return redirect()->back()->with('success', 'User installment payment request rejected.');
- 
     }
 }
