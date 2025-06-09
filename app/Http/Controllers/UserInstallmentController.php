@@ -85,7 +85,7 @@ class UserInstallmentController extends Controller
         $accessible_roles = [\App\Enum\UserRoleEnum::SUPERADMIN->value, \App\Enum\UserRoleEnum::ADMIN->value, \App\Enum\UserRoleEnum::SUPERNUMERARIES->value, 'admin'];
         if (
             request()->user()->role !== \App\Enum\UserRoleEnum::ADMIN->value ||
-            !in_array(request()->user()?->activeRole(), $accessible_roles)
+            !in_array(request()->user()?->activeRole() ?? request()?->user()?->role, $accessible_roles)
         ) {
             return redirect()->back()->with('error', 'You are not eligible to apply for installment payment.');
         }
