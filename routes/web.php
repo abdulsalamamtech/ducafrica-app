@@ -268,9 +268,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware(['role:super-admin|admin'])
         ->name('events.bookedEventUsers');
     // Mark user as attend
-    Route::post('events/{event}/booked-users', [EventAttendanceController::class, 'store'])
-        ->middleware(['role:super-admin|admin'])
-        ->name('events.bookedEventUsers.store');  
+    // Route::post('events/{event}/booked-users', [EventAttendanceController::class, 'store'])
+    //     ->middleware(['role:super-admin|admin'])
+    //     ->name('events.bookedEventUsers.store');  
 
     // Route::get('event-attendances', [EventAttendanceController::class, 'index']);
 
@@ -281,14 +281,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })
     ->name('booked-events.attend');
 
-    Route::get('event-attendances/{event-attendance}/absent', [EventAttendanceController::class, 'absent'])
+    Route::get('event-attendances/{event-attendance}/absent', [BookedEventController::class, 'absent'])
         ->name('event-attendances.absent');
 
     // Route::get('event-attendances', [EventAttendanceController::class, 'index']);
 
 
     // testing
-    Route::get('att', [EventAttendanceController::class, 'index']);
+    // Route::get('att', [BookedEventController::class, 'index']);
 
     Route::resource('events', EventController::class)
         ->only(['store', 'update'])
