@@ -25,14 +25,12 @@ class EventController extends Controller
     {
 
         // Search for events
-        if(request()->filled('search')){
+        if (request()->filled('search')) {
             $search = request()->validate([
-                'search' => ['required','string']
+                'search' => ['required', 'string']
             ]);
             $events = $this?->search($search);
-        }
-        else
-        {
+        } else {
             $events = Event::with(['eventRoles'])->latest()->paginate(5);
         }
 
@@ -58,8 +56,9 @@ class EventController extends Controller
     /**
      * Search for events
      */
-    private function search($search){
-        
+    private function search($search)
+    {
+
         $events = Event::whereAny([
             'added_by',
             'center_id',
@@ -73,10 +72,10 @@ class EventController extends Controller
             'status',
             'contact_name',
             'contact_phone_number',
-        ], 'like', '%' .$search['search'] .'%')
-        ->with(['eventRoles'])
-        ->latest()
-        ->paginate()->withQueryString();
+        ], 'like', '%' . $search['search'] . '%')
+            ->with(['eventRoles'])
+            ->latest()
+            ->paginate()->withQueryString();
 
         return $events ?? null;
     }
@@ -103,8 +102,7 @@ class EventController extends Controller
         // return $data;
 
         $event = Event::create($data);
-        foreach ($data['event_roles'] as $roleId)
-        {
+        foreach ($data['event_roles'] as $roleId) {
             $event->eventRoles()->attach($roleId);
         }
 
@@ -122,13 +120,13 @@ class EventController extends Controller
 
         // http://127.0.0.1:8000/events/8?trxref=soq9s7fxmf&reference=soq9s7fxmf
         // Verify payment transaction
-        if ($request?->filled('trxref') && $request?->filled('reference')){
+        if ($request?->filled('trxref') && $request?->filled('reference')) {
             $reference = $request->reference;
             $verify_payment = $this->verifyPayment($reference);
             $message = $verify_payment['message'];
-            if($verify_payment['success']){
+            if ($verify_payment['success']) {
                 $transaction = Transaction::where('reference', $reference)->first();
-                if($transaction){
+                if ($transaction) {
                     $transaction->payment_status = 'success';
                     $transaction->status = true;
                     $transaction->save();
@@ -137,28 +135,26 @@ class EventController extends Controller
                     // $user = Auth::user();
                     // $booked_event = BookedEvent::where('user_id', $user->id)
                     $booked_event = BookedEvent::where('user_id', $transaction->user_id)
-                    ->where('event_id', $event->id)->first();
+                        ->where('event_id', $event->id)->first();
 
                     if ($booked_event) {
-                        if($booked_event->payment_type == 'full_payment'){
+                        if ($booked_event->payment_type == 'full_payment') {
                             $booked_event->paid = true;
                             $booked_event->status = true;
                             $booked_event->save();
                         }
-    
+
                         // Confirm booked event for installment payments
-                        if($booked_event->payment_type == 'installment' && $event->isPaid()){
+                        if ($booked_event->payment_type == 'installment' && $event->isPaid()) {
                             $booked_event->paid = true;
                             $booked_event->status = true;
                             $booked_event->save();
                         }
                     }
-
                 }
                 // return redirect()->route('events.show', $event->id)
                 //     ->with('success', $message);
                 return redirect()->back()->with('success', $message);
-
             }
             // return redirect()->route('events.show', $event->id)
             //         ->with('error', $message);
@@ -166,9 +162,18 @@ class EventController extends Controller
         }
 
         return view('dashboard.pages.events.show', ['event' => $event]);
-
     }
 
+
+    /**
+     * Display the specified resource for booked event users
+     */
+    public function bookedEventUsers(Request $request, Event $event)
+    {
+        return view('dashboard.pages.events.booked-event-users', [
+            'event' => $event
+        ]);
+    }
     /**
      * Show the event details.
      */
@@ -243,21 +248,19 @@ class EventController extends Controller
         $user = Auth::user();
 
         // Search for events
-        if(request()->filled('search')){
+        if (request()->filled('search')) {
             $search = request()->validate([
-                'search' => ['required','string']
+                'search' => ['required', 'string']
             ]);
             $events = $this?->searchAvailableEvents($search);
-        }
-        else
-        {
+        } else {
 
-        $userId = auth()->user()->id;
-        $events = Event::where('end_date', '>=', now())
+            $userId = auth()->user()->id;
+            $events = Event::where('end_date', '>=', now())
                 // ->where('start_date', '<=', now())
                 ->where('slots', '>', 0)
                 ->where('status', true)
-                ->whereHas('eventRoles', function($role) {
+                ->whereHas('eventRoles', function ($role) {
                     $user = Auth::user();
                     $userRole = Role::where('name', $user?->activeRole())->first();
                     $role->Where('role_id', $userRole?->id);
@@ -268,12 +271,12 @@ class EventController extends Controller
                 //     $query->where('user_id', $userId);
                 // })
                 ->latest()->paginate(9);
-        // return $events;
+            // return $events;
         }
-        
 
-            // $events = Event::all();
-            // return($events);
+
+        // $events = Event::all();
+        // return($events);
 
 
         return view('dashboard.pages.events.available', [
@@ -282,7 +285,8 @@ class EventController extends Controller
     }
 
     // Search for available events
-    private function searchAvailableEvents($search){
+    private function searchAvailableEvents($search)
+    {
         $events = Event::whereAny([
             'added_by',
             'center_id',
@@ -296,22 +300,21 @@ class EventController extends Controller
             'status',
             'contact_name',
             'contact_phone_number',
-        ], 'like', '%' .$search['search'] .'%')
-        ->where('end_date', '>=', now())
-        // ->where('start_date', '<=', now())
-        ->where('slots', '>', 0)
-        ->where('status', true)
-        ->whereHas('eventRoles', function($role) {
+        ], 'like', '%' . $search['search'] . '%')
+            ->where('end_date', '>=', now())
+            // ->where('start_date', '<=', now())
+            ->where('slots', '>', 0)
+            ->where('status', true)
+            ->whereHas('eventRoles', function ($role) {
                 $user = Auth::user();
                 $userRole = Role::where('name', $user?->activeRole())->first();
                 $role->Where('role_id', $userRole?->id);
             })
-        ->with(['center', 'center.centerAsset'])
-        ->latest()
-        ->paginate(9);
+            ->with(['center', 'center.centerAsset'])
+            ->latest()
+            ->paginate(9);
 
         return $events ?? null;
-    
     }
 
 
@@ -323,7 +326,7 @@ class EventController extends Controller
         // Get the logged in user
         $user = Auth::user();
 
-        if($user->role == 'admin'){
+        if ($user->role == 'admin') {
             return redirect()->back()->with('error', 'Login as user to book this event.');
         }
 
@@ -353,8 +356,6 @@ class EventController extends Controller
 
         return redirect()->route('events.show', $event->id)
             ->with('success', 'You have successfully booked this event, please make payment to secure your slot.');
-
-
     }
 
 
@@ -364,12 +365,12 @@ class EventController extends Controller
 
         // Get the logged in user
         $user = Auth::user();
-        if(!$user){
+        if (!$user) {
             return redirect()->route('login')->with('success', 'Please login!');
         }
 
         // If the event has been paid for
-        if($event->isPaid()){
+        if ($event->isPaid()) {
             return redirect()->route('events.show', $event->id)
                 ->with('warnings', 'You have already successfully paid for this event.');
         }
@@ -406,7 +407,7 @@ class EventController extends Controller
 
 
         // If payment initiation is successful, create a transaction record and redirect to payment gateway
-        if($response['success'] && $response['authorization_url']) {
+        if ($response['success'] && $response['authorization_url']) {
             // Add transitions record
             $payment = Transaction::create([
                 'user_id' => $user->id,
@@ -429,18 +430,19 @@ class EventController extends Controller
 
 
     // Verify payment with reference number
-    public function verifyPayment($reference){
+    public function verifyPayment($reference)
+    {
 
         $transaction = Transaction::where('reference', $reference)
             ->first();
 
         // If transaction payment status is pending
-        if($transaction?->payment_status != 'success'){
+        if ($transaction?->payment_status != 'success') {
 
             $paymentController = new PaymentController();
             $response = $paymentController->verify($transaction->reference);
 
-            if($response['success'] == 'true'){
+            if ($response['success'] == 'true') {
 
                 $transaction = Transaction::where('reference', $reference)->update([
                     'payment_status' => $response['data']['status']
@@ -452,14 +454,11 @@ class EventController extends Controller
 
                 $result = $response;
                 $result['success'] = true;
-
-            }
-            else{
+            } else {
                 $result['success'] = false;
                 $result['message'] = 'Payment verification failed';
             }
-
-        }else{
+        } else {
             $result['success'] = true;
             $result['message'] = 'Payment has already been verified';
         }
@@ -468,9 +467,10 @@ class EventController extends Controller
     }
 
     // Cancel booking for an event
-    public function cancel(Event $event, BookedEvent $booked_event){
+    public function cancel(Event $event, BookedEvent $booked_event)
+    {
         // Check if user is the one who booked this event
-        if($booked_event->user_id!= Auth::id()){
+        if ($booked_event->user_id != Auth::id()) {
             return redirect()->route('events.show', $event->id)
                 ->with('error', 'You are not authorized to cancel this booking.');
         }
@@ -484,19 +484,18 @@ class EventController extends Controller
 
 
     // Get the list of booked events
-    public function bookedEvents(){
-        
+    public function bookedEvents()
+    {
+
         $user = Auth::user();
 
         // Search for events
-        if(request()->filled('search')){
+        if (request()->filled('search')) {
             $search = request()->validate([
-                'search' => ['required','string']
+                'search' => ['required', 'string']
             ]);
             $booked_events = $this?->searchBookedEvents($search);
-        }
-        else
-        {
+        } else {
             $booked_events = BookedEvent::where('user_id', $user->id)
                 ->with(['event', 'event.center'])
                 ->latest()->paginate(5);
@@ -508,48 +507,53 @@ class EventController extends Controller
 
 
     // Search booked events
-    private function searchBookedEvents($search){
+    private function searchBookedEvents($search)
+    {
 
         $q = $search['search'];
         $user = Auth::user();
         $booked_events = BookedEvent::whereAny([
-            'user_id', 'event_id',
-            'payment_type', 'approved_by',
-            'payment_amount', 'status', 'paid',
-        ], 'like', '%' .$search['search'] .'%')
-        ->orWhereHas('event', function ($query) use ($q) {
-            $query->whereAny([
-                'added_by',
-                'center_id',
-                'event_type_id',
-                'name',
-                'description',
-                'start_date',
-                'end_date',
-                'type',
-                'cost',
-                'slots',
-                'status',
-                'contact_name',
-                'contact_phone_number'
-            ], 'like', '%' .$q .'%');
-        })
-        ->orWhereHas('event.center', function ($query) use ($q) {
-            $query->whereAny([
-                'added_by',
-                'center_type_id',
-                'belongs_to_user',
-                'name',
-                'payment_id',
-                'phone_number',
-                'address',
-                'map_url',
-                'state',
-            ], 'like', '%' .$q .'%');
-        })
-        // ->where('user_id', $user->id)
-        ->with(['event', 'event.center'])
-        ->latest()->paginate(5);
+            'user_id',
+            'event_id',
+            'payment_type',
+            'approved_by',
+            'payment_amount',
+            'status',
+            'paid',
+        ], 'like', '%' . $search['search'] . '%')
+            ->orWhereHas('event', function ($query) use ($q) {
+                $query->whereAny([
+                    'added_by',
+                    'center_id',
+                    'event_type_id',
+                    'name',
+                    'description',
+                    'start_date',
+                    'end_date',
+                    'type',
+                    'cost',
+                    'slots',
+                    'status',
+                    'contact_name',
+                    'contact_phone_number'
+                ], 'like', '%' . $q . '%');
+            })
+            ->orWhereHas('event.center', function ($query) use ($q) {
+                $query->whereAny([
+                    'added_by',
+                    'center_type_id',
+                    'belongs_to_user',
+                    'name',
+                    'payment_id',
+                    'phone_number',
+                    'address',
+                    'map_url',
+                    'state',
+                ], 'like', '%' . $q . '%');
+            })
+            // ->where('user_id', $user->id)
+            ->with(['event', 'event.center'])
+            ->latest()->paginate(5);
 
         return $booked_events ?? null;
     }
@@ -566,18 +570,18 @@ class EventController extends Controller
         $user = Auth::user();
 
         // Check if user has already completed installment payment for this event
-        if ($event->getPaymentDetails()['payment_status']){
+        if ($event->getPaymentDetails()['payment_status']) {
             return redirect()->back()->with('success', 'You have successfully complete your installment payment for this event.');
         }
 
         // Check amount to be paid by user
-        if(!$request->filled('amount_to_pay') || $request->amount_to_pay <= 0){
+        if (!$request->filled('amount_to_pay') || $request->amount_to_pay <= 0) {
             return redirect()->back()->with('error', 'Enter an amount to pay for installment.');
         }
 
 
         // Check if payment has been successfully made
-        if($event->isPaid()){
+        if ($event->isPaid()) {
             return redirect()->route('events.show', $event->id)
                 ->with('warnings', 'You have already successfully paid for this event.');
         }
@@ -624,7 +628,7 @@ class EventController extends Controller
 
 
         // If payment initiation is successful, create a transaction record and redirect to payment gateway
-        if($response['success'] && $response['authorization_url']) {
+        if ($response['success'] && $response['authorization_url']) {
             // Add transitions record
             $payment = Transaction::create([
                 'user_id' => $user->id,
@@ -666,6 +670,4 @@ class EventController extends Controller
         // return redirect()->back()->with('error', 'Server error, please try again later');
 
     }
-
-
 }
