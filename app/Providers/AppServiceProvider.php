@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Enum\UserRoleEnum;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;
 
@@ -29,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
                 'role' => $request?->user()?->role,
             ]);
             return ($request->user() && in_array(
-                $request->user()->email, 
+                $request->user()->email,
                 ['abdulsalamamtech@gmail.com',]
             ));
         });
@@ -39,6 +40,14 @@ class AppServiceProvider extends ServiceProvider
             // Count messages where status is unread
             $unreadMessages = \App\Models\Message::where('status', 'unread')->count();
             $view->with('unreadMessages', $unreadMessages);
+        });
+
+        // Laravel pulse
+        // Gate::define('viewPulse', function ($user) {
+        //     return $user->isAdmin();
+        // });
+        Gate::define('viewPulse', function () {
+            return true;
         });
     }
 }
