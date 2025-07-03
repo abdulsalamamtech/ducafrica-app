@@ -4,6 +4,7 @@ use App\Http\Controllers\BookedEventController;
 use App\Http\Controllers\CancelEventController;
 use App\Http\Controllers\CenterController;
 use App\Http\Controllers\CenterTypeController;
+use App\Http\Controllers\EventAttendanceController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventRoleController;
 use App\Http\Controllers\EventTypeController;
@@ -34,6 +35,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -260,6 +262,33 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('events/{event}/details', [EventController::class, 'eventDetails'])
         ->middleware(['role:super-admin|admin'])
         ->name('events.details');
+    
+    // Event Booked Users
+    Route::get('events/{event}/booked-users', [EventController::class, 'bookedEventUsers'])
+        ->middleware(['role:super-admin|admin'])
+        ->name('events.bookedEventUsers');
+    // Mark user as attend
+    Route::post('events/{event}/booked-users', [EventAttendanceController::class, 'store'])
+        ->middleware(['role:super-admin|admin'])
+        ->name('events.bookedEventUsers.store');  
+
+    // Route::get('event-attendances', [EventAttendanceController::class, 'index']);
+
+    // Route::get('event-attendances/{event-attendance}/attend', [EventAttendanceController::class, 'attend'])
+    //     ->name('event-attendances.attend');
+    Route::get('booked-events/{booked-event}/attend', function (){
+        return "done";
+    })
+    ->name('booked-events.attend');
+
+    Route::get('event-attendances/{event-attendance}/absent', [EventAttendanceController::class, 'absent'])
+        ->name('event-attendances.absent');
+
+    // Route::get('event-attendances', [EventAttendanceController::class, 'index']);
+
+
+    // testing
+    Route::get('att', [EventAttendanceController::class, 'index']);
 
     Route::resource('events', EventController::class)
         ->only(['store', 'update'])
