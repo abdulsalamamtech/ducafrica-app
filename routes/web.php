@@ -199,7 +199,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Groups
     Route::resource('groups', GroupController::class)
-        ->middleware(['role:super-admin|admin'])
+        ->middleware(['role:super-admin|admin|group-head'])
         ->only(['index', 'store', 'update']);
     Route::delete('groups/{group}', [GroupController::class, 'destroy'])
         ->middleware(['role:super-admin|admin'])
@@ -262,7 +262,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('events/{event}/details', [EventController::class, 'eventDetails'])
         ->middleware(['role:super-admin|admin'])
         ->name('events.details');
-    
+
     // Event Booked Users
     Route::get('events/{event}/booked-users', [EventController::class, 'bookedEventUsers'])
         ->middleware(['role:super-admin|admin'])
@@ -276,10 +276,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Route::get('event-attendances/{event-attendance}/attend', [EventAttendanceController::class, 'attend'])
     //     ->name('event-attendances.attend');
-    Route::get('booked-events/{booked-event}/attend', function (){
+    Route::get('booked-events/{booked-event}/attend', function () {
         return "done";
     })
-    ->name('booked-events.attend');
+        ->name('booked-events.attend');
 
     Route::get('event-attendances/{event-attendance}/absent', [BookedEventController::class, 'absent'])
         ->name('event-attendances.absent');
@@ -356,7 +356,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::apiResource('messages', MessageController::class);
     // Message Reply routes
     Route::apiResource('message-replies', MessageRepliesController::class);
-
 });
 
 Route::get('/paystack/verify', [EventController::class, 'verify'])
@@ -429,7 +428,7 @@ Route::get('/notify', function () {
     $user = User::find(2);
     $user->notify(new NotifyAdmin($contents));
 
-    return "Notification Sent to ". $user->email;
+    return "Notification Sent to " . $user->email;
 })->name('admin.notify');
 
 
@@ -513,7 +512,7 @@ Route::get('/test-mail', function () {
     // $send = Mail::raw('This is a test email, from: SDSSN', function ($message) use ($email) {
     //     $message->to($email)->subject('Test Email: ' . now());
     // });
-    return $send? "done": "fail";
+    return $send ? "done" : "fail";
 });
 
 
