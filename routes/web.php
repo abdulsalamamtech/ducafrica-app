@@ -6,6 +6,7 @@ use App\Http\Controllers\CenterController;
 use App\Http\Controllers\CenterTypeController;
 use App\Http\Controllers\EventAttendanceController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventResourcesController;
 use App\Http\Controllers\EventRoleController;
 use App\Http\Controllers\EventTypeController;
 use App\Http\Controllers\FastExcelController;
@@ -35,6 +36,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -240,7 +242,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('centers/{center}/groups/{group}', [CenterController::class, 'removeGroup'])
         ->name('centers.groups.delete');
 
-    // Delete a center
+    // Delete a centerresources
     Route::delete('centers/{center}', [CenterController::class, 'destroy'])
         ->middleware(['role:super-admin|admin'])
         ->name('centers.delete');
@@ -358,6 +360,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::apiResource('messages', MessageController::class);
     // Message Reply routes
     Route::apiResource('message-replies', MessageRepliesController::class);
+
+    Route::get('/available-resources', [EventResourcesController::class, 'available'])
+        ->name('available-resources');
+    Route::resource('event-resources', EventResourcesController::class)
+        ->only(['index', 'show']);
+    Route::resource('event-resources', EventResourcesController::class)
+        ->only(['store', 'update'])
+        ->middleware(['role:super-admin|admin']);
+
+   // Close an event
+    Route::get('event-resources/{eventResource}/close', [EventResourcesController::class, 'closeEventResource'])
+        ->middleware(['role:super-admin|admin'])
+        ->name('event-resources.close');
+    // Open an event
+    Route::get('event-resources/{eventResource}/open', [EventResourcesController::class, 'openEventResource'])
+        ->middleware(['role:super-admin|admin'])
+        ->name('event-resources.open');        
+
 });
 
 Route::get('/paystack/verify', [EventController::class, 'verify'])
