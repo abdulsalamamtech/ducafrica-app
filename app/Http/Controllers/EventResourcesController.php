@@ -19,18 +19,18 @@ class EventResourcesController extends Controller
      */
     public function index()
     {
+        // return request();
         // Search for events
         if (request()->filled('search')) {
             $search = request()->validate([
                 'search' => ['required', 'string']
             ]);
-            // $events = $this?->search($search);
-        } else {
-            $events = Event::with(['eventRoles'])->latest()->paginate(5);
+            $event_resources = $this?->search($search);
+        }else{
+            $event_resources = EventResource::with(['roles'])->latest()->paginate(5);
         }
 
         // $event_resources = EventResource::with(['eventResourceRole'])->latest()->paginate(5);
-        $event_resources = EventResource::with(['roles'])->latest()->paginate(5);
         // return $event_resources = EventResource::with(['roles'])->latest()->paginate(5);
         // return $event_resources = EventResource::with(['eventResourceRole'])->latest()->paginate(5);
 
@@ -47,7 +47,7 @@ class EventResourcesController extends Controller
 
         return view('dashboard.pages.event-resources.index', [
             'event_resources' =>  $event_resources,
-            'events' => $events,
+            'events' => $events = [],
             'event_types' => $event_types,
             'centers' => $centers,
             'roles' => $roles,
@@ -179,7 +179,7 @@ class EventResourcesController extends Controller
         return redirect()
             ->route('event-resources.index')
             ->with('success', 'event resource opened successfully');
-    }    
+    }
 
     // Get the list of available events
     public function available()
@@ -217,7 +217,7 @@ class EventResourcesController extends Controller
         return view('dashboard.pages.event-resources.available', [
             'event_resources' =>  $event_resources,
         ]);
-    }    
+    }
 
     public function searchAvailableEvents($search)
     {
@@ -228,12 +228,27 @@ class EventResourcesController extends Controller
             ->orWhere('description', 'like', "%{$search}%")
             ->orWhere('category', 'like', "%{$search}%")
             ->whereHas('roles', function ($role) {
-                    $user = Auth::user();
-                    $userRole = Role::where('name', $user?->activeRole())->first();
-                    $role->Where('role_id', $userRole?->id);
-                })
+                $user = Auth::user();
+                $userRole = Role::where('name', $user?->activeRole())->first();
+                $role->Where('role_id', $userRole?->id);
+            })
             ->where('status', true)
             ->orWhere('category', 'general')
+            ->with(['roles'])
+            ->latest()->paginate(9);
+
+        return $event_resources;
+    }
+
+    public function search($search)
+    {
+        $search = $search['search'];
+
+        // Search for events
+        $event_resources = EventResource::where('name', 'like', "%{$search}%")
+            ->orWhere('description', 'like', "%{$search}%")
+            ->orWhere('category', 'like', "%{$search}%")
+            ->orWhere('created_by', 'like', "%{$search}%")
             ->with(['roles'])
             ->latest()->paginate(9);
 
