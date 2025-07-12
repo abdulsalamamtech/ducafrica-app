@@ -19,10 +19,10 @@
                         </div>
                         <div class="p-4 text-right">
                             <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                                Total Events</p>
+                                Total Resources</p>
                             <h4
                                 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                {{ Number::abbreviate(auth()->user()->statistics()['admin']['events'] ?? 0) }}
+                                {{ Number::abbreviate(auth()->user()->statistics()['admin']['event_resources']['total'] ?? 0) }}
                             </h4>
                         </div>
                         <div class="dark:border-gray-500 border-t border-blue-gray-50 p-4">
@@ -40,10 +40,10 @@
                         </div>
                         <div class="p-4 text-right">
                             <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                                Active Events</p>
+                                Active Resources</p>
                             <h4
                                 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                {{ Number::abbreviate(auth()->user()->statistics()['admin']['centers'] ?? 0) }}
+                                {{ Number::abbreviate(auth()->user()->statistics()['admin']['event_resources']['active'] ?? 0) }}
                             </h4>
                         </div>
                         <div class="dark:border-gray-500 border-t border-blue-gray-50 p-4">
@@ -61,11 +61,11 @@
                         </div>
                         <div class="p-4 text-right">
                             <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                                Inactive Events
+                                Inactive Resources
                             </p>
                             <h4
                                 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                {{ Number::abbreviate(auth()->user()->statistics()['admin']['centers'] ?? 0) }}
+                                {{ Number::abbreviate(auth()->user()->statistics()['admin']['event_resources']['inactive'] ?? 0) }}
                             </h4>
                         </div>
                         <div class="dark:border-gray-500 border-t border-blue-gray-50 p-4">
@@ -83,10 +83,10 @@
                         </div>
                         <div class="p-4 text-right">
                             <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                                Booked Events</p>
+                                General Resources</p>
                             <h4
                                 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                                {{ Number::abbreviate(auth()->user()->statistics()['admin']['booked_events'] ?? 0) }}
+                                {{ Number::abbreviate(auth()->user()->statistics()['admin']['event_resources']['general'] ?? 0) }}
                             </h4>
                         </div>
                         <div class="dark:border-gray-500 border-t border-blue-gray-50 p-4">
@@ -109,11 +109,11 @@
 
                     <!-- Header Section -->
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300">Events</h2>
+                        <h2 class="text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300">Resources</h2>
                         <button class="px-3 md:px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700"
                             data-modal-target="addUserModal" data-modal-show="addUserModal">
                             <i class='fa fa-pencil-square-o'></i>
-                            <span class="pl-2">Add Event</span>
+                            <span class="pl-2">Add Resource</span>
                         </button>
 
 
@@ -197,6 +197,7 @@
                                                 <select type="text" name="category" id="category"
                                                     class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                     placeholder="category" required="" value="">
+                                                    <option value="general">General (All)</option>
                                                     @forelse ($event_types as $event_type)
                                                         <option value="{{ $event_type->name }}">{{ $event_type->name }}
                                                         </option>
@@ -347,13 +348,13 @@
                                     <span class="pl-2">Print</span>
                                 </button>
                             </a> --}}
-                            <a href="{{ route('fast-excel.events') }}" class="">
+                            {{-- <a href="{{ route('fast-excel.events') }}" class="">
                                 <button type="button"
                                     class="inline-flex items-center px-2.5 py-1.5 text-sm font-medium text-gray-100 bg-green-500 border border-gray-300 focus:outline-none hover:bg-green-400 focus:ring-4 focus:ring-gray-100 rounded-lg dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                                     <i class="fa fa-file-excel-o"></i>
-                                    <span class="pl-2">Export Events</span>
+                                    <span class="pl-2">Export Resources</span>
                                 </button>
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
 
@@ -588,6 +589,7 @@
                                                                 class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                                 placeholder="category" required=""
                                                                 value="{{ $event_resource?->category }}">
+                                                                <option value="general">General (All)</option>
                                                                 @forelse ($event_types as $event_type)
                                                                     <option value="{{ $event_type->name }}"
                                                                         @selected($event_resource->category === $event_type->name)>

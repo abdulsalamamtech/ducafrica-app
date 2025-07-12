@@ -134,6 +134,12 @@ class User extends Authenticatable implements MustVerifyEmail
                     'success_total' => Transaction::where('payment_status', 'success')->count(),
                     'pending_amount' => Transaction::where('payment_status', 'pending')->sum('amount'),
                     'pending_total' => Transaction::where('payment_status', 'pending')->count(),
+                ],
+                'event_resources' => [
+                    'total' => EventResource::count(),
+                    'active' => EventResource::where('status', 1)->count(),
+                    'inactive' => EventResource::where('status', 0)->count(),
+                    'general' => EventResource::where('category', 'general')->count(),
                 ]
             ],
             'user' => [
