@@ -693,8 +693,8 @@
                     {{-- Paginate --}}
                     <div class="text-center pt-4 bg-white dark:text-gray-100 dark:bg-gray-800">
                         <div class="px-8">
-                            @if (isset($events) && !empty($events) && $events->links())
-                                {{ $events->links() }}
+                            @if (isset($event_resources) && !empty($event_resources) && $event_resources->links())
+                                {{ $event_resources->links() }}
                             @endif
                         </div>
                     </div>
