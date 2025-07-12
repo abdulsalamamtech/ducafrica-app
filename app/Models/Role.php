@@ -26,5 +26,12 @@ class Role extends Model
     }
 
 
+    // Event Resources 
+    public function eventResources()
+    {
+        return $this->belongsToMany(EventResource::class, 'event_resource_role');
+    }
+
+
 
 }
