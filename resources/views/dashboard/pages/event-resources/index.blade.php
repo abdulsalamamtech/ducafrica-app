@@ -409,7 +409,6 @@
                                         <th scope="row p-3"
                                             class="flex items-center p-3 text-gray-900 whitespace-nowrap dark:text-white">
                                             <div class="p-3">
-                                                {{ $event_resource?->id }}
                                                 <div class="text-base font-semibold">{{ $event_resource?->title }}</div>
                                                 <div class="font-normal text-gray-500">{{ $event_resource?->description }}
                                                     <div>For {{ $event_resource?->event?->name ?? 'general' }} </div>
@@ -681,7 +680,7 @@
                                 @empty
                                     <tr
                                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td colspan="10" class="text-center p-8">Resources unavailable</td>
+                                        <td colspan="10" class="text-center p-8">Resource unavailable</td>
                                     </tr>
                                 @endforelse
 
