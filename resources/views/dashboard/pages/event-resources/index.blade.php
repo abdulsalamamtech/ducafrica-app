@@ -697,6 +697,7 @@
                             @endif
                         </div>
                     </div>
+                    {{-- End Paginate --}}
 
 
                 </div>
