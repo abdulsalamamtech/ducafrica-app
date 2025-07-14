@@ -7,12 +7,14 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\BookedEvent;
 use App\Models\Center;
+use App\Models\CenterType;
 use App\Models\Event;
 use App\Models\EventType;
 use App\Models\Role;
 use App\Models\Transaction;
 use App\Models\UserInstallment;
 use App\Models\UserInstallmentPayment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,6 +35,8 @@ class EventController extends Controller
         } else {
             $events = Event::with(['eventRoles'])->latest()->paginate(5);
         }
+
+
 
         $event_types = EventType::all();
         $centers = Center::all();
@@ -174,6 +178,8 @@ class EventController extends Controller
             'event' => $event
         ]);
     }
+
+
     /**
      * Show the event details.
      */
@@ -181,6 +187,7 @@ class EventController extends Controller
     {
         return view('dashboard.pages.events.details', ['event' => $event]);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -244,15 +251,23 @@ class EventController extends Controller
     public function available()
     {
 
+
         // Get the logged in user
         $user = Auth::user();
 
-        // Search for events
-        if (request()->filled('search')) {
-            $search = request()->validate([
-                'search' => ['required', 'string']
-            ]);
-            $events = $this?->searchAvailableEvents($search);
+        if (request()->filled('global-filter')) {
+            // return redirect()->action([EventController::class, 'globalFilter'], request());
+            return request();
+            $events = $this?->globalFilter();
+            // } else {
+            // $events = Event::with(['eventRoles'])->latest()->paginate(5);
+            // }  
+            // // Search for events
+            // if (request()->filled('search')) {
+            //     $search = request()->validate([
+            //         'search' => ['required', 'string']
+            //     ]);
+            //     $events = $this?->searchAvailableEvents($search);
         } else {
 
             $userId = auth()->user()->id;
@@ -278,9 +293,16 @@ class EventController extends Controller
         // $events = Event::all();
         // return($events);
 
+        $event_types = EventType::all();
+        $center_types = CenterType::all();
+
+
+
 
         return view('dashboard.pages.events.available', [
             'events' => $events,
+            'event_types' => $event_types,
+            'center_types' => $center_types
         ]);
     }
 
@@ -316,7 +338,6 @@ class EventController extends Controller
 
         return $events ?? null;
     }
-
 
 
     // Book an event
@@ -669,5 +690,119 @@ class EventController extends Controller
 
         // return redirect()->back()->with('error', 'Server error, please try again later');
 
+    }
+
+
+    public function globalFilter()
+    {
+        // return request();
+
+        $events = Event::where('status', true);
+
+
+        // start date and end date
+        if (request()->filled('start_date')) {
+
+            // $start_date = request('start_date') ?? Carbon::date_create('last year');
+
+            $start_date = request('start_date') ?? new Carbon('last year');
+            // $end_date = request('end_date') ?? Carbon::today();
+            $end_date = request('end_date') ?? new Carbon('next year');
+
+            // return $events->Where('created_at', $start_date)
+            // ->Where('created_at', $end_date)->get();
+
+            $events->where('created_at', $start_date)
+                ->where('created_at', $end_date)->get();
+        }
+
+        // event center type
+        if (request()->filled('event_center_type') && request('event_center_type') != 'all') {
+            $event_center_type = request('event_center_type') ?? '';
+            $events->whereHas('center', function ($center) use ($event_center_type) {
+                $center->whereHas('centerType', function ($center_type) use ($event_center_type) {
+                    $center_type->where('name', $event_center_type);
+                });
+            });
+        }
+
+        // event type
+        if (request()->filled('event_type') && request('event_type') != 'all') {
+            $event_type = request('event_type') ?? '';
+            $events->whereHas('eventType', function ($eventType) use ($event_type) {
+                $eventType->where('name', $event_type);
+            });
+        }
+
+        // Search database
+        if (request()->filled('search')) {
+            $search = request()->validate([
+                'search' => ['required', 'string']
+            ]);
+
+            $events->orWhereAny([
+                'added_by',
+                'center_id',
+                'event_type_id',
+                'name',
+                'description',
+                'start_date',
+                'end_date',
+                'cost',
+                'slots',
+                'status',
+                'contact_name',
+                'contact_phone_number',
+            ], 'like', '%' . $search['search'] . '%');
+        }
+
+
+        // filter available roles
+        $events->where('end_date', '>=', now())
+            // ->where('start_date', '<=', now())
+            ->where('slots', '>', 0)
+            ->whereHas('eventRoles', function ($role) {
+                $user = Auth::user();
+                $userRole = Role::where('name', $user?->activeRole())->first();
+                $role->Where('role_id', $userRole?->id);
+            })
+            ->with(['center', 'center.centerAsset']);
+
+
+        // when oldest is not set
+        if (request()?->filled('sort_by')) {
+            // return request('sort_by');
+            if (request('sort_by') == 'date-asc') {
+                // $events->latest();
+                $events->orderBy('created_at', 'asc');
+            }
+            if (request('sort_by') == 'date-desc') {
+                $events->latest();
+            }
+            if (request('sort_by') == 'title-asc') {
+                $events->orderBy('name');
+            }
+            if (request('sort_by') == 'title-desc') {
+                $events->orderByDesc('name');
+            }
+        }
+        // else date-desc, title-desc
+
+
+        // dd($events->paginate());
+        // dd($events);
+
+        // paginate final result
+        $events = $events->paginate(9);
+
+        $event_types = EventType::all();
+        $center_types = CenterType::all();
+
+        // return $events ?? null;
+        return view('dashboard.pages.events.available', [
+            'events' => $events,
+            'event_types' => $event_types,
+            'center_types' => $center_types
+        ]);
     }
 }

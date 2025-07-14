@@ -294,12 +294,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // testing
     // Route::get('att', [BookedEventController::class, 'index']);
 
+
+    // global search
+    Route::get('/available-events-global-filter', [EventController::class, 'globalFilter'])
+        ->name('available-events.global-filter');
+ 
+
     Route::resource('events', EventController::class)
         ->only(['store', 'update'])
         ->middleware(['role:super-admin|admin']);
 
     Route::get('/available-events', [EventController::class, 'available'])
         ->name('available-events');
+
+
     Route::get('/events/{event}/book', [EventController::class, 'book'])
         ->name('events.book');
     Route::get('/events/{event}/full-payment', [EventController::class, 'makeFullPayment'])
