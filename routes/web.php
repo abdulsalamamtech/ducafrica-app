@@ -271,34 +271,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('events/{event}/booked-users', [EventController::class, 'bookedEventUsers'])
         ->middleware(['role:super-admin|admin'])
         ->name('events.bookedEventUsers');
+
+
     // Mark user as attend
     // Route::post('events/{event}/booked-users', [EventAttendanceController::class, 'store'])
     //     ->middleware(['role:super-admin|admin'])
     //     ->name('events.bookedEventUsers.store');  
 
     // Route::get('event-attendances', [EventAttendanceController::class, 'index']);
-
-    // Route::get('event-attendances/{event-attendance}/attend', [EventAttendanceController::class, 'attend'])
-    //     ->name('event-attendances.attend');
-    Route::get('booked-events/{booked-event}/attend', function () {
-        return "done";
-    })
-        ->name('booked-events.attend');
-
-    Route::get('event-attendances/{event-attendance}/absent', [BookedEventController::class, 'absent'])
-        ->name('event-attendances.absent');
-
     // Route::get('event-attendances', [EventAttendanceController::class, 'index']);
 
+    // mark event attendance
+    Route::get('booked-events/{bookedEvent}/attend', [EventController::class, 'attend'])
+        ->name('event-attendances.attend');
+    Route::get('booked-events/{bookedEvent}/absent', [EventController::class, 'absent'])
+        ->name('event-attendances.absent');
 
-    // testing
-    // Route::get('att', [BookedEventController::class, 'index']);
+
+
 
 
     // global search
     Route::get('/available-events-global-filter', [EventController::class, 'globalFilter'])
         ->name('available-events.global-filter');
- 
+
 
     Route::resource('events', EventController::class)
         ->only(['store', 'update'])
@@ -353,10 +349,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('users/{user}', [UserController::class, 'destroy'])
         ->middleware(['role:super-admin|admin', 'password.confirm'])
         ->name('users.destroy');
+
     // User activities route
     Route::get('users/{user}/activities', [UserController::class, 'activities'])
         ->middleware(['role:super-admin|admin'])
         ->name('users.activities');
+
+    // User transaction activities
+    Route::get('users/{user}/transaction-activities', [UserController::class, 'transactionActivities'])
+        ->middleware(['role:super-admin|admin'])
+        ->name('users.activities.transactions');
+
 
     Route::any('/new-users', [UserController::class, 'newUsers'])
         ->name('new-users');
@@ -377,15 +380,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->only(['store', 'update'])
         ->middleware(['role:super-admin|admin']);
 
-   // Close an event
+
+    // global search
+    Route::get('/available-event-resources-global-filter', [EventResourcesController::class, 'globalFilter'])
+        ->name('available-event-resources.global-filter');
+
+    // Close an event
     Route::get('event-resources/{eventResource}/close', [EventResourcesController::class, 'closeEventResource'])
         ->middleware(['role:super-admin|admin'])
         ->name('event-resources.close');
     // Open an event
     Route::get('event-resources/{eventResource}/open', [EventResourcesController::class, 'openEventResource'])
         ->middleware(['role:super-admin|admin'])
-        ->name('event-resources.open');        
-
+        ->name('event-resources.open');
 });
 
 Route::get('/paystack/verify', [EventController::class, 'verify'])

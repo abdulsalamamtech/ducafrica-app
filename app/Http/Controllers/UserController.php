@@ -195,7 +195,7 @@ class UserController extends Controller
     public function activities(User $user)
     {
         // User transactions
-        $transactions = $user->transactions()->paginate();
+        // $transactions = $user->transactions()->paginate();
         // return $transactions;
 
         $bookedEvents = $user->bookedEvents()->paginate();
@@ -204,9 +204,29 @@ class UserController extends Controller
         return view('dashboard.pages.users.activities', [
             'user' => $user,
             'bookedEvents' => $bookedEvents,
-            'transactions' => $transactions,
+            // 'transactions' => $transactions,
         ]);
     }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function transactionActivities(User $user)
+    {
+        // User transactions
+        $transactions = $user->transactions()->paginate();
+        // return $transactions;
+
+        // $bookedEvents = $user->bookedEvents()->paginate();
+        // return $bookedEvents;
+
+        return view('dashboard.pages.users.activities', [
+            'user' => $user,
+            // 'bookedEvents' => $bookedEvents,
+            'transactions' => $transactions,
+        ]);
+    } 
 
 
     /**

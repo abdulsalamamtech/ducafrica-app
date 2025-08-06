@@ -693,6 +693,7 @@ class EventController extends Controller
     }
 
 
+    // Global filter on the event page
     public function globalFilter()
     {
         // return request();
@@ -804,5 +805,31 @@ class EventController extends Controller
             'event_types' => $event_types,
             'center_types' => $center_types
         ]);
+    }
+
+
+    // Mark user event as attend
+    public function attend(Request $request, BookedEvent $bookedEvent)
+    {
+
+        if (!$bookedEvent->paid) {
+            // return "Not Good";
+            return redirect()->back()->with('error', 'User hasn\'t made payment for the event');
+        }
+
+        $bookedEvent->attend = 'yes';
+        $bookedEvent->save();
+
+        return redirect()->back()->with('success', 'User attendance marked as attended');
+    }
+
+    // Mark user event as absent
+    public function absent(Request $request, BookedEvent $bookedEvent)
+    {
+
+        $bookedEvent->attend = 'no';
+        $bookedEvent->save();
+
+        return redirect()->back()->with('success', 'User attendance marked as absent');
     }
 }

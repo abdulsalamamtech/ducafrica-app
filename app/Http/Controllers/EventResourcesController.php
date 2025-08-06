@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Models\EventResource;
 use App\Models\EventType;
 use App\Models\Role;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -212,10 +213,12 @@ class EventResourcesController extends Controller
 
 
         // return($event_resources);
+        $event_types = EventType::all();
 
 
         return view('dashboard.pages.event-resources.available', [
             'event_resources' =>  $event_resources,
+            'event_types' => $event_types
         ]);
     }
 
@@ -254,4 +257,105 @@ class EventResourcesController extends Controller
 
         return $event_resources;
     }
+
+
+    public function globalFilter()
+    {
+        // return request();
+        $userId = auth()->user()->id;
+        $event_resources = EventResource::where('status', true)
+            ->whereHas('roles', function ($role) {
+                $user = Auth::user();
+                $userRole = Role::where('name', $user?->activeRole())->first();
+                $role->Where('role_id', $userRole?->id);
+            });
+
+        // start date and end date
+        if (request()->filled('start_date')) {
+
+            // $start_date = request('start_date') ?? Carbon::date_create('last year');
+
+            $start_date = request('start_date') ?? new Carbon('last year');
+            // $end_date = request('end_date') ?? Carbon::today();
+            $end_date = request('end_date') ?? new Carbon('next year');
+
+            // return $events->Where('created_at', $start_date)
+            // ->Where('created_at', $end_date)->get();
+
+            $event_resources->where('created_at', $start_date)
+                ->where('created_at', $end_date)->get();
+        }
+
+        // event resource category
+        if (request()->filled('category') && request('category') != 'all') {
+            $event_resource_category = request('category') ?? '';
+            $event_resources->where('category', $event_resource_category);
+        }
+
+        // event center type
+        if (request()->filled('resource_format') && request('resource_format') != 'general') {
+            $event_resource_format = request('resource_format') ?? '';
+            $event_resources->where('resource_format', $event_resource_format);
+        }
+
+        // event type
+        // if (request()->filled('event_type') && request('event_type') != 'all') {
+        //     $event_type = request('event_type') ?? '';
+        //     $event_resources->whereHas('eventType', function ($eventType) use ($event_type) {
+        //         $eventType->where('name', $event_type);
+        //     });
+        // }
+
+        // Search database
+        if (request()->filled('search')) {
+            $search = request()->validate([
+                'search' => ['required', 'string']
+            ]);
+
+            $event_resources->orWhereAny([
+                'title', // name on the resources
+                'description', // description
+                'resource_format',
+                'category',
+                'url',
+                'event_id',
+                'created_by',
+            ], 'like', '%' . $search['search'] . '%');
+        }
+
+
+        // when oldest is not set
+        if (request()?->filled('sort_by')) {
+            // return request('sort_by');
+            if (request('sort_by') == 'date-asc') {
+                // $event_resources->latest();
+                $event_resources->orderBy('created_at', 'asc');
+            }
+            if (request('sort_by') == 'date-desc') {
+                $event_resources->latest();
+            }
+            if (request('sort_by') == 'title-asc') {
+                $event_resources->orderBy('name');
+            }
+            if (request('sort_by') == 'title-desc') {
+                $event_resources->orderByDesc('name');
+            }
+        }
+        // else date-desc, title-desc
+
+
+        // dd($events->paginate());
+        // dd($events);
+
+        // paginate final result
+        $event_resources = $event_resources->paginate(9);
+
+        $event_types = EventType::all();
+
+
+        return view('dashboard.pages.event-resources.available', [
+            'event_resources' =>  $event_resources,
+            'event_types' => $event_types
+        ]);
+    }    
 }

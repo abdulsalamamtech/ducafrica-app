@@ -14,7 +14,7 @@
                         </div>
 
                         <!-- Header Section -->
-                        <div class="flex justify-between items-center mb-4">
+                        <div class="flex justify-between items-center mb-4 mx-4">
                             <h2 class="text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300 px-4"> User Profile Information</h2>
                             
                             <a href="{{ route('users.activities', $user['id']) }}">

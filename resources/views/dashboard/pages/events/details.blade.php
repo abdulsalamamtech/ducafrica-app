@@ -290,7 +290,7 @@
                                     </td>
                                     <td class="px-6 py-4">
 
-                                        <button id="dropdownMenuIconButton{{ $booked_event->event->id }}" data-dropdown-toggle="dropdownDots{{ $booked_event->event->id }}"
+                                        <button id="dropdownMenuIconButton{{ $booked_event->id }}" data-dropdown-toggle="dropdownDots{{ $booked_event->id }}"
                                             class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                                             type="button">
                                             <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -300,11 +300,13 @@
                                             </svg>
                                         </button>
 
+                                        {{ {{ $booked_event->event->id }} }}
+
                                         <!-- Dropdown menu -->
-                                        <div id="dropdownDots{{ $booked_event->event->id }}"
+                                        <div id="dropdownDots{{ $booked_event->id }}"
                                             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                                aria-labelledby="dropdownMenuIconButton{{ $booked_event->event->id }}">
+                                                aria-labelledby="dropdownMenuIconButton{{ $booked_event->id }}">
                                                 
                                                 <li>
                                                     <a href="#"

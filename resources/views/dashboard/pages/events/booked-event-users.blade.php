@@ -366,17 +366,18 @@
                                                 </li>
 
                                                 <li>
-                                                    {{-- @if ($booked_event?->attend == 'yes') --}}
-                                                    <a href="{{ route('booked-events.attend', $booked_event->id) }}"
-                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-red-500">
-                                                        Mark As Absent
-                                                    </a>
-                                                    {{-- @else --}}
-                                                    <a href="{{ route('booked-events.attend', $booked_event->id) }}"
-                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-green-500">
-                                                        Mark As Attend
-                                                    </a>
-                                                    {{-- @endif --}}
+                                                    
+                                                    @if ($booked_event?->attend == 'yes')
+                                                        <a href="{{ route('event-attendances.absent', $booked_event->id) }}"
+                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-red-500">
+                                                            Mark As Absent
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('event-attendances.attend', $booked_event->id) }}"
+                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-green-500">
+                                                            Mark As Attend
+                                                        </a>
+                                                    @endif
                                                 </li>
                                             </ul>
                                         </div>

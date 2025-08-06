@@ -12,7 +12,7 @@
                 <input type="hidden" name="global-filter" value="true">
                 <div
                     class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3 p-4 bg-gray-50 rounded-lg shadow-inner dark:text-gray-100 dark:bg-gray-800">
-                    <div class="flex gap-2  col-span-full">
+                    {{-- <div class="flex gap-2  col-span-full"> --}}
                         <!-- Search Input -->
                         <div class="flex-1 min-w-[150px]">
                             <label for="search-input" class="block text-sm font-medium text-gray-700 mb-1">Search
@@ -32,7 +32,7 @@
                             <input name="end_date" type="date" id="end-date"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
-                    </div>
+                    {{-- </div> --}}
 
                     <!-- Type Dropdown -->
                     <div class="flex-1 min-w-[120px]">
