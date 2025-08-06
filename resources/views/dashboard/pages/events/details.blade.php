@@ -300,7 +300,6 @@
                                             </svg>
                                         </button>
 
-                                        {{ {{ $booked_event->event->id }} }}
 
                                         <!-- Dropdown menu -->
                                         <div id="dropdownDots{{ $booked_event->id }}"
