@@ -13,7 +13,8 @@ class BookedEvent extends Model
     protected $fillable = [
         'user_id', 'event_id',
         'payment_type', 'approved_by',
-        'payment_amount', 'status', 'paid'
+        'payment_amount', 'status', 'paid',
+        'attend', 'message'
     ];
 
     public function approvedBy()
