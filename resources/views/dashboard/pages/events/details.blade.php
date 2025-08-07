@@ -308,8 +308,8 @@
                                                 aria-labelledby="dropdownMenuIconButton{{ $booked_event->id }}">
                                                 
                                                 <li>
-                                                    <a href="#"
-                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Print</a>
+                                                    <a href="{{ route('users.activities', $booked_event->user->id) }}"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View user activities</a>
                                                 </li>
                                             </ul>
                                         </div>
