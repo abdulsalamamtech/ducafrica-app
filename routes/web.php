@@ -283,6 +283,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // mark event attendance
     Route::get('booked-events/{bookedEvent}/attend', [EventController::class, 'attend'])
+        ->middleware(['role:super-admin|admin'])
         ->name('event-attendances.attend');
     Route::get('booked-events/{bookedEvent}/absent', [EventController::class, 'absent'])
         ->name('event-attendances.absent');
