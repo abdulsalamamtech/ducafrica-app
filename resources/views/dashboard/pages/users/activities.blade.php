@@ -87,12 +87,12 @@
                             @endif
                         </li>
                         <li class="me-2">
-                            @if (request()->routeIs('dashboard'))
-                                <a href="{{ route('dashboard') }}"
+                            @if (request()->routeIs('users.activities.groups', $user->id))
+                                <a href="{{ route('users.activities.groups', $user->id) }}"
                                     class="inline-block py-4 px-8 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
                                     aria-current="page">Groups</a>
                             @else
-                                <a href="{{ route('dashboard') }}"
+                                <a href="{{ route('users.activities.groups', $user->id) }}"
                                     class="inline-block py-4 px-8 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
                                     Groups
                                 </a>
@@ -261,6 +261,116 @@
                         </div>                    
                     </div>
                     {{-- End of Table --}}
+                @elseIf (request()->routeIs('users.activities.groups', $user->id))
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white rounded-lg shadow-lg dark:bg-gray-800">
+                        <div class="p-2">
+                            <h2 class="p-4 text-center text-xl md:text-2xl font-semibold text-gray-700 dark:text-gray-300">User's Groups</h2>
+                        </div>                        
+                        {{-- Table content --}}
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="p-4">
+                                        <div class="flex items-center">
+                                            <input id="checkbox-all-search" type="checkbox"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <label for="checkbox-all-search" class="sr-only">checkbox</label>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Group Head
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Number of Members
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Status
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {{-- Database Groups --}}
+                                @forelse ($groups as $group)
+                                    <!-- Group table record 2 -->
+                                    <tr
+                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <td class="w-4 p-4">
+                                            <div class="flex items-center">
+                                                <input id="checkbox-table-search-1" type="checkbox"
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                            </div>
+                                        </td>
+                                        <th scope="row"
+                                            class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{-- <img class="w-10 h-10 rounded-full" src="/images/default-profile.png"
+                                                alt="Jese image"> --}}
+                                            <div class="ps-3">
+                                                <div class="text-base font-semibold">{{ $group->name }}</div>
+                                                <div class="font-normal text-gray-500">{{ $group->description }}</div>
+
+                                            </div>
+                                        </th>
+                                        <th scope="row">
+                                            <div class="ps-3">
+                                                {{-- {{ $group}} --}}
+                                                <div class="text-base font-semibold">{{$group?->groupHead?->name}}</div>
+                                                <div class="font-normal text-gray-500">{{$group?->groupHead?->email}}</div>
+                                                <div class="font-normal text-gray-500">{{$group?->groupHead?->phone}}</div>
+                                            </div>
+                                        </th>                                    
+                                        <td class="px-6 py-4">
+                                            {{ $group->users->count()}}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center">
+                                                <div class="h-2.5 w-2.5 rounded-full bg-{{ $group->added_by?'green':'red' }}-500 me-2"></div> {{ $group->added_by?"Active":"Inactive" }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+
+                                            <button id="dropdownMenuIconButton{{ $group->id }}" data-dropdown-toggle="dropdownDots{{ $group->id }}"
+                                                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
+                                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
+                                                <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                                </svg>
+                                                </button>
+
+                                                <!-- Dropdown menu -->
+                                                <div id="dropdownDots{{ $group->id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton{{ $group->id }}">
+                                                        <li>
+                                                            <a href="{{ route('groups.members', $group->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View Members</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <td colspan="10" class="text-center p-8">Group unavailable</td>
+                                    </tr>
+                                @endforelse
+
+                            </tbody>
+                        </table>
+
+                        {{-- Paginate --}}
+                        <div class="text-center pt-4 bg-white dark:text-gray-100 dark:bg-gray-800">
+                            <div class="px-8">
+                                @if (isset($groups) && !empty($groups) && $groups->links())
+                                    {{ $groups->links() }}
+                                @endif
+                            </div>
+                        </div>                        
+                    </div>
                 @else
                     
                     {{-- Booked events --}}
@@ -345,14 +455,14 @@
                                                     <div class="text-base font-semibold">{{ $booked_event?->event?->name }}</div>
                                                     <div class="font-normal text-gray-500">{{ $booked_event?->event?->eventType?->name }}</div>
                                                     <div class="fontUsers-normal text-gray-500 px-2">{{ $booked_event?->event?->description }}</div>
-                                                    <div class="font-normal text-gray-500"><span class="font-bold text-gray-600">START:</span>
+                                                    <div class="font-normal text-gray-400"><span class="font-bold text-gray-400">START:</span>
                                                         {{ $booked_event->event?->start_date->format('l jS, F Y') }} ({{ $booked_event?->event?->start_date->diffForHumans() }})
                                                     </div>
-                                                    <div class="font-normal text-gray-500"><span class="font-bold text-gray-600">ENDS:</span>
+                                                    <div class="font-normal text-gray-400"><span class="font-bold text-gray-400">ENDS:</span>
                                                         {{ $booked_event->event?->end_date->format('l jS, F Y') }} ({{ $booked_event?->event?->end_date->diffForHumans() }})
                                                     </div>
-                                                    <div class="font-normal text-gray-600">{{ $booked_event?->event?->contact_name }}</div>
-                                                    <div class="font-normal text-gray-600">{{ $booked_event?->event?->contact_phone_number }}</div>
+                                                    <div class="font-normal text-gray-400">{{ $booked_event?->event?->contact_name }}</div>
+                                                    <div class="font-normal text-gray-400">{{ $booked_event?->event?->contact_phone_number }}</div>
                                                 </div>
                                             </th>                                    
                                             <td class="px-6 py-4">

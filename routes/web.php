@@ -20,6 +20,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\Pdfs\GeneratePdfController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RunnerController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserInstallmentController;
@@ -361,6 +362,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware(['role:super-admin|admin'])
         ->name('users.activities.transactions');
 
+    // User group activities
+    Route::get('users/{user}/group-activities', [UserController::class, 'groupActivities'])
+        ->middleware(['role:super-admin|admin'])
+        ->name('users.activities.groups');
 
     Route::any('/new-users', [UserController::class, 'newUsers'])
         ->name('new-users');
@@ -488,7 +493,7 @@ Route::get('/notify', function () {
 
 
 
-
+Route::get('runner', [RunnerController::class, 'run']);
 
 
 // DEPLOYMENT ROUTES

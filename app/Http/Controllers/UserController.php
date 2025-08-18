@@ -190,7 +190,7 @@ class UserController extends Controller
 
 
     /**
-     * Show the form for editing the specified resource.
+     * Show user activities resource.
      */
     public function activities(User $user)
     {
@@ -210,7 +210,7 @@ class UserController extends Controller
 
 
     /**
-     * Show the form for editing the specified resource.
+     * Show user transaction resource.
      */
     public function transactionActivities(User $user)
     {
@@ -228,6 +228,29 @@ class UserController extends Controller
         ]);
     } 
 
+    /**
+     * Show user transaction resource.
+     */
+    public function groupActivities(User $user)
+    {
+        // User transactions
+        $transactions = $user->transactions()->paginate();
+        // return $transactions;
+
+        // user groups
+        $groups = $user->groups()->paginate();
+        // return $groups;
+
+        // $bookedEvents = $user->bookedEvents()->paginate();
+        // return $bookedEvents;
+
+        return view('dashboard.pages.users.activities', [
+            'user' => $user,
+            // 'bookedEvents' => $bookedEvents,
+            'transactions' => $transactions,
+            'groups' => $groups,
+        ]);
+    } 
 
     /**
      *  Restore user data

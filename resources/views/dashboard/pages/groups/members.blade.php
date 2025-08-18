@@ -290,7 +290,10 @@
                                                 <div id="dropdownDots{{ $groupMember?->id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton{{ $groupMember->id }}">
                                                         <li>
-                                                            <a href="{{ route('users.show', $groupMember?->user?->id ?? 2 ) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
+                                                            <a href="{{ route('users.show', $groupMember?->user?->id) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View User</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ route('users.activities', $groupMember?->user?->id ) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">User Activities</a>
                                                         </li>
                                                         <li>
                                                             {{-- Deactivate --}}
