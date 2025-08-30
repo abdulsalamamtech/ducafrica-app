@@ -85,7 +85,7 @@
                         class="text-center w-full px-6 py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200 ease-in-out">
                         Reset
                     </button> --}}
-                    <a href="{{ route('available-events') }}" type="reset" id="reset-filters-btn"
+                    <a href="{{ route('available-resources') }}" type="reset" id="reset-filters-btn"
                         class="text-center w-full px-6 py-3 bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200 ease-in-out">
                         Reset
                     </a>
@@ -216,13 +216,13 @@
                 @isset($event_resources)
                     <div class="text-center dark:text-gray-100">
                         <div class="px-8">
-                             @if (isset($event_resources) && !empty($event_resources) && $event_resources->links())
-                                {{ $event_resources->links() }}
+                            @if (isset($event_resources) && !empty($event_resources) && $event_resources->links())
+                                {{ $event_resources?->links() }}
                             @endif
                         </div>
                     </div>
-                </div>
-            @endisset
+                @endisset
+            </div>
             {{-- End of Paginate --}}
         </div>
 

@@ -208,7 +208,7 @@ class EventResourcesController extends Controller
                 })
                 ->orWhere('category', 'general')
                 ->with(['roles'])
-                ->latest()->paginate(9);
+                ->latest()->paginate(9)?->withQueryString();
         }
 
 
@@ -238,7 +238,7 @@ class EventResourcesController extends Controller
             ->where('status', true)
             ->orWhere('category', 'general')
             ->with(['roles'])
-            ->latest()->paginate(9);
+            ->latest()->paginate(9)?->withQueryString();
 
         return $event_resources;
     }
@@ -348,7 +348,7 @@ class EventResourcesController extends Controller
         // dd($events);
 
         // paginate final result
-        $event_resources = $event_resources->paginate(9);
+        $event_resources = $event_resources->paginate(9)?->withQueryString();
 
         $event_types = EventType::all();
 
